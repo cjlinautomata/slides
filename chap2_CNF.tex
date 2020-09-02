@@ -1,0 +1,214 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Chomsky normal form (CNF)}
+  \begin{itemize}
+\item Purpose: a simplified form of grammars
+\item Every rule must be either
+  \begin{equation*}
+A \rightarrow BC
+\end{equation*}
+or
+\begin{equation*}
+A \rightarrow a
+\end{equation*}
+\item $B,C$ are not start variables
+\item $a \in\Sigma $ so
+  \begin{equation*}
+    A \rightarrow \epsilon
+  \end{equation*}
+  is not allowed. 
+\item However,
+  \begin{equation*}
+S \rightarrow \epsilon
+\end{equation*}
+is allowed, where $S$ is the start
+variable
+\item This form is useful later (but not in this chapter)
+\item To convert a CFG to a CNG, let's show an example first
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example to convert CFG to CNF}
+  \begin{itemize}
+\item The original CFG
+  \begin{eqnarray*}
+&& S \rightarrow ASA\mid aB\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b \mid \epsilon\\
+\end{eqnarray*}
+\item Add
+  \begin{equation*}
+S_0 \rightarrow S
+\end{equation*}
+because the start variable cannot be on the right
+  \begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b \mid \epsilon\\
+\end{eqnarray*}
+\item Remove
+  \begin{equation*}
+  B \rightarrow \epsilon 
+\end{equation*}
+because $\epsilon$ cannot be on the right
+\begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB|\alert{a}\\
+&& A \rightarrow B\mid \alert{\epsilon} \mid S\\
+&& B \rightarrow b\\
+\end{eqnarray*}
+\item Remove $A\rightarrow \epsilon$ because the right-hand side
+  cannot be a single variable
+\begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB\mid a \mid \alert{AS\mid SA \mid S}\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b
+\end{eqnarray*}
+\item What if
+  \begin{equation*}
+    B \rightarrow \epsilon
+  \end{equation*}
+appears again? An infinite loop? We will discuss this issue later
+\item Remove $S\rightarrow S$
+\begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB\mid a \mid AS\mid SA\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b
+\end{eqnarray*}
+ 
+\item Remove $S_0 \rightarrow S$
+  \begin{eqnarray*}
+&& S_0 \rightarrow \alert{ASA\mid aB\mid a \mid AS\mid SA}\\
+&& S \rightarrow ASA\mid aB\mid a \mid AS \mid SA\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b
+\end{eqnarray*}
+
+\item Remove $A\rightarrow B, A\rightarrow S$
+  \begin{eqnarray*}
+&& S_0 \rightarrow ASA\mid aB\mid a \mid AS\mid SA\\
+&& S \rightarrow ASA\mid aB\mid a \mid AS \mid SA\\
+&& A \rightarrow \alert{b \mid ASA \mid aB\mid a \mid AS \mid SA}\\
+&& B \rightarrow b
+\end{eqnarray*}
+\item Finally
+\begin{eqnarray*}
+&& S_0 \rightarrow AA_1\mid UB\mid a \mid AS\mid SA\\
+&& S \rightarrow AA_1 \mid UB\mid  a \mid AS \mid SA\\
+&& A \rightarrow b \mid AA_1 \mid UB\mid a \mid AS \mid SA\\
+&& A_1 \rightarrow SA\\
+&& U \rightarrow a\\
+&& B \rightarrow b\\
+  \end{eqnarray*}
+
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Convert Context-free to Chomsky normal}
+
+  A procedure to summarize what we have done in the example
+  
+  \begin{itemize}
+\item $S_0 \rightarrow S$
+
+\item [] So start state not on the right
+\item Remove $A \rightarrow \epsilon$, where $A$ is not the start state:
+\item[] For any rule of
+  \begin{equation*}
+\cdots  \rightarrow uAv 
+\end{equation*}
+ add
+ \begin{equation*}
+\cdots \rightarrow uv
+\end{equation*}
+\item Remove
+  \begin{equation*}
+  A \rightarrow B
+\end{equation*}
+because the right hand cannot have a single variable.
+For any
+\begin{equation*}
+  B \rightarrow u
+\end{equation*}
+we
+\begin{center}
+remove $A \rightarrow B$ and   $B \rightarrow u$,
+and add $A \rightarrow u$
+\end{center}
+\item After this, we have either
+  \begin{equation*}
+    A \rightarrow u_1 \cdots u_k, u_i \in V
+      \mbox{ or } \Sigma;
+\end{equation*}
+and 
+\begin{equation*}
+\mbox{ if }
+k = 1, \mbox{ then } u_i \in \Sigma
+\end{equation*}
+\item Replace the right side with
+  \begin{equation*}
+    \begin{split}
+& A \rightarrow u_1A_1 \\
+& A_1 \rightarrow u_2A_2 \\
+& \cdots
+\end{split}
+\end{equation*}
+\item Finally add
+  \begin{equation*}
+U_i \rightarrow u_i \text{ if } u_i \in \Sigma    
+  \end{equation*}
+\end{itemize}\end{frame}
+
+ \begin{frame}[allowframebreaks] \frametitle{Infinite loop in the above procedure}
+
+  \begin{itemize}
+\item Original rules
+  \begin{eqnarray*}
+    && S \rightarrow B \mid \epsilon\\
+&& B \rightarrow S \mid \epsilon
+  \end{eqnarray*}
+
+\item Add $S_0$
+  \begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow B \mid \epsilon\\
+&& B \rightarrow S \mid \epsilon
+  \end{eqnarray*}
+
+\item Remove $S \rightarrow \epsilon$
+  \begin{eqnarray*}
+&& S_0 \rightarrow S \mid \epsilon\\
+&& S \rightarrow B \\
+&& B \rightarrow S \mid \epsilon
+  \end{eqnarray*}
+
+\item Remove $B \rightarrow \epsilon$
+  \begin{eqnarray*}
+&& S_0 \rightarrow S \mid \epsilon\\
+&& S \rightarrow B \mid \alert{\epsilon} \\
+&& B \rightarrow S 
+  \end{eqnarray*}
+
+\item No need to add $S \rightarrow \epsilon$
+\item Reason: $S \rightarrow \epsilon$ has been
+handled; see line -8 of p109 in the textbook.
+
+\end{itemize}\end{frame}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,364 @@
+\input{header}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Nonregular language}
+We are interested in the limit of finite automata
+  \begin{itemize}
+\item Some languages not recognized
+  \begin{equation*}
+    \{0^n 1^n \mid n \geq 0\}
+  \end{equation*}
+\item We might remember \#0 first
+
+\item [] But \# of possible $n$'s is  $\infty$
+
+\item Thus we cannot recognize it by finite automata
+
+\item However, this is not a formal proof
+\item It may be difficult to quickly tell if a language is
+  regular or not
+\item Consider two languages
+  \begin{gather*}
+    C=\{w\mid \#0=\#1\}\\
+D=\{w \mid \#01=\#10\}
+  \end{gather*}
+It seems that both are not regular
+
+\item [] Indeed, $C$ is not regular but $D$ is
+\item [] This is an exercise in the book, so we don't give details
+\item To formally prove a language is not regular, we will
+  introduce the pumping lemma
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Pumping lemma}
+  \begin{itemize}
+\item Strategy: by contradiction
+\item We prove
+  \begin{center}
+regular $\Rightarrow$ some properties    
+  \end{center}
+\item If ``some properties'' cannot hold, then the language is not
+  regular
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Theorem 1.70}
+  \begin{itemize}
+\item If $A$ regular $\Rightarrow
+\exists p$ (pumping length) such that
+$\forall s \in A, |s| \geq p$, 
+$\exists x,y,z$ such that $s = xyz$ and
+\begin{enumerate}
+\item $\forall i \geq 0, xy^i z \in A$
+\item $|y| > 0$
+\item $|xy| \leq p$
+\end{enumerate}
+Note that for $y^i$, we have  $y^0=\epsilon$
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Proof of pumping lemma}
+\begin{itemize}
+\item Because $A$ is regular, $\exists$ a DFA
+   to recognize A
+ \item [] Let $p$ = \# states of this DFA
+ \item If no string $s$ such that
+   $|s| \geq p$, then the theorem statement is satisfied
+
+\item Now consider any $s$ with $|s| \geq p$
+  \begin{equation*}
+    s = s_1 \cdots s_n
+  \end{equation*}
+\item To process this string, assume the
+  state sequence is 
+  \begin{equation*}
+q_1 \cdots q_{n+1}
+\end{equation*}
+Because $|s|\geq p$, we have
+\begin{equation*}
+n+1 > p
+\end{equation*}
+
+\item In 
+$1\ldots p+1$ two states must be the same (pigeonhole principle)
+
+\item [] Fig 1.72
+
+
+  \begin{center}
+\begin{tikzpicture}
+  \node[state, initial] (1) {$q_1$};
+  \node[state, above right of=1] (9) {$q_j, q_l$};  
+  \node[state, accepting, above right of=1, xshift=3cm, yshift=-1cm] (13) {$q_{a}$};        
+
+  \draw (1) edge[bend left, above,dashed] node{$x$} (9);
+  \draw (9) edge[bend right, below, dashed] node{$z$} (13);
+  \draw (9) edge[loop above, above, dashed] node{$y$} (9);
+  \end{tikzpicture}
+\end{center}
+
+\item Assume 
+  \begin{equation*}
+q_j \text{ and } q_l \text{ with } j \leq p+1, l \leq p+1
+\end{equation*}
+are two same states. Then
+\begin{equation*}
+x = s_1 \cdots s_{j-1},
+y = s_j,  \cdots s_{l-1},
+z = s_l \cdots s_n
+\end{equation*}
+Because $j \neq l$, 
+\begin{equation*}
+|y| > 0
+\end{equation*}
+From $l \leq p+1$, we have
+\begin{equation*}
+|xy| \leq p
+\end{equation*}
+Thus all conditions are satisfied
+\end{itemize}\end{frame} 
+
+
+\begin{frame}[allowframebreaks] \frametitle{Example 1.73}
+  \begin{itemize}
+  \item Let's apply pumping lemma to prove that
+    \begin{equation*}
+    B=\{0^n 1^n\mid
+    n \geq 0\}
+  \end{equation*}
+    is not regular
+  \item Assume $B$ is regular. From the lemma there is
+    $p$ such that
+  \begin{equation*}
+    s = 0^p 1^p = xy z
+  \end{equation*}
+  By the lemma, $|y| > 0$ and $xy^i z \in B, \forall i \geq 0$
+\begin{enumerate}
+\item If
+  \begin{equation*}
+  y=0 \cdots 0
+\end{equation*}
+then
+\begin{equation*}
+xy = 0 \cdots 0 \text{ and }
+z = 0 \cdots 0 1 \cdots 1
+\end{equation*}
+Thus
+\begin{equation*}
+xyyz: \#0 > \#1
+\end{equation*}
+\item Then $xy^2 z \notin B$, a contradiction
+\item If
+  \begin{equation*}
+y = 1 \cdots 1,
+\end{equation*}
+similarly
+\begin{equation*}
+  xy^2z \notin B \text{ as } \# 0 < \# 1
+\end{equation*}
+
+\item If
+  \begin{equation*}
+y = 0 \cdots 0 1 \cdots 1
+\end{equation*}
+then
+\begin{equation*}
+xyyz \notin B \text{ as it is not in the form of } 0^? 1^?
+\end{equation*}
+\end{enumerate}
+\item We see that the condition
+  \begin{equation*}
+    |xy| \leq p
+  \end{equation*}
+is not used
+
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.39}
+  \begin{itemize}
+\item $C=\{w \mid \#0 = \#1\}$
+\item We follow the previous example to have
+  \begin{equation*}
+  s=0^p 1^p=xyz
+\end{equation*}
+\item However, we cannot get the needed contradiction for the case
+  of
+  \begin{equation*}
+    y = 0 \cdots 0 1 \cdots 1
+  \end{equation*}
+\item Earlier we said
+  \begin{equation*}
+    xyyz \text{ not in the form of } 0^? 1^?
+  \end{equation*}
+but now we only require
+\begin{equation*}
+  \# 0 = \# 1
+\end{equation*}
+\item It is posible that 
+  \begin{equation*}
+x=\epsilon, z=\epsilon, y = 0^p 1^p 
+\end{equation*}
+and then
+\begin{equation*}
+|y| > 0 \text{ and } xy^i z\in C
+\end{equation*}
+
+\item The 3rd condition should be applied
+  \begin{equation*}
+|xy| \leq p \Rightarrow y = 0 \cdots 0 \text{ in } s = 0^p 1^p
+\end{equation*}
+Then 
+\begin{equation*}
+xyyz \notin C
+\end{equation*}
+\item Question: the pumping says
+  \begin{equation*}
+    \forall s \in A, \cdots
+  \end{equation*}
+  but why in the examples we analyzed a \alert{particular $s$}?
+\item And it seems that the selection of $s$ is important. Why?
+
+\item Below we will explain our use of the lemma
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{The use of pumping lemma}
+  \begin{itemize}
+    
+  \item Let's start from the following statement
+    \begin{equation*}
+      \forall n, 1 + \cdots + n = \frac{n(n+1)}{2}
+    \end{equation*}
+    What is the opposite statement?
+    \begin{equation*}
+      \exists n \text{ such that } 1 + \cdots + n \neq  \frac{n(n+1)}{2}
+    \end{equation*}
+    
+  \item Formally, in the pumping lemma
+      \begin{center}
+regular $\Rightarrow$ some properties    
+  \end{center}
+  ``Some properties'' are in fact
+  \begin{equation*}
+\exists p, \{\forall s \in A, |s|\geq p [ 
+\exists x,y,z \text{ such that } s = xyz \text{ and }
+\end{equation*}
+\begin{equation*}
+(xy^iz\in A, \forall i \geq 0,
+\mbox{ and }
+|y| > 0
+\mbox{ and }
+|xy|
+\leq p)]\}
+\end{equation*}
+\item Opposite statement of the right-hand side
+ \begin{equation}
+   \begin{split}
+& \forall p, \{\exists s \in A, |s|\geq p, 
+[\forall x,y,z 
+\\
+& (
+(s = xyz
+\text{ and }
+|y| > 0
+ \mbox{ and }
+ |xy|
+ \leq p
+)
+\\
+& \quad \rightarrow
+\exists i \geq 0, xy^iz\notin A)]\} 
+\end{split}
+\label{eq:oppositepumping}
+ \end{equation}
+\item Note that the opposite of
+  \begin{equation*}
+    A \& B
+  \end{equation*}
+is
+\begin{equation*}
+  A \rightarrow \neg B
+\end{equation*}
+See the truth table
+
+\begin{center}
+  \begin{tabular}{cc|cc|cc}
+    $A$ & $B$ & $A \& B$ & $\neg(A\& B)$ & $\neg B$ & $A \rightarrow \neg B$ \\ \hline
+    0& 0 &0 & 1 & 1& 1\\ 
+    0& 1 &0 & 1 & 0& 1\\
+    1& 0 &0 & 1 & 1& 1\\
+    1& 1 &1 & 0 & 0& 0
+  \end{tabular}
+\end{center}
+\item To prove \eqref{eq:oppositepumping}, the ``$exists$'' part
+  is important
+\item You can see that we need to choose $s$ and find an $i$
+\item About
+  \begin{equation*}
+    \forall x, y, z, \cdots
+  \end{equation*}
+  in \eqref{eq:oppositepumping} you can see in examples that we go through
+  all possible cases of $x, y, z$
+  
+% \item Different form
+
+% $\forall p, \exists s \in A, |s|\geq p, 
+% \forall xyz$ with
+
+% $  s= xyz,
+% |y| > 0,
+% |xy|
+% \leq p
+% $
+
+% $xy^iz\notin A, \exists i \geq 0$
+
+
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example 1.75}
+  \begin{itemize}
+\item $F=\{ww\mid w \in \{0,1\}^*\}$ not regular
+\item We choose
+  \begin{equation*}
+s=0^p 1 0^p 1 \in F
+\end{equation*}
+\item If
+  \begin{equation*}
+    s =xyz,
+    |xy|
+\leq p, |y|>0,
+\end{equation*}
+then
+\begin{equation*}
+ y = 0\ldots 0
+\end{equation*}
+and thus
+\begin{equation*}
+xy^2z = 0 \ldots 0 1 0^p 1\neq ww
+\end{equation*}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.76}
+  \begin{itemize}
+\item $D=\{1^{n^2}
+\mid n \geq 0\}$ not regular
+\item We choose
+  \begin{equation*}
+  s=1^{p^2} \in D
+\end{equation*}
+\item If 
+  \begin{equation*}
+s =xyz, |xy |\leq p, |y|>0
+\end{equation*}
+then 
+\begin{equation*}
+p^2 < |xy^2z| \leq p^2 +p < (p+1)^2
+\end{equation*}
+and therefor
+\begin{equation*}
+  xy^2 z \not in D
+\end{equation*}
+\end{itemize}\end{frame}
+
+\end{document}

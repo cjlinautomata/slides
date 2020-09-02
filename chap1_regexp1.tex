@@ -1,0 +1,293 @@
+\input{header}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Regular Expressions}
+  \begin{itemize}
+\item Example
+  \begin{equation*}
+    (0 \cup 1) 0^*
+  \end{equation*}
+\item This is a simplification of 
+  \begin{equation*}
+    (\{0\}\cup \{1\})\circ \{0\}^*
+  \end{equation*}
+\item Regular expressions are practically useful
+\item [] Example: finding lines in a file containing ``a'' or ``b''
+
+  \begin{alltt}
+    egrep '(a|b)' file
+  \end{alltt}
+
+\item Formally this means we consider the language
+  \begin{equation*}
+  \Sigma^* a \Sigma^* \cup
+\Sigma^* b \Sigma^*
+\end{equation*}
+$\Sigma^*$: all strings over $\Sigma$
+\item Example
+  \begin{equation*}
+    (0\cup 1)^*
+  \end{equation*}
+all strings by 0 and 1
+\item Example:
+  \begin{equation*}
+    (0\Sigma^*)\cup (\Sigma^*1)
+  \end{equation*}
+all strings start with 0 or end with 1
+\end{itemize}\end{frame}
+\begin{frame}[allowframebreaks] \frametitle{Formal definition of regular expression}
+\begin{itemize}
+\item $R$ is a regular expression if it is one of the following
+expressions
+\begin{enumerate}
+\item $a$, where $a \in \Sigma$
+\item $\epsilon$ $(\epsilon \notin \Sigma)$
+\item $\emptyset$
+\item $R_1 \cup R_2$,  where $R_1, R_2$ are regular expressions
+\item $R_1 \circ R_2$, where $R_1, R_2$ are regular expressions
+\item $R_1^*$,  where $R_1$ is a regular expression
+\end{enumerate}
+\item  Some notes
+\item $\phi$ and $\epsilon$
+
+\item  [] $\epsilon$: empty string
+
+\item []  $\phi$: empty language (language without any string)
+
+  \begin{equation*}
+    \begin{split}
+&(0 \cup \epsilon)1^*=01^* \cup 1^* \\
+&(0 \cup \emptyset)1^*=01^* \\
+&\emptyset 1^* = 1^* \emptyset = \emptyset
+\end{split}
+\end{equation*}
+Concatenating $1^*$ with nothing $\Rightarrow$ nothing
+
+\item We have an inductive definition
+
+\item [] An expression is constructed from smaller strings
+
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Examples}
+  \begin{itemize}  
+\item $0^*10^*$: strings with exactly one 1 
+\item $(\Sigma \Sigma)^*$: strings with even length
+\item Assume $\Sigma = \{0,1\}$
+  \begin{equation*}
+0 \Sigma^*0 \cup 1 \Sigma^*1\cup 0 \cup 1
+\end{equation*}
+Strings that start
+and end with the same symbol
+\item $\emptyset^*=\{\epsilon\}$
+\item $R\cup \emptyset=R$
+\item $R \circ \epsilon=R$
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Floating number in language}
+\begin{equation*}
+  (+\cup-\cup\epsilon)(
+DD^*\cup DD^*.D^*\cup D^*.DD^*),
+\end{equation*}
+where
+\begin{equation*}
+  D = \{0, \ldots,9\}
+\end{equation*}
+  \begin{itemize}
+\item 72, 2.1, 7., -.01
+  \begin{equation*}
+    \begin{split}
+      & 72 \in DD^*\\
+      & 2.1 \in DD^*.D^*\\
+      &  7. \in DD^*.D^*\\
+      & .01 \in D^*.DD^*
+    \end{split}
+  \end{equation*}
+
+\item Why not $D^*.D^*$
+
+\item [] . is not allowed
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Equivalence with finite automata}
+  \begin{itemize}
+\item They have equivalent descriptive power
+\item language regular
+$\Leftrightarrow$ described by regular expression
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Lemma 1.55}
+  \begin{itemize}
+\item Language by a regular expression
+
+$\Rightarrow$ regular (described by an automata)
+\item The proof is by induction. We go through all cases in the
+  definition
+\item $R = a \in \Sigma$
+\item [] Can such a language be recognized by an NFA?
+\item [] This language has only one string and can be recognized by
+
+\begin{center}
+  \begin{tikzpicture}
+\node[state, initial] (q1) {};
+\node[state, accepting, right of=q1] (q2) {};
+
+\draw (q1) edge[above] node{$a$} (q2);
+  \end{tikzpicture}
+\end{center}
+
+\item[] Note that this is an NFA. 
+\item[] Formal definition:
+
+  \begin{equation*}
+    \begin{split}
+& N = (\{q_1,q_2\}, \Sigma, \delta, q_1, \{q_2\}) \\
+& \delta(q_1,a)=q_2 \\
+& \delta(r,b)=\emptyset, r \neq q_1\mbox{ or } b \neq a
+\end{split}
+\end{equation*}
+\item $R=\epsilon$
+
+\begin{center}
+  \begin{tikzpicture}
+\node[state, accepting, initial] (q1) {};
+  \end{tikzpicture}
+\end{center}
+  
+\item [] Formal definition
+
+  \begin{equation*}
+    \begin{split}
+& N=(\{q_1\},\Sigma,\delta, q_1, \{q_1\}) \\
+& \delta(q_1,a)=\emptyset, \forall a
+\end{split}
+\end{equation*}
+
+\item $R=\emptyset$
+
+\begin{center}
+  \begin{tikzpicture}
+\node[state, initial] (q1) {};
+  \end{tikzpicture}
+\end{center}
+  
+\item [] Formal definition
+\begin{gather*}
+  N=(\{q\}, \Sigma, \delta, q, \emptyset)\\
+\delta(r,a)=\emptyset, \forall r, a
+\end{gather*}
+
+Note: earlier we only say $F \subset Q$,
+so $F$ can be $\emptyset$
+
+\item For the other three situations
+  \begin{equation*}
+    \begin{split}
+& R=R_1\cup R_2\\
+& R=R_1 \circ R_2\\
+& R=R_1^*
+\end{split}
+\end{equation*}
+we use the proof in NFAs
+\item We will see details by an example below
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example:
+Fig 1.57    $(ab\cup a)^*$}
+
+\begin{tabular}{rc}
+  $a$ &
+  \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
+\node[state, initial] (q1) {};
+\node[state, accepting, right of=q1] (q2) {};
+
+\draw (q1) edge[above] node{$a$} (q2);
+\end{tikzpicture}
+  \\
+  $b$ &
+  \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
+\node[state, initial] (q1) {};
+\node[state, accepting, right of=q1] (q2) {};
+
+\draw (q1) edge[above] node{$b$} (q2);
+\end{tikzpicture}
+  \\
+  $ab$
+      &
+  \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
+    \node[state, initial] (q1) {};
+    \node[state, right of=q1] (q2) {};
+\node[state, right of=q2] (q3) {};        
+\node[state, accepting, right of=q3] (q4) {};
+
+\draw (q1) edge[above] node{$a$} (q2);
+\draw (q2) edge[above] node{$\epsilon$} (q3);
+\draw (q3) edge[above] node{$b$} (q4);
+\end{tikzpicture}
+  \\
+  $ab \cup a$
+      &
+\begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
+    \node[state, initial] (q0) {};          
+    \node[state, above right of =q0, yshift=-1.4cm] (q1) {};
+    \node[state, right of=q1] (q2) {};
+\node[state, right of=q2] (q3) {};        
+\node[state, accepting, right of=q3] (q4) {};
+\node[state, below right of =q0, yshift=1.4cm] (q5) {};
+\node[state, accepting, right of=q5] (q6) {};
+
+\draw (q1) edge[above] node{$a$} (q2);
+\draw (q2) edge[above] node{$\epsilon$} (q3);
+\draw (q3) edge[above] node{$b$} (q4);
+
+\draw (q5) edge[above] node{$a$} (q6);
+\draw (q0) edge[above] node{$\epsilon$} (q1);
+\draw (q0) edge[below] node{$\epsilon$} (q5);
+\end{tikzpicture}
+\end{tabular}
+
+
+ $(ab \cup a)^*$
+        \begin{tikzpicture}[scale=0.7, every node/.style={scale=0.7}]
+    \node[state, initial, accepting] (q00) {};                    
+    \node[state, right of=q00] (q0) {};          
+    \node[state, above right of =q0, yshift=-1.45cm] (q1) {};
+    \node[state, right of=q1] (q2) {};
+\node[state, right of=q2] (q3) {};        
+\node[state, accepting, right of=q3] (q4) {};
+\node[state, below right of =q0, yshift=1.45cm] (q5) {};
+\node[state, accepting, right of=q5] (q6) {};
+
+\draw (q00) edge[above] node{$\epsilon$} (q0);
+\draw (q1) edge[above] node{$a$} (q2);
+\draw (q2) edge[above] node{$\epsilon$} (q3);
+\draw (q3) edge[above] node{$b$} (q4);
+
+\draw (q5) edge[above] node{$a$} (q6);
+\draw (q0) edge[above] node{$\epsilon$} (q1);
+\draw (q0) edge[below] node{$\epsilon$} (q5);
+\draw (q4) edge[bend right=35, above] node{$\epsilon$} (q0);
+\draw (q6) edge[bend left=45, below] node{$\epsilon$} (q0);
+\end{tikzpicture}
+
+\begin{itemize}
+\item Such a construction usually does not give an
+  NFA with the smallest number of
+states
+\item This example $\Rightarrow$ can be by 2 states
+  \begin{equation*}
+    (\{q_1, q_2\}, \{a,b\}, \delta, q_1, \{q_1\})
+  \end{equation*}
+  \begin{center}
+  \begin{tabular}{c|ccc}
+& a & b & $\epsilon$\\ \hline
+$q_1$ & $\{q_1,q_2\}$ & $\emptyset$ & $\emptyset$\\
+$q_2$ & $\emptyset$ & $\{q_1\}$ &$\emptyset$
+  \end{tabular}
+\end{center}
+\end{itemize}\end{frame}
+\end{document}

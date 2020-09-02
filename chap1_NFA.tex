@@ -1,0 +1,902 @@
+\input{header}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Nondeterminism}
+  \begin{itemize}
+\item Deterministic algorithm:
+
+\item [] Given current state and current input, next step is known
+\item Nondeterministic algorithm:
+
+\item [] Several choices are possible
+  
+\item They will be respectively called
+  \begin{center}
+  DFA: deterministic finite automata
+\end{center}
+  and
+  NFA: non-deterministic finite automata
+\item Fig 1.27
+
+\begin{center}
+    \begin{tikzpicture}
+\node[state,initial] (q_1) {$q_1$};
+\node[state] (q_2) [right of=q_1] {$q_2$};
+\node[state] (q_3) [right of=q_2] {$q_{3}$};
+\node[state,accepting] (q_4) [right of=q_3] {$q_{4}$};      
+  \path 
+        (q_1) edge[loop above] node {$0,1$} (q_1)
+  (q_1) edge[above]  node {$1$} (q_2)
+  (q_2) edge[above]  node {$0,\epsilon$} (q_3)
+  (q_3) edge[above]  node {$1$} (q_4)
+  (q_4) edge[loop below] node {$0,1$} (q_4);
+      \end{tikzpicture}
+    \end{center}
+  
+  \item $\delta$ is not a function any more: $\delta(q_1, 1) = q_1
+$ or $q_2$
+
+\item $\epsilon$ between $q_2$ and $q_3$: $q_2$ can move to
+$q_3$ without any input
+\item How to run a string? It can be run by split
+
+\item A kind of parallel machines
+\item ex: 010110
+
+  Fig 1.29
+
+\begin{tikzpicture} [level distance=30pt]% grow=right
+\node  {$q_1$}
+  child {node  {$q_1$}
+    child {node {$q_1$}
+      child {node  {$q_1$}
+        child {node  {$q_1$}
+          child {node  {$q_1$}
+            child {node  {$q_1$}
+              child [grow=left] {node (7) {} edge from parent[draw=none]
+                child [grow=up] {node (6) {} edge from parent[draw=none]
+                  child [grow=up] {node (5) {} edge from parent[draw=none]
+                    child [grow=up] {node (4) {} edge from parent[draw=none]
+                      child [grow=up] {node (3) {} edge from parent[draw=none]
+                        child [grow=up] {node (2) {} edge from parent[draw=none]
+                          child [grow=up] {node (1) {} edge from parent[draw=none]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          child {node  {$q_2$}
+            child {node  {$q_3$}}
+          }
+          child {node  {$q_3$}}
+        }
+        child {node  {$q_2$}}
+        child {node  {$q_3$}
+          child {node  {$q_4$}
+            child {node  {$q_4$}
+            }          
+          }
+        }
+      }
+    }
+    child {node  {$q_2$}
+      child {node  {$q_3$}
+        child {edge from parent[draw=none]}
+        child {edge from parent[draw=none]}        
+        child {node  {$q_4$}
+          child {node  {$q_4$}
+            child {node  {$q_4$}
+            }
+          }
+        }
+      }
+    }
+    child {node  {$q_3$}}
+  };
+  \path (1) -- (2) node [midway] {0};
+  \path (2) -- (3) node [midway] {1};
+  \path (3) -- (4) node [midway] {0};
+  \path (4) -- (5) node [midway] {1};
+  \path (5) -- (6) node [midway] {1};
+  \path (6) -- (7) node [midway] {0};
+\end{tikzpicture}
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Some NFA examples}
+  \begin{itemize}
+\item Example 1.30
+
+\item [] Strings with 1 in 3rd position from the end
+
+\item [] 00100, 0100 are accepted , but 0010 is not
+
+
+\item [] Fig 1.31
+
+\begin{center}
+    \begin{tikzpicture}
+\node[state,initial] (q_1) {$q_1$};
+\node[state] (q_2) [right of=q_1] {$q_2$};
+\node[state] (q_3) [right of=q_2] {$q_{3}$};
+\node[state,accepting] (q_4) [right of=q_3] {$q_{4}$};      
+  \path 
+        (q_1) edge[loop above] node {$0,1$} (q_1)
+  (q_1) edge[above]  node {$1$} (q_2)
+  (q_2) edge[above]  node {$0,1$} (q_3)
+  (q_3) edge[above]  node {$0,1$} (q_4);
+      \end{tikzpicture}
+    \end{center}
+
+\item DFA and NFA
+
+\item They are equivalent. We will explain this later
+
+\item [] Fig 1.32.  For this example in fact we are able to design a DFA
+  for this language
+
+\end{itemize}
+\begin{tikzpicture}
+\node[state, initial] (000) {$q_{000}$};
+\node[state, accepting, right of=000] (100) {$q_{100}$};
+\node[state, right of=100] (010) {$q_{010}$};
+\node[state, accepting, right of=010] (110) {$q_{110}$};
+\node[state, below of=000] (001) {$q_{001}$};
+\node[state, accepting, right of=001] (101) {$q_{101}$};
+\node[state, right of=101] (011) {$q_{011}$};
+\node[state, accepting, right of=011] (111) {$q_{111}$};
+
+\draw (000) edge[loop above] node{$0$} (000)
+(000) edge[left] node{$1$} (001)
+(100) edge[above] node{$0$} (000)
+(100) edge[above] node{$1$} (001)
+
+(010) edge[bend right=10,above] node{$1$} (101)
+(010) edge[above] node{$0$} (100)
+
+(110) edge[bend right,above] node{$0$} (100)
+(110) edge[above] node{$1$} (101)
+
+(001) edge[bend right,below] node{$1$} (011)
+(001) edge[above] node{$0$} (010)
+
+(101) edge[bend right=10,below] node{$0$} (010)
+(101) edge[above] node{$1$} (011)
+
+(011) edge[above] node{$1$} (111)
+(011) edge[above] node{$0$} (110)
+
+(111) edge[loop right, below] node{$1$} (111)
+(111) edge[right] node{$0$} (110);
+
+\end{tikzpicture}
+
+\begin{itemize}
+\item 
+Idea of this diagram: using 8 states
+to record the past 3 digits so far
+
+\item The idea is simple. But 
+why can we use 000 as the start state? 
+\item Looks like we need other nodes:
+  \begin{equation*}
+    \_\_\_,
+    \_\_0,
+    \_\_1,
+    \_01,
+    \_10,
+    \_00,
+    \_11 
+\end{equation*}
+\item Then we see that the path is the same as if
+  we start from  000
+\item For example,
+  \begin{equation*}
+    \_\_\_ \xrightarrow{0}
+    \_\_0 \xrightarrow{1}
+    \_10
+  \end{equation*}
+
+\item A modification of the NFA 
+  \begin{equation*}
+    \begin{split}
+& q_2 \rightarrow q_3:0,1 \Rightarrow 0,1,\epsilon\\
+& q_3 \rightarrow q_4:0,1 \Rightarrow 0,1,\epsilon
+\end{split}
+\end{equation*}
+\begin{center}
+    \begin{tikzpicture}
+\node[state,initial] (q_1) {$q_1$};
+\node[state] (q_2) [right of=q_1] {$q_2$};
+\node[state] (q_3) [right of=q_2] {$q_{3}$};
+\node[state,accepting] (q_4) [right of=q_3] {$q_{4}$};      
+  \path 
+        (q_1) edge[loop above] node {$0,1$} (q_1)
+  (q_1) edge[above]  node {$1$} (q_2)
+  (q_2) edge[above]  node {$0,1,\epsilon$} (q_3)
+  (q_3) edge[above]  node {$1$} (q_4)
+  (q_4) edge[loop below] node {$0,1, \epsilon$} (q_4);
+      \end{tikzpicture}
+    \end{center}
+
+  \item What is the language: one of the last three characters
+    is 1
+\item How about DFA for this language?
+
+\item [] Except $q_{000}$, all others are in $F$
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.33}
+\begin{itemize}
+\item Consider the following figure
+    \begin{center}
+\begin{tikzpicture}
+\node[state, initial] (0) {};
+\node[state, accepting, right of=0] (1) {};
+\node[state, right of=1] (2) {};
+\node[state, accepting, below of=1] (3) {};
+\node[state, right of=3] (4) {};
+\node[state, below right of=3] (5) {};
+
+\draw (0) edge[above] node{$\epsilon$} (1)
+(0) edge[below] node{$\epsilon$} (3)
+(1) edge[bend right, below] node{$0$} (2)
+(2) edge[bend right, above] node{$0$} (1)
+(3) edge[above] node{$0$} (4)
+(4) edge[above] node{$0$} (5)
+(5) edge[above] node{$0$} (3);
+\end{tikzpicture}
+\end{center}
+\item For this language, $\Sigma=\{0\}$.
+  This is called unary alphabets
+
+\item What is the language?
+  \begin{equation*}
+\{0^k\mid  k \text{ multiples of 2 or 3}\}
+\end{equation*}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.35}
+  \begin{itemize}
+  \item Fig 1.36
+  \begin{center}
+\begin{tikzpicture}
+\node[state, initial, accepting] (q1) {$q_1$};
+\node[state, below left of=q1] (q2) {$q_2$};
+\node[state, below right of=q1] (q3) {$q_3$};
+
+\draw (q1) edge[left] node{$b$} (q2)
+(q2) edge[loop left, left] node{$a$} (q2)
+(q1) edge[bend right, left] node{$\epsilon$} (q3)
+(q2) edge[below] node{$a, b$} (q3)
+(q3) edge[bend right, right] node{$a$} (q1);
+\end{tikzpicture}
+\end{center}
+    
+\item Accept
+
+$\epsilon$, $a$, $baba$, $baa$ can be accepted
+\item But babba is rejected
+\item [] See the tree below
+
+  \begin{center}
+\begin{tikzpicture} [level distance=30pt]% grow=right
+  \node  {$q_1$}
+  child [grow=right] {node  {$q_3$} edge from parent[draw=none]}
+  child [grow=down] {node  {$q_2$}
+    child {node {$q_2$}
+      child {node  {$q_3$}
+        child [grow=left] {node (4) {} edge from parent[draw=none]
+          child [grow=up] {node (3) {} edge from parent[draw=none]
+            child [grow=up] {node (2) {} edge from parent[draw=none]
+              child [grow=up] {node (1) {} edge from parent[draw=none]
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+  \path (1) -- (2) node [midway] {b};
+  \path (2) -- (3) node [midway] {a};
+  \path (3) -- (4) node [midway] {b};
+\end{tikzpicture}
+\end{center}
+\item This example is later used to illustrate the
+  procedure for converting NFA to DFA
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Definition: NFA}
+  \begin{itemize}
+\item $(Q, \Sigma, \delta, q_0, F)$
+\item $\delta$: $Q \times \Sigma_\epsilon \rightarrow
+P(Q)$
+
+\item [] $P(Q)$: all possible subsets of $Q$
+\item $\Sigma_\epsilon
+=\Sigma \cup \{\epsilon\}$
+\item $P(Q)$: power set of $Q$
+
+\item [] ``power'': all $2^{|Q|}$ combinations 
+
+\begin{equation*}
+  Q = \{1,2,3\}
+\end{equation*}
+\begin{equation*}
+  \begin{split}
+&  P(Q)= \\
+&  \{\emptyset,
+\{1\}, \{2\},
+\{3\},
+\{1,2\},
+\{1,3\},
+\{2,3\},
+\{1,2,3\}\}
+\end{split}
+\end{equation*}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.38}
+  \begin{center}
+\begin{tikzpicture}
+\node[state, initial] (q1) {$q_1$};
+\node[state, right of=q1] (q2) {$q_2$};
+\node[state, right of=q2] (q3) {$q_3$};
+\node[state, accepting, right of=q3] (q4) {$q_4$};
+
+\draw (q1) edge[above] node{$1$} (q2)
+(q1) edge[loop above, left] node{$0,1$} (q1)
+(q2) edge[above] node{$0, \epsilon$} (q3)
+(q3) edge[above] node{$1$} (q4)
+(q4) edge[loop above, right] node{$0,1$} (q4);
+\end{tikzpicture}
+\end{center}
+
+  \begin{itemize}
+\item $Q=\{q_1,\ldots, q_4\}$
+\item $\Sigma = \{0,1\}$
+\item Start state: $q_1$
+\item $F=\{q_4\}$
+\item $\delta$:
+
+  \begin{center}
+  \begin{tabular}{c|ccc}
+& 0 & 1 & $\epsilon$\\ 
+\hline
+$q_1$ & \{$q_1$\} & $\{q_1, q_2\}$ & $\emptyset$\\
+$q_2$ & \{$q_3$\} & $\emptyset$ & \{$q_3$\}\\
+$q_3$ & $\emptyset$ & $\{q_4\}$ & $\emptyset$\\
+$q_4$ & \{$q_4$\} & $\{q_4\}$ & $\emptyset$
+  \end{tabular}
+\end{center}
+\item Note that DFA does not allow $\emptyset$ 
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{$N$ accepts $w$}
+  \begin{itemize}
+\item First we have that $w$ can be written as 
+  \begin{equation*}
+    w = y_1 \ldots y_m
+  \end{equation*}
+where $y_i \in \Sigma_{\alert{\epsilon}}$
+\item A sequence $r_0 \ldots r_m$ such that
+
+  \begin{enumerate}
+  \item $r_0=q_0$
+  \item $r_{i+1}\in \delta(r_i,y_{i+1})$
+  \item $r_m\in F$
+  \end{enumerate}
+\item So $m$ may not be the original length (as $y_i$ may be
+  $\epsilon$)
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{DFA $\equiv$ NFA}
+  \begin{itemize}
+\item DFA $\Rightarrow$ NFA
+
+\item Formally, a language recognized by a DFA $\rightarrow$
+  recognized by an NFA
+
+\item The proof is easy because a DFA is an NFA
+\item However, \alert{formally DFA is not an NFA}
+because DFA uses $\Sigma$ but not $\Sigma_\epsilon$
+
+\item [] Can easily handle this by adding
+  \begin{equation*}
+  q_i, \epsilon \rightarrow \emptyset
+\end{equation*}
+\item The other direction: NFA $\Rightarrow $ DFA
+
+\item Need to convert NFA to an equivalent DFA
+\item [] That is, they recognize the same language
+\item We do the proof by an example
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example 1.41}
+  \begin{itemize}
+  \item Consider the following NFA (we discussed this NFA before)
+    \begin{center}
+\begin{tikzpicture}
+\node[state, initial, accepting] (q1) {$q_1$};
+\node[state, below left of=q1] (q2) {$q_2$};
+\node[state, below right of=q1] (q3) {$q_3$};
+
+\draw (q1) edge[left] node{$b$} (q2)
+(q2) edge[loop left, left] node{$a$} (q2)
+(q1) edge[bend right, left] node{$\epsilon$} (q3)
+(q2) edge[below] node{$a, b$} (q3)
+(q3) edge[bend right, right] node{$a$} (q1);
+\end{tikzpicture}
+\end{center}
+\item The resulting DFA diagram
+\end{itemize}
+\begin{center}
+\begin{tikzpicture}
+\node[state] (phi) {$\emptyset$};
+\node[state, accepting, right of=phi] (1) {$\{1\}$};
+\node[state, right of=1] (2) {$\{2\}$};
+\node[state, accepting, right of=2] (12) {$\{1, 2\}$};
+\node[state, below of=phi] (3) {$\{3\}$};
+\node[state, initial, initial where=above, accepting, right of=3] (13) {$\{1, 3\}$};
+\node[state, right of=13] (23) {$\{2, 3\}$};
+\node[state, accepting, right of=23] (123) {$\{1, 2, 3\}$};
+\draw (phi) edge[loop left] node{$a, b$} (phi)
+(1)
+edge[above] node{$a$} (phi)
+(1)
+edge[above] node{$b$} (2)
+(2)
+edge[right] node{$a$} (23)
+(2)
+edge[above] node{$b$} (3)
+(12) edge[above, pos=.3, left=2pt] node{$a, b$} (23)
+(3)
+edge[left] node{$b$} (phi)
+(3)
+edge[below] node{$a$} (13)
+(13) edge[loop right,left] node{$a$} (13)
+(13) edge[above] node{$b$} (2)
+(23) edge[bend left, above] node{$a$} (123)
+(23) edge[bend left, below] node{$b$} (3)
+(123) edge[loop below, above] node{$a$} (123)
+(123) edge[bend left, below] node{$b$} (23);
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Explanation of the Procedure}
+\begin{itemize}
+\item Each state is a subset of $\{1,2,3\}$
+\item Let's check details of
+
+  \begin{center}
+    \begin{tikzpicture}
+      \node[state] (12) {$\{1, 2\}$};
+      \node[state, right of=12] (23) {$\{2, 3\}$};
+\draw (12) edge[above] node{$a$} (23);      
+    \end{tikzpicture}
+  \end{center}
+
+\item We see
+  \begin{equation*}
+    \begin{split}
+      & q_1 \xrightarrow{a} \emptyset\\
+& q_2 \xrightarrow{a} \{q_2, q_3\}      
+    \end{split}
+  \end{equation*}
+Thus
+\begin{equation*}
+  \emptyset \cup \{ 2, 3\} = \{2, 3\}
+\end{equation*}
+\item Starte state:
+  \begin{center}
+    $\{1, 3\}$ but not $\{1\}$
+  \end{center}
+  The reason is that in the beginning, even without any
+  input, we can already reach $q_3$`
+\item Accept states: any state including $q_1$ is an accept state
+\end{itemize}
+\end{frame}
+\begin{frame}[allowframebreaks]
+  \frametitle{Figure 1.44}
+  \begin{itemize}
+  \item Some states can never be reached
+  \item We can remove them to simplify the diagram
+  \item Turns out any state \alert{having 1 but without 3}
+    can never be reached
+  \end{itemize}
+  
+\begin{center}
+\begin{tikzpicture}
+\node[state, initial, initial where=left, accepting, right of=3] (13) {$\{1, 3\}$};
+\node[state, below of=13] (2) {$\{2\}$};
+\node[state, right of=13] (3) {$\{3\}$};
+\node[state, right of=3] (phi) {$\emptyset$};
+\node[state, right of=2] (23) {$\{2, 3\}$};
+\node[state, accepting, right of=23] (123) {$\{1, 2, 3\}$};
+\draw
+(phi) edge[loop above] node{$a, b$} (phi)
+(2)
+edge[above] node{$a$} (23)
+(2)
+edge[above] node{$b$} (3)
+(3)
+edge[above] node{$b$} (phi)
+(3)
+edge[above] node{$a$} (13)
+(13) edge[loop above,left] node{$a$} (13)
+(13) edge[left] node{$b$} (2)
+(23) edge[bend left, above] node{$a$} (123)
+(23) edge[right] node{$b$} (3)
+(123) edge[loop right, below] node{$a$} (123)
+(123) edge[bend left, below] node{$b$} (23);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[allowframebreaks] \frametitle{More explanation
+    of example 1.41}
+\begin{itemize}
+
+\item Idea: 
+
+  
+\item [] Each node includes all sataes at the current layer
+  
+\item Example: $baa$
+
+
+  \begin{center}
+\begin{tikzpicture} [level distance=30pt]% grow=right
+  \node  {$q_1$}
+  child [grow=right] {node  {$q_3$} edge from parent[draw=none]}
+  child [grow=down] {node  {$q_2$}
+    child {node {$q_2$}
+      child {node  {$q_2$}
+        child [grow=left] {node (4) {} edge from parent[draw=none]
+          child [grow=up] {node (3) {} edge from parent[draw=none]
+            child [grow=up] {node (2) {} edge from parent[draw=none]
+              child [grow=up] {node (1) {} edge from parent[draw=none]
+              }
+            }
+          }
+        }
+      }
+      child {node {$q_3$}}
+    }
+    child {edge from parent[draw=none]}
+    child {node {$q_3$}
+      child {node {$q_1$}}
+      child {node {$q_3$}}      
+    }    
+  };
+  \path (1) -- (2) node [midway] {b};
+  \path (2) -- (3) node [midway] {a};
+  \path (3) -- (4) node [midway] {a};
+\end{tikzpicture}
+\end{center}
+We see
+\begin{equation*}
+  \{1\} \xrightarrow{b} \{2\} \xrightarrow{a} \{2, 3\}
+  \xrightarrow{a} \{1, 2, 3\}
+\end{equation*}
+\item Proof
+  \item[] Given NFA
+    \begin{equation*}
+(Q,\Sigma, \delta, q_0, F)
+\end{equation*}
+We would like to convert it to a DFA
+\begin{equation*}
+(Q', \Sigma, \delta', q'_0, F')
+\end{equation*}
+Details of this DFA:
+\begin{itemize}
+\item $Q'=P(Q)$
+\item $q_0' \in P(Q)$ includes
+  \begin{center}
+ $q_0$ + states
+reached by $\epsilon$
+\end{center}
+We call such a set $E(q_0)$
+\item $F'=
+\{R\mid R \in Q', R \cap F\neq \emptyset\}$
+\item $\delta'$:
+  \begin{equation*}
+    \delta'(R,a)=
+\cup_{r\in R} E(\delta(r,a))
+\end{equation*}
+Note that we cannot just do
+\begin{equation*}
+\cup_{r\in R}\delta(r,a)
+\end{equation*}
+\end{itemize}
+\end{itemize}\end{frame}
+
+
+\begin{frame}[allowframebreaks] \frametitle{Closure under regular operations}
+  \begin{itemize}
+  \item Recall we define three operations:
+    \begin{equation*}
+    \cup, \circ, *
+  \end{equation*}
+\item We will see that by using NDA, the proof is easier
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Union}
+  \begin{itemize}  
+\item Given two regular languages $A_1,A_2$ under the {\bf same }
+$\Sigma$
+
+\item [] Is $A_1 \cup A_2$ regular?
+\item To prove that a language is regular, by
+  definition, it should be accepted by one DFA (or an NFA)
+
+  
+\item [] We will construct an NFA for $A_1\cup A_2$
+\item Assume $A_1$ and $A_2$ are recognized by two NFAs $N_1$
+  and $N_2$, respectively
+
+  \begin{center}
+  \begin{tabular}{ll}
+    $N_1$ & $N_2$\\
+ \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (1) {$q_1$};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, accepting, above right of=6, yshift=-1cm] (4) {};
+\node[state, accepting, below right of=6, yshift=1cm] (5) {};
+\end{tikzpicture}
+    & \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (01) {$q_2$};
+\node[state, above right of=01, yshift=-1.4cm] (02) {};
+\node[state, below right of=01, yshift=1.2cm] (03) {};
+\node[state, right of= 01, xshift= 1cm] (06) {};
+\node[state, accepting, above right of=06, yshift=-1cm] (04) {};
+\node[state, accepting, below right of=06, yshift=1cm] (05) {};
+\node[state, accepting, right of=06, xshift=1.7cm] (04) {};
+\end{tikzpicture}
+  \end{tabular}
+\end{center}
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (0) {$q_0$};    
+\node[state, above right of=0] (1) {$q_1$};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, accepting, above right of=6, yshift=-1cm] (4) {};
+\node[state, accepting, below right of=6, yshift=1cm] (5) {};
+\node[state, below right of=0] (01) {$q_2$};
+\node[state, above right of=01, yshift=-1.4cm] (02) {};
+\node[state, below right of=01, yshift=1.2cm] (03) {};
+\node[state, right of= 01, xshift= 1cm] (06) {};
+\node[state, accepting, above right of=06, yshift=-1cm] (04) {};
+\node[state, accepting, below right of=06, yshift=1cm] (05) {};
+\node[state, accepting, right of=06, xshift=1.7cm] (04) {};
+
+\path (0) edge[above] node {$\epsilon$} (1);
+\path (0) edge[below] node {$\epsilon$} (01);
+\end{tikzpicture}
+\end{center}
+
+\item Formal definition
+
+\item [] Two NFAs:
+
+  \begin{equation*}
+    \begin{split}
+&N_1 =(Q_1, \Sigma, \delta_1, q_1, F_1) \\
+& N_2 =(Q_2, \Sigma, \delta_2, q_2, F_2)
+\end{split}
+\end{equation*}
+\item [] Note for NFA, $\epsilon \notin \Sigma$
+
+\item New NFA
+
+  \begin{equation*}
+    \begin{split}
+& Q=Q_1 \cup Q_2 \cup \{q_0\}\\
+& q=q_0\\
+& F=F_1\cup F_2
+\end{split}
+\end{equation*}
+\begin{equation*}
+  \delta(q,a)
+=
+\begin{cases}
+  \delta_1(q,a) &  q \in Q_1\\
+  \delta_2(q,a) &  q \in Q_2\\
+\{q_1,q_2\} & q= q_0 \mbox{ and }  a = \epsilon \\
+\emptyset & q = q_0 \mbox{ and } a \neq \epsilon
+\end{cases}
+\end{equation*}
+\item The last case of $\delta$ is easily neglected
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Closed Under Concatenation}
+
+Given two NFAs 
+\begin{center}
+  \begin{tabular}{lll}
+    $N_1$ & & $N_2$\\
+ \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (1) {};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, accepting, above right of=6, yshift=-1cm] (4) {};
+\node[state, accepting, below right of=6, yshift=1cm] (5) {};
+\end{tikzpicture}
+&    & \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (01) {};
+\node[state, above right of=01, yshift=-1.4cm] (02) {};
+\node[state, below right of=01, yshift=1.2cm] (03) {};
+\node[state, right of= 01, xshift= 1cm] (06) {};
+\node[state, accepting, above right of=06, yshift=-1cm] (04) {};
+\node[state, accepting, below right of=06, yshift=1cm] (05) {};
+\node[state, accepting, right of=06, xshift=1.7cm] (04) {};
+\end{tikzpicture}
+  \end{tabular}
+\end{center}
+
+
+\begin{itemize}
+\item Idea: from any accept state of $N_1$, add an $\epsilon$ link to
+  $q_2$ (start state of $N_2$)
+\item The new machine:
+\end{itemize}
+
+\begin{center}
+  \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (1) {};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, above right of=6, yshift=-1cm] (4) {};
+\node[state, below right of=6, yshift=1cm] (5) {};
+\node[state, right of=6, xshift=2cm] (01) {};
+\node[state, above right of=01, yshift=-1.4cm] (02) {};
+\node[state, below right of=01, yshift=1.2cm] (03) {};
+\node[state, right of= 01, xshift= 1cm] (06) {};
+\node[state, accepting, above right of=06, yshift=-1cm] (04) {};
+\node[state, accepting, below right of=06, yshift=1cm] (05) {};
+\node[state, accepting, right of=06, xshift=1.7cm] (04) {};
+
+\path (4) edge[above] node {$\epsilon$} (01);
+\path (5) edge[below] node {$\epsilon$} (01);
+
+\end{tikzpicture}
+\end{center}
+
+
+  \begin{itemize}
+
+\item Formal definition. Given two automata
+
+  \begin{equation*}
+    \begin{split}
+&(Q_1, \Sigma, \delta_1, q_1, F_1) \\
+&(Q_2, \Sigma, \delta_2, q_2, F_2)
+\end{split}
+\end{equation*}
+
+\item New machine
+  \begin{equation*}
+    \begin{split}
+& Q=Q_1\cup Q_2 \\
+& q_0 = q_1 \\
+& F=F_2 \\
+\end{split}
+\end{equation*}
+$\delta$ function:
+\begin{equation*}
+  \delta(q,a)=
+  \begin{cases}
+    \delta_1(q,a) & q \in Q_1\backslash F_1\\
+\delta_2(q,a) & q \in Q_2\\
+\delta_1(q,\epsilon) \cup \{q_2\} & q \in F_1, a =\epsilon\\
+\delta_1(q,a) & q \in F_1, a \neq \epsilon
+  \end{cases}
+\end{equation*}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Closed under star}
+
+ \begin{itemize}
+ \item Given the following machine
+
+   \begin{center}
+ \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (1) {};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, accepting, above right of=6, yshift=-1cm] (4) {};
+\node[state, accepting, below right of=6, yshift=1cm] (5) {};
+\end{tikzpicture}
+\end{center}
+\item Recall the star operation is defined as
+  follows
+  \begin{equation*}
+A^*=\{x_1 \cdots x_k \mid
+k \geq 0, x_i \in A\}
+\end{equation*}
+\item How about the following diagram
+  \begin{center}
+\begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial] (1) {};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, above right of=6, accepting, yshift=-1cm] (4) {};
+\node[state, below right of=6, accepting, yshift=1cm] (5) {};
+
+\path (4) edge[bend right=35, above] node {$\epsilon$} (1);
+\path (5) edge[bend left=35, below] node {$\epsilon$} (1);
+\end{tikzpicture}
+\end{center}
+\item The problem is that $\epsilon$ may not be accepted
+\item How about making the start state an accepting one
+
+  \begin{center}
+  \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, accepting, initial] (1) {};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, above right of=6, accepting, yshift=-1cm] (4) {};
+\node[state, below right of=6, accepting, yshift=1cm] (5) {};
+
+\path (4) edge[bend right=35, above] node {$\epsilon$} (1);
+\path (5) edge[bend left=35, below] node {$\epsilon$} (1);
+\end{tikzpicture}
+\end{center}
+\item This may make the machine to accept strings not in
+  $A$
+\item A correct setting
+  
+  \begin{center}
+\begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
+\node[state, initial, accepting] (0) {};  
+\node[state, right of=0] (1) {};
+\node[state, above right of=1, yshift=-1.4cm] (2) {};
+\node[state, below right of=1, yshift=1.4cm] (3) {};
+\node[state, right of=1, xshift= 1.4cm] (6) {};
+\node[state, above right of=6, accepting, yshift=-1cm] (4) {};
+\node[state, below right of=6, accepting, yshift=1cm] (5) {};
+
+\path (4) edge[bend right=35, above] node {$\epsilon$} (1);
+\path (5) edge[bend left=35, below] node {$\epsilon$} (1);
+\path (0) edge[above] node {$\epsilon$} (1);
+\end{tikzpicture}
+\end{center}
+
+
+\item Formal definition
+
+  \begin{equation*}
+    \begin{split}
+& (Q_1, \Sigma, \delta_1, q_1, F_1) \\
+& Q=Q_1\cup \{q_0\} \\
+& q_0: \text{ new start state}\\
+& F=F_1 \cup \{q_0\}
+\end{split}
+\end{equation*}
+$\delta$:
+\begin{equation*}
+  \delta(q,a)
+=
+\begin{cases}
+  \delta_1(q,a) & q \in Q_1 \backslash F_1\\
+\delta_1(q,a) \cup \{q_1\}& q \in F_1, a =
+\epsilon\\
+\delta_1(q,a) & q \in F_1, a \neq \epsilon\\
+\{q_1\} & q = q_0, a = \epsilon\\
+\emptyset & q = q_0, a \neq \epsilon
+\end{cases}
+\end{equation*}
+\end{itemize}\end{frame}
+\end{document}

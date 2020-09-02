@@ -1,0 +1,476 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+ \begin{frame}[allowframebreaks] \frametitle{Context-free languages}
+  \begin{itemize}
+\item In Chapter 1 we consider two ways to describe languages
+
+\item [] automata \& regular expression
+\item Context-free grammars (CFG)
+
+\item [] More powerful than automata
+\item CFG is used in compilers and interpreters
+for parsers to read programs
+
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Context-free grammars}
+  \begin{itemize}
+  \item
+    A grammar $G_1$:
+\begin{eqnarray*}
+  && A \rightarrow 0A1\\
+&& A \rightarrow B\\
+&& B \rightarrow \#
+\end{eqnarray*}
+Each one is called a substitution rule
+\item Variables: $A,B$ (capital letters)
+\item Terminals: 0,1,\# (lowercase letters,
+number, special symbols)
+\item Start variable: $A$
+\item A grammar: a collection of substitution rules
+\item Derivation: $G_1$ generates 
+000\#111
+\begin{equation*}
+  \begin{split}
+&  A
+\Rightarrow 0A1 \Rightarrow
+00A11 
+\Rightarrow 000A111\\
+& 
+\Rightarrow 000B111
+\Rightarrow 000\#111
+\end{split}
+\end{equation*}
+\item Parse tree
+
+\item [] Fig 2.1
+
+\framebreak  
+
+\scalebox{0.85}{
+  \begin{forest}
+for tree={
+    parent anchor=south,
+    child anchor=north,
+    if n children=0{
+      font=\itshape,
+      tier=terminal,
+    }{},
+  }    
+  [A
+   [ 
+    [0
+    ]
+   ]
+   [A
+    [
+    [0
+    ]
+    ]
+    [A
+     [[0
+     ]]
+     [A
+      [B
+       [\#
+       ]
+      ]
+     ]
+     [[1
+     ]]
+    ]
+    [[1
+    ]]
+   ] 
+   [[1
+   ]]
+  ]
+\end{forest}
+}
+\item $L(G)$: language of grammar
+
+  \begin{equation*}
+L(G_1) = 
+\{0^n \#  1^n\mid n \geq 0\}
+\end{equation*}
+
+More powerful than regular expressions because we showed earlier
+that this language is not regular
+
+\item Representation of rules:
+  \begin{center}
+  $A \rightarrow 0A1$
+and $A \rightarrow B$
+\end{center}
+is often simplified to
+\begin{center}
+$A \rightarrow 0A1\mid B$
+\end{center}
+\item Example
+  \begin{eqnarray*}
+    \langle  \text{S} \rangle & \Rightarrow & \langle  \text{Noun-Phrase}\rangle \langle  \text{Verb-Phrase} \rangle\\
+& \Rightarrow & \langle  \text{Complex-Noun} \rangle\langle  \text{Verb-Phrase}\rangle\\
+& \Rightarrow & \langle  \text{Article} \rangle\langle  \text{Noun}\rangle\langle  \text{Verb-Phrase}\rangle\\
+& \Rightarrow & {\sf a} \langle  \text{Noun} \rangle \langle  \text{Verb-Phrase} \rangle\\
+& \Rightarrow & {\sf a \; boy} \langle  \text{Verb-Phrase}\rangle\\
+& \Rightarrow & {\sf a \; boy} \langle  \text{Complex-Verb}\rangle\\
+& \Rightarrow & {\sf a \; boy} \langle  \text{Verb}\rangle\\
+& \Rightarrow & {\sf a \; boy \; sees}
+  \end{eqnarray*}
+
+\item Why called ``context-free'' ?
+
+\item [] Rules independent of context
+  
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Formal definition of a context-free
+    grammar}
+    \begin{itemize}
+\item $(V,\Sigma, R, S)$
+
+\item [] $V$: variables, finite set
+
+\item [] $\Sigma$: terminals, finite set
+
+\item [] $R$: rules
+\begin{center}
+  variable
+$\rightarrow$ strings of variables and
+terminals (including $\epsilon$)
+\end{center}
+
+\item $S\in V$, start variable
+
+\item For the example $G_1$:
+\begin{eqnarray*}
+  && A \rightarrow 0A1\\
+&& A \rightarrow B\\
+&& B \rightarrow \#
+\end{eqnarray*}
+
+$V=\{A,B\}, \Sigma=\{0,1,\#\}, S = A, R:$
+the above three rules
+\end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Derivation of strings}
+    \begin{itemize}
+\item If $u,v,w$ are strings and a rule  $A \rightarrow
+w$ is applied, then we say
+\begin{center}
+$uAv$ yields $uwv$
+\end{center}
+and this is denoted as
+\begin{equation*}
+uAv \Rightarrow uwv
+\end{equation*}
+\item if 
+  \begin{center}
+$u=v$ or 
+$u \Rightarrow u_1 \Rightarrow \cdots \Rightarrow
+u_k \Rightarrow v$
+\end{center}
+then we say
+\begin{equation*}
+u \xrightarrow{*} v 
+\end{equation*}
+\item Language
+  \begin{equation*}
+\{ w \in \Sigma^*\mid 
+S \mydef{*}{\Rightarrow} w\}
+\end{equation*}
+\end{itemize}\end{frame} 
+
+\begin{frame}[allowframebreaks] \frametitle{Example 2.3}
+  \begin{itemize}
+
+\item $G_3
+=(\{S\}, \{a,b\}, R, S)$
+
+\item[]  R:
+\begin{equation*}
+  S \rightarrow aSb\mid SS \mid \epsilon
+\end{equation*}
+\item What is the language?
+\item If we treat $a, b$ respectively as ( and ), then
+  we have
+  \begin{center}
+all valid nested parentheses
+\end{center}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 2.4}
+  \begin{itemize}
+  \item The following CFG handles mathematical expressions
+\item $G_4=
+(V, \Sigma, R, \langle \text{expr}\rangle)$
+
+\item [] $V=\{\langle \text{expr}\rangle,\langle \text{term}\rangle,\langle \text{factor}\rangle\}
+$
+
+\item [] $\Sigma=\{a,+,\times,(,)\}$
+\item [] $R$:
+\begin{eqnarray*}
+&& \langle \text{expr}\rangle \rightarrow \langle \text{expr}\rangle+\langle \text{term}\rangle\mid\langle \text{term}\rangle\\
+&& \langle \text{term}\rangle  \rightarrow \langle \text{term}\rangle\times\langle \text{factor}\rangle\mid 
+\langle \text{factor}\rangle\\
+&& \langle \text{factor}\rangle\rightarrow (\langle \text{expr}\rangle)\mid a
+\end{eqnarray*}
+
+Fig 2.5: check
+$a+a\times a$
+
+\framebreak
+
+\scalebox{0.85}{
+  \begin{forest}
+for tree={
+    parent anchor=south,
+    child anchor=north,
+    if n children=0{
+      font=\itshape,
+      tier=terminal,
+    }{},
+  }    
+  [E
+   [E 
+    [T
+     [F
+      [a]
+     ]
+    ]
+   ]
+   [+]
+   [T
+    [T
+     [F
+      [a]
+     ]
+    ]
+    [$\times$]
+    [F
+     [a
+     ]
+    ]
+   ]
+  ]
+\end{forest}
+}
+
+check $(a+a) \times a$
+
+\framebreak
+
+\scalebox{0.55}{
+  \begin{forest}
+for tree={
+    parent anchor=south,
+    child anchor=north,
+    if n children=0{
+      font=\itshape,
+      tier=terminal,
+    }{},
+  }    
+  [E
+   [T
+    [T
+     [F
+     [[(]]
+      [E
+       [E
+        [T
+         [F
+          [a]
+         ]
+        ]
+       ]
+       [+]
+       [T
+        [F
+         [a]
+        ]
+       ]
+      ]
+      [[)]]
+     ]
+    ]
+   [$\times$]
+   [F
+    [a]
+   ]
+  ]
+ ]
+\end{forest}
+}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Design Grammars}
+  \begin{itemize}
+\item $\{0^n 1^n \mid n\geq 0\}
+\cup \{1^n 0^n \mid n \geq 0\}$
+\begin{equation*}
+  \begin{split}
+& S_1 \rightarrow 0 S_1 1 \mid \epsilon \\
+& S_2 \rightarrow 1 S_2 0 \mid \epsilon \\
+& S \rightarrow S_1 \mid S_2
+\end{split}
+\end{equation*}
+\item If CFG regular $\Rightarrow $
+by DFA
+
+\begin{center}
+  \begin{tabular}{l}
+$R_i \rightarrow a R_j$ if $\delta(q_i,a)
+= q_j$ \\
+$R_i \rightarrow \epsilon$ if $q_i \in F$
+  \end{tabular}
+\end{center}
+\item We see the main difference between CFG and DFA
+
+  
+\item [] CFG: a rule can be like
+  \begin{equation*}
+  R_i \rightarrow a R_j b
+\end{equation*}
+\item [] DFA: a rule can only be
+  \begin{equation*}
+  R_i \rightarrow a R_j,
+\end{equation*}
+where we treat each $R_i$ as a state and let
+\begin{equation*}
+  \delta(R_i, a) = R_j
+\end{equation*}
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Ambiguity}
+  \begin{itemize}
+\item The same string but obtained in different ways
+\item For the example of mathematical expressions
+  discussed earlier, what if we consider the following
+  rules?
+  \begin{gather*}
+    \langle \text{expr}\rangle\rightarrow \langle \text{expr}\rangle+\langle \text{expr}\rangle\mid \\
+\langle \text{expr}\rangle\times\langle \text{expr}\rangle\mid
+    (\langle \text{expr}\rangle)|a
+\end{gather*}
+We see the following ways to parse
+\begin{equation*}
+a + a \times a
+\end{equation*}
+\item Fig 2.6
+
+  \begin{center}
+  \begin{tabular}{ccc}
+\scalebox{0.85}{
+  \begin{forest}
+for tree={
+    parent anchor=south,
+    child anchor=north,
+    if n children=0{
+      font=\itshape,
+      tier=terminal,
+    }{},
+  }    
+  [E
+   [E 
+    [E
+     [a]
+    ]
+    [+]
+    [E
+     [a]
+    ]
+   ]
+   [$\times$]
+   [E
+    [a
+    ]
+   ]
+  ]
+\end{forest}
+}
+&&
+\scalebox{0.85}{
+  \begin{forest}
+for tree={
+    parent anchor=south,
+    child anchor=north,
+    if n children=0{
+      font=\itshape,
+      tier=terminal,
+    }{},
+  }    
+  [E
+   [E 
+    [a]
+   ]
+   [+]
+   [E
+    [E
+     [a]
+    ]
+    [$\times$]
+    [E
+     [a
+     ]
+    ]
+   ]
+  ]
+\end{forest}
+}
+  \end{tabular}
+\end{center}
+
+\item This CFG does not give the precedence relation
+\item We want that $a \times a$ is done first
+\item By the more complicated CFG earlier,
+  the parsing is unambiguous
+\item Question: how to formally define the ambiguity?
+\item We need to define ``leftmost derivation'' first
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Leftmost derivation}
+  \begin{itemize}
+  \item Even for an unambiguous CFG we may
+    have
+    \begin{center}
+the same parse tree, but different derivations
+\end{center}
+For the CFG discussed earlier we can do
+\begin{eqnarray*}
+  \langle \text{expr}\rangle& \Rightarrow& \langle \text{expr}\rangle+\langle \text{term}\rangle\\
+& \Rightarrow & \langle \text{expr}\rangle+\langle \text{term}\rangle\times\langle \text{factor}\rangle
+\end{eqnarray*}
+where the second part is expanded. On the other hand, we
+can handle the first one first.
+\begin{eqnarray*}
+\langle \text{expr}\rangle & \Rightarrow & \langle \text{expr}\rangle + \langle \text{term}\rangle\\
+& \Rightarrow & \langle \text{term}\rangle + \langle \text{term}\rangle
+\end{eqnarray*}
+\item This is not considered ambiguous
+\item Definition of leftmost derivation:
+  at every step the leftmost remaining variable is the one replaced.
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Formal definition of ambiguity}
+  \begin{itemize}
+\item $w$ ambiguous if there exist
+  \begin{center}
+two  leftmost derivations
+\end{center}
+\item Some context-free languages
+can be generated by ambiguous \& unambiguous 
+grammars
+\item We say a CFG is inherently ambiguous
+if it only has ambiguous grammars
+
+\item [] See prob 2.29 in the textbook. Details not given here.
+
+\end{itemize}\end{frame}
+
+
+\end{document}

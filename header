@@ -1,0 +1,38 @@
+\documentclass[14pt,xcolor=pstdvips]{beamer}
+ 
+%\documentstyle[fancybox, slidesonly]{seminar}
+%\documentstyle[fancybox, article, graphics]{seminar}
+%\documentstyle[fancybox, slidesonly]{seminar}
+\usepackage{graphics, color, epsfig, amssymb,amsmath,verbatim,alltt}
+\usepackage{multicol,pstcol,pst-node}
+\usepackage{beamerprosper}
+\usepackage{tikz}
+\usepackage[linguistics]{forest}
+\usetikzlibrary{arrows,automata,positioning}
+\usetikzlibrary{positioning}
+\usetikzlibrary{matrix}
+\tikzset{
+->, % makes the edges directed
+>=stealth', % makes the arrow heads bold
+node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+every state/.style={thick, fill=gray!10}, % sets the properties for each ’state’ node
+initial text=$ $, % sets the text that appears on the start arrow
+}
+\newcommand{\mydef}[2]{\stackrel{#1}{#2}}
+\renewcommand{\vec}{\mbox{vec}}
+%\newtheorem{theorem}{Theorem}
+\newcommand{\R}{{ {\rm I} \kern -.225em {\rm R} }}
+
+\newcommand{\BF}[1]{{\bf #1:}\hspace{1em}\ignorespaces}
+
+\usetheme{AnnArbor}
+\setbeamercolor{alerted text}{fg=red!80!yellow}
+\setbeamerfont*{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont*{itemize/enumerate subbody}{parent=itemize/enumerate body}
+\setbeamerfont*{itemize/enumerate subsubbody}{parent=itemize/enumerate body}
+\mode<presentation>{\setbeamertemplate{navigation symbols}{}}  
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

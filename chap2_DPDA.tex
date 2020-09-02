@@ -1,0 +1,186 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Deterministic CFL}
+  \begin{itemize}
+  \item Recall that PDA is \alert{non-deterministic}
+  \item We can actually define \alert{deterministic} PDA (DPDA)
+    
+\item In Chapter 1,
+  \begin{center}
+    DFA $\equiv$ NFA
+  \end{center}
+\item [] Both generate regular languages
+\item But 
+  \begin{center}
+    PDA $\neq$ DPDA
+  \end{center}
+and therefore
+\begin{center}
+  CFL $\neq$ DCFL
+\end{center}
+\item We will only explain what DPDA is
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Formal definition of DPDA}
+  \begin{itemize}
+\item $(Q,\Sigma, \Gamma, \delta, q_0, F)$
+
+\item [] $Q, \Sigma, \Gamma, F$: finite sets
+\begin{enumerate}
+\item $Q$: states
+\item $\Sigma$: alphabet
+\item $\Gamma$: stack alphabet
+\item $\delta$: 
+  \begin{equation*}
+Q \times 
+\Sigma_{\epsilon} \times \Gamma_{\epsilon}
+\rightarrow (Q\times \Gamma_\epsilon)\cup \{\emptyset\} 
+\end{equation*}
+\item $q_0 \in Q$: start state
+\item $F \subset Q$: set of accept states
+\end{enumerate}
+\item Note for PDA
+  \begin{equation*}
+\delta: Q \times 
+\Sigma_{\epsilon} \times \Gamma_{\epsilon}
+\rightarrow P(Q\times \Gamma_\epsilon)
+\end{equation*}
+\item Also $\delta$ satisfies $\forall q \in Q, a \in \Sigma, x \in
+\Gamma$, exactly one of
+\begin{equation*}
+  \delta(q,a,x), \qquad \delta(q,a,\epsilon), \qquad
+\delta(q, \epsilon, x), \qquad \delta(q, \epsilon, \epsilon)
+\end{equation*}
+is not $\emptyset$
+
+\item Reason: at $q$ all four can be taken at PDA
+\item Rule: follow the one which is not $\emptyset$
+\item If stack is empty, DPDA can move only if
+  \begin{equation}
+    \label{eq:cannotmove}
+    \delta(q, ?, \epsilon) \neq \emptyset
+  \end{equation}
+Otherwise, reject without reading rest of input. 
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Acceptance and rejection of DPDA}
+  \begin{itemize}
+\item Acceptance: same as DFA. 
+\item [] Reach an accept state after the last symbol
+\item [] Otherwise: reject
+
+\item Rejection: occurs if
+  \begin{enumerate}
+  \item not at an accept state after the last symbol (same as DFA)
+  \item DPDA fails to read the input
+    \begin{enumerate}
+    \item pop an empty stack
+    \item endless $\epsilon$-input moves
+    \end{enumerate}
+  \end{enumerate}
+
+\item Example
+  \begin{equation*}
+    \{ 0^n 1^n \mid n \geq 0\}
+  \end{equation*}
+  The diagram we had earlier is
+  \begin{center}
+  \begin{tikzpicture}
+\node[state,initial,accepting] (q_1) {$q_1$};
+\node[state] (q_2) [right of=q_1] {$q_2$};
+\node[state] (q_3) [below of=q_2] {$q_{3}$};
+\node[state,accepting] (q_4) [left of=q_3] {$q_{4}$};      
+  \path 
+  (q_1) edge[above]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_2)
+  (q_2) edge[loop right]  node {$0,\epsilon \rightarrow 0$} (q_2)
+  (q_2) edge[right]  node {$1, 0 \rightarrow \epsilon$} (q_3)
+  (q_3) edge[loop right]  node {$1, 0 \rightarrow \epsilon$} (q_3)  
+  (q_3) edge[below] node {$\epsilon, \$ \rightarrow \epsilon$} (q_4);
+  \end{tikzpicture}
+\end{center}
+  
+\item The $\delta$ function
+\begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_1$ &$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$&
+$\emptyset$&$\emptyset$&$\emptyset$& $(q_2,\$)$\\
+$q_2$ &$\emptyset$&$\emptyset$&$(q_2,0)$&$(q_3,\epsilon)$&$q_r$&
+$\emptyset$&$\emptyset$&$\emptyset$& $\emptyset$\\
+$q_3$ &$q_r$&$\emptyset$&$\emptyset$&$(q_3,\epsilon)$&$\emptyset$&$\emptyset$&$\emptyset$&$(q_4,\epsilon)$&$\emptyset$ \\
+$q_4$ &$q_r$&$q_r$&$\emptyset$&$q_r$&$q_r$&$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$ \\ 
+$q_r$ &$q_r$&$q_r$&$\emptyset$&$q_r$&$q_r$&$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$ \\ 
+\end{tabular}
+\item For example,
+  \begin{equation*}
+    \delta(q_1, \epsilon, \epsilon) = q_2, \$
+  \end{equation*}
+  implies that
+  \begin{equation*}
+    \delta(q_1, 0, 1)
+    \delta(q_1, 0, \epsilon)
+\delta(q_1, \epsilon, 1)    = \emptyset
+\end{equation*}
+Thus we see everything else in the first row is $\emptyset$
+\item $$q_r$$ is another state. We need it to ensure that one of the four 
+is not $\emptyset$
+
+\item Consider an input string 011
+\begin{equation*}
+  q_1 \mydef{\epsilon}{\rightarrow} q_2, \{\$\}
+  \mydef{0}{\rightarrow} q_2, \{0\$\}
+\mydef{1}{\rightarrow} q_3, \{\$\}
+\mydef{\epsilon}{\rightarrow} q_4, \emptyset
+\end{equation*}
+\item From $q_4$, we don't know where to go
+\item [] Endless $\epsilon$-input moves
+  \begin{equation*}
+  q_4, \emptyset \mydef{\epsilon}{\rightarrow} \emptyset
+\end{equation*}
+Cannot move; see \eqref{eq:cannotmove}
+\begin{equation*}
+  q_4, \emptyset \mydef{1}{\rightarrow} \emptyset
+\end{equation*}
+\item Example: pop an empty stack
+
+  \begin{center}
+  \begin{tabular}{c|cccc}
+    & \multicolumn{2}{c}{0} & \multicolumn{2}{c}{$\epsilon$}\\
+& 0 & $\epsilon$ & 0 & $\epsilon$ \\ \hline
+a & $\emptyset$ & $\emptyset$ & (a, $\epsilon$) & $\emptyset$
+  \end{tabular}
+\end{center}
+
+input 0$\emptyset$ is rejected: the only move is to pop up
+zero, but the stack is empty
+
+\item Example: that fails to read the whole string
+
+  \begin{center}
+  \begin{tabular}{c|cccc}
+    & \multicolumn{2}{c}{0} & \multicolumn{2}{c}{$\epsilon$}\\
+& 0 & $\epsilon$ & 0 & $\epsilon$
+\\ \hline
+a & $\emptyset$ & $\emptyset$ & $\emptyset$& (a, $\epsilon$)
+  \end{tabular}
+\end{center}
+input 0 is rejected: endless $\epsilon$-input
+
+\item We omit all the rest details
+
+\end{itemize}\end{frame}
+
+\end{document}
