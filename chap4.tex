@@ -452,10 +452,10 @@ finite or same size as $N$
 \item Note that we skip counting elements with common factors (e.g., $2/2$)
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Real Numbers not Countable}
   \begin{itemize}
-\item by diagonalization method
-\item By contradiction
-\item 
-
+\item We will use the diagonalization method 
+\item The proof is by contradiction
+\item Assume $R$ is countable. Then there is a table as follows
+  \begin{center}
   \begin{tabular}{r|r}
 $n$ & $f(n)$ \\ \hline
 1 & 3.14159 $\ldots$\\
@@ -464,59 +464,84 @@ $n$ & $f(n)$ \\ \hline
 4 & 0.50000 $\ldots$ \\
 $\vdots$ & 
   \end{tabular}
+\end{center}
 
-\item $x=0.4641\ldots$
-
-$4\neq 1, 6 \neq 5$
-\item $x \neq f(n), \forall n$
-\item avoid problem $1=0.9999\cdots$
-
-never choose 0 or 9
+\item Consider
+  \begin{equation*}
+    \begin{split}
+&    x=0.4641\ldots\\
+&    4\neq 1, 6 \neq 5
+  \end{split}
+\end{equation*}
+\item We have
+  \begin{equation*}
+x \neq f(n), \forall n
+\end{equation*}
+\item But $x \in R$, so a contradiction
+\item To avoid the problem
+  \begin{equation*}
+  1=0.9999\cdots
+\end{equation*}
+for every digit of $x$ we should not choose 0 or 9
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Some languages not Turing-recognizable}
     \begin{itemize}
-\item $\Sigma^*$ countable
+\item $\Sigma^*$ is countable
 
-count $|w|=1,2,3,\ldots$
-\item sets of TM countable
+\item [] Simply count $|w|=1,2,3,\ldots$
+\item For example, if $\Sigma = \{0, 1\}$, then
+  \begin{equation*}
+    \{ \epsilon, 0, 1, 00, 01, 10, 11, \ldots \}
+  \end{equation*}
+\item The sets of TMs is countable
 
-$M$ can be represented as a finite string 
+\item Eacho machine can be represented as a finite string
+  (think about the formal definition)
 
-thinking about binary representation
+\item Thus the set of TMs is a subset of $\{0,1\}^*$
 
-subset of $\{0,1\}^*$
+\item Let
+  \begin{center}
+    \begin{tabular}{l}
+ $L$: all languages over $\Sigma$ \\
+ $B$: all infinite binary sequences
+    \end{tabular}
+\end{center}
+\item For any
+  \begin{equation*}
+  A\in L
+\end{equation*}
+there is a corresponding element in $B$
+\item Example:
+\begin{equation*}
+\begin{split}
+& A: 0 \{0,1\}^*\\
+& \Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001,\ldots\}\\
+& A=\{0, 00, 01, 000, 001, \ldots\}\\
+& \chi_A= 0 1 0 11 00 11 \ldots
+\end{split}
+\end{equation*}
 
-
-\item $L$: all languages over $\Sigma$
-
-$B$: all infinite binary sequences
-\item $A\in L$
-
-$A: 0 \{0,1\}^*$
-
-$\Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001,\ldots\}$
-
-$A=\{0, 00, 01, 000, 001, \ldots\}$
-
-$\chi_A= 0 1 0 11 00 11 \ldots$
 \item One-to-one correspondence between $B$ and $L$
 
-$B$ uncountable (like real numbers)
+\item $B$ is uncountable (like real numbers)
 
-$L$ uncountable
-\item Each TM $\Rightarrow$ handle one language in $L$
+\item [] Therefore, $L$ is uncountable
+\item Each TM $\Rightarrow$ handles one language in $L$
 
-TM countable, $L$ not
+\item [] Set of TM is countable, but $L$ is not
 
-some cannot be handled by TM
+\item Thus some languages cannot be handled by TM
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Halting problem undecidable}
   \begin{itemize}
-\item 
-$A_{TM}
-=\{(M,w)\mid M: \mbox{TM, accepts } w\}$
-
+\item Recall the halting problem is
+  \begin{equation*}
+A_{TM}
+=\{(M,w)\mid M: \mbox{TM, accepts } w\}
+\end{equation*}
+We prove it is undecidable
 by contradiction
-\item $H$: decider for $A_{TM}$
-
+\item Assume there is an $H$ that is a decider for $A_{TM}$
+\item [] Then $H$ satisfies
   \begin{equation*}
     H(\langle  M,w\rangle )=
     \begin{cases}
