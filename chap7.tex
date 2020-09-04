@@ -12,17 +12,20 @@
 
 \begin{frame}[allowframebreaks] \frametitle{Complexity}
   \begin{itemize}
-\item Decidable $\rightarrow$ computationally solvable
-\item may Not solvable in practice
-
+  \item From past discussion, we know
+    \begin{center}
+    decidable $\rightarrow$ computationally solvable
+  \end{center}
+\item However, this does not mean it is solvable in practice
+\item The running time may be just too long
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example}
   \begin{itemize}
 \item $A=\{0^k 1^k\mid k \geq 0\}$
 
-\# steps by a TM ? (1-tape)
+\item [] What's the \# steps by a 1-tape TM to process a string? 
 \item Remember the procedure
   \begin{enumerate}
-  \item check $0^? 1^{??}$
+  \item check if input is $0^* 1^*$
   \item repeat until no 0 or 1
 
 scan, cross off single 0 and 1
@@ -31,81 +34,126 @@ scan, cross off single 0 and 1
 otherwise, accept
 
   \end{enumerate}
-\item How much time ?
+\item How much time?
 
-\# steps
+\item [] Need to count \# steps
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Analysis}
   \begin{itemize}
 \item worst-case analysis
 
-longest time for all inputs
+\item [] longest time for all inputs
 
 \item average-case analysis
-\item $f: N \rightarrow N$
+\item Usually it is easier to do worst-case analysis
+\item A function
+  \begin{equation*}
+  f: N \rightarrow N
+\end{equation*}
+to represent the number of steps
+\item [] $N$: natural number
 
-$N$: natural number
-
-$n$: length of input
+\item [] $n$: length of input
 
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Big-O}
   \begin{itemize}
-\item $f(n)=6n^3 + 5$
-
-$n \rightarrow \infty, 6n^3 + 5 \approx 6n^3$
+  \item
+A way to understand the running time of the algorithm when
+it is run on large inputs
+\item Consider
+  \begin{equation*}
+  f(n)=6n^3 + 5
+\end{equation*}
+  We have
+  \begin{equation*}
+n \rightarrow \infty, 6n^3 + 5 \approx 6n^3
+\end{equation*}
 \item $O(f(n))=O(n^3)$
 
-How about 6 ?
+\item [] How about 6 ?
 
-$6n^3$ vs. $n^3$
-
+  \begin{center}
+    \begin{tabular}{l}
+$6n^3$ vs. $n^3$ \\
 $6n^3$ vs. $n^4$
-
-only things involved with $n$ important
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Definition}
-  \begin{itemize}
-\item $f(n)=O(g(n))$ if 
-
+    \end{tabular}
+\end{center}
+Only things involved with $n$ are important
+\item Definition:
+  \begin{equation*}
+  f(n)=O(g(n))
+\end{equation*}
+if 
   \begin{equation*}
     \exists c, n_0, \forall n \geq n_0,
 f(n) \leq c g(n).
   \end{equation*}
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example}
     \begin{itemize}
-\item $f(n) = 6n^3 + 5$
-
-$6n^3 + 5 \leq 7n^3$ after $n \geq 2$
-
-$c=7$
-
-so $f(n) = O(n^3)$
+    \item Consider
+      \begin{equation*}
+      f(n) = 6n^3 + 5
+    \end{equation*}
+    We have
+    \begin{equation*}
+6n^3 + 5 \leq 7n^3 \text{ after } n \geq 2
+\end{equation*}
+That is, we choose 
+\begin{equation*}
+c=7 \text{ and } n_0 = 2
+\end{equation*}
+Thus 
+\begin{equation*}
+f(n) = O(n^3)
+\end{equation*}
 \item $f(n)=O(n^4)$ as 
-
-$6n^3+5 \leq 7n^4$, after $n \geq 2$
+  \begin{equation*}
+6n^3+5 \leq 7n^4, \text{ after } n \geq 2
+\end{equation*}
 \item But $f(n) \neq O(n^2)$
-
-$6n^3+5 \leq c n^2$, choose large $n$, $n^3 > cn^2$
-
+  \begin{equation*}
+  6n^3+5 \leq c n^2
+\end{equation*}
+cannot always hold because we can choose large $n$ such that
+\begin{equation*}
+n^3 > cn^2
+\end{equation*}
+Formally we have the following opposite statement:
+\begin{equation*}
+  \forall c, n_0 \exists n \geq n_0, f(n) > c g(n)
+\end{equation*}
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 7.4}
   \begin{itemize}
-\item $f(n)=3n \log_2 n + 5n \log_2 \log_2 n
-$
+  \item Consider
+    \begin{equation*}
+    f(n)=3n \log_2 n + 5n \log_2 \log_2 n
+  \end{equation*}
+We prove
+\begin{equation*}
+f(n) = O(n\log n)
+\end{equation*}
+by 
+\begin{equation*}
+  \begin{split}
+& \log_2 \log_2 n \leq \log_2 n \text{ from } \log_2 n \leq n \\
+& f(n) \leq 8n \log_2 n = 8n\log_2 b\log_b n \\
+\end{split}
+\end{equation*}
 
-$f(n) = O(n\log n)$
-
-$\log_2 \log_2 n \leq \log_2 n$
-from $\log_2 n \leq n$
-
-$f(n) \leq 8n \log_2 n = 8n\log_2 b\log_b n$
-
-$\log_2 n / \log_2 b= \log_b n$
-
-(can be an exercise)
-
-\item $f(n)=O(n\log n)$, not need to write $\log_2 n$
+\item Note that
+  \begin{equation*}
+ \log_2 n / \log_2 b= \log_b n
+\end{equation*}
+\item So we write
+  \begin{equation*}
+  f(n)=O(n\log n)
+\end{equation*}
+as there is no need to write $\log_2 n$
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Other properties}
   \begin{itemize}
-\item $O(n^2) + O(n) = O(n^2)$
-
+  \item We have
+    \begin{equation*}
+    O(n^2) + O(n) = O(n^2)
+  \end{equation*}
 $\leq c_1 n^2 + c_2 n $ after $n \geq \max(n_1,n_2)$
 
 $\leq (c_1+c_2) n^2$

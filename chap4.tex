@@ -546,51 +546,52 @@ by contradiction
     H(\langle  M,w\rangle )=
     \begin{cases}
       \mbox{accept} & \mbox{ if } M \mbox{ accepts } w\\
-\mbox{reject} & \mbox{ not}
+\mbox{reject} & \mbox{ otherwise}
     \end{cases}
   \end{equation*}
-\item A new TM $D$ with $H$ as a subroutine
+\item Construct a new TM $D$ with $H$ as a subroutine
 
-$D$: input $\langle  M\rangle $, $M$: a TM
+\item For $D$, the input is $\langle  M\rangle $, where
+  $M$ is a TM
 
-run $H$ on $\langle  M,\langle  M\rangle \rangle $
+\item [] It runs $H$ on $\langle  M,\langle  M\rangle \rangle $
+and 
+outputs the opposite result of $H$
 
-output opposite of $H$
+% \item $M$ can be an input of $M$
 
-\item $M$ can be input of $M$
+% A C compiler can be written in C
 
-A C compiler can be written in C
+% Do not worry how this compiler is compiled
 
-Do not worry how this compiler is compiled
-
-
-\item 
+\item The machine $D$ satisfies
   \begin{equation*}
     D(\langle  M\rangle )
 =
 \begin{cases}
   \mbox{accept } & 
-\mbox{ if } M \mbox{ rejects } \langle  M\rangle \\
-\mbox{reject} & \mbox{accept}
+  \mbox{if } M \mbox{ rejects } \langle  M\rangle \\
+\mbox{if } M \mbox{ accepts } \langle  M\rangle
 \end{cases}
   \end{equation*}
 
-\item 
+\item But we get a contradiction
   \begin{equation*}
     D(\langle  D\rangle )
 =
 \begin{cases}
   \mbox{accept } & 
-\mbox{ if } D \mbox{ rejects } \langle  D\rangle \\
-\mbox{reject} & \mbox{accept}
+\mbox{if } D \mbox{ rejects } \langle  D\rangle \\
+\mbox{reject} & \mbox{if } D \mbox{ accepts } \langle  D\rangle 
 \end{cases}
   \end{equation*}
-
-\item contradiction
-
+\item We said earlier that the diagonalization method
+  is used for the proof. Is that the case?
+\item We show that indeed it is used
+  
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Diagonalization in the proof}
   \begin{itemize}
-\item List of TM
+\item Set of TMs is countable so we can have
   \begin{center}
     \begin{tabular}{c|ccc}
 & $\langle  M_1\rangle $ & $\langle  M_2\rangle $ & $\langle  M_3\rangle $\\ \hline
@@ -599,19 +600,20 @@ $M_2$ & A & A &A\\
 $\vdots$ &&&
     \end{tabular}
   \end{center}
-blank: unknown if $M_1$ reject or loop
+blank entries: unknown if reject or loop
 
-\item But $H$ knows the solution
+\item But $H$ knows the solution as it is a decider
+  
   \begin{center}
-    \begin{tabular}{c|cc}
-& $\langle  M_1\rangle $ & $\langle  M_2\rangle $ \\ \hline
-$M_1$ & A & R\\
-$M_2$ & A & A \\
-$\vdots$ &&
+    \begin{tabular}{c|ccc}
+& $\langle  M_1\rangle $ & $\langle  M_2\rangle $ & $\langle  M_3\rangle $\\ \hline
+$M_1$ & A & R & A\\
+$M_2$ & A & A & A\\
+$\vdots$ &&&
     \end{tabular}
   \end{center}
 
-\item $D$ opposite of diag
+\item $D$ outputs \alert{opposite of diagonal entries}
   \begin{center}
     \begin{tabular}{c|cccc}
 & $\langle  M_1\rangle $ & $\langle  M_2\rangle $ & $\ldots$ & $\langle  D\rangle $\\ \hline
@@ -624,17 +626,28 @@ $D$ &&&& ?
 
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{co-Turing-recognizable Language}
   \begin{itemize}
-\item A language: co-Turing-recognizable
-
-if its complement Turing-recognizable
-\item Decidable $\Leftrightarrow$
+\item Definition: a language is co-Turing-recognizable
+if its complement is Turing-recognizable
+\item Theorem 4.22
+\item[] Decidable $\Leftrightarrow$
 Turing-recognizable and co-Turing-recognizable
-\item $A_{TM}$ Turing-recognizable but not decidable
+\item Why complement may not be Turing-recognizable?
+\item [] Note that ``recognizable'' means any
+  \begin{center}
+  $w \in $ language
+\end{center}
+is accepted by the machine in \alert{a finite steps}
+\item That is, no infinite loop
+\item Example:
+\item [] $A_{TM}$ Turing-recognizable but not decidable
 
-$\overline{A_{TM}}$ not Turing-recognizable
-
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Theorem 4.22}
-  \begin{itemize}
+\item [] $\overline{A_{TM}}$ not Turing-recognizable
+  \begin{equation*}
+    w \in \overline{A_{TM}}
+  \end{equation*}
+  $\Rightarrow$ reject or loop
+  
+\item Proof of Theorem 4.22
 \item ``$\Rightarrow$''
 
 Decidable $\Rightarrow$ Turing-recognizable
@@ -658,11 +671,9 @@ remember $\overline{A}$: Turing-recognizable means
 given $a \in \overline{A}$, accept in a finite \#
 steps.
 
-\item ``$\Leftarrow$'' $A,\overline{A}$ Turing-recognizable,
-Machines $M_1, M_2$
-\item A new machine $M$
-
-input $w$
+\item ``$\Leftarrow$'' Now  $A,\overline{A}$ are Turing-recognizable
+  by two machines $M_1, M_2$
+\item Construct a new machine $M$: for any input $w$
 \begin{enumerate}
 \item Run $M_1,M_2$ in parallel
 \item $M_1$ accept $\Rightarrow$ accept, 
