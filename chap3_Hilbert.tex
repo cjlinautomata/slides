@@ -152,7 +152,7 @@ are not possible
 
   \begin{equation*}
   A=
-\{\langle  G\rangle \mid G:\mbox{connected undirected graph}\}
+\{\langle  G\rangle \mid G:\mbox{a connected undirected graph}\}
 \end{equation*}
   \begin{itemize}
 \item A high-level TM
@@ -182,39 +182,45 @@ to a
 \draw [-] (1) -- (4);
 \end{tikzpicture}
 \end{center}
-
-
-$\langle  G\rangle=(1,2,3,4)((1,2),(2,3),(3,1),(1,4))$
-
-The input string
+\begin{equation*}
+\langle  G\rangle=(1,2,3,4)((1,2),(2,3),(3,1),(1,4))
+\end{equation*}
+is the input string
 \item Details
+\item The first step is to check if the input is in the correct
+  format
+\item In the first step we begin with seeing if the first part
+  of the input $\langle G \rangle$ includes distinct numbers
+  (as node IDs should be different)
+\item This is similar to an example before
+  \begin{equation*}
+\{\#x_1\# x_2 \cdots \# x_l\mid x_i \in 
+\{0,1\}^*, x_i \neq x_j\}
+\end{equation*}
+\item Then we can talk about how the head is moved
+\item Thus we have implementation-level descriptions
+  
+% end of nodes ? ``)'' used
 
-check nodes distinct: example 3.12:
+% edges from nodes: similar
 
-$E=\{\#x_1\# x_2 \cdots \# x_l\mid x_i \in 
-\{0,1\}^*, x_i \neq x_j\}$
+% stage 1: first node with ``dot''
 
-end of nodes ? ``)'' used
+% stage 2: 
+% \begin{enumerate}
+% \item find undotted $n_1$ (underline)
+% \item find dotted $n_2$ (underline)
+% \item edge $\Rightarrow $ dot $n_1$
+% \item no edge $\Rightarrow$ next dotted $n_2$
 
-edges from nodes: similar
+% $\vdots$
 
-stage 1: first node with ``dot''
+% next undotted $n_1$
+% \end{enumerate}
 
-stage 2: 
-\begin{enumerate}
-\item find undotted $n_1$ (underline)
-\item find dotted $n_2$ (underline)
-\item edge $\Rightarrow $ dot $n_1$
-\item no edge $\Rightarrow$ next dotted $n_2$
+% stage 4:  scan, check if all nodes dotted
 
-$\vdots$
-
-next undotted $n_1$
-\end{enumerate}
-
-stage 4:  scan, check if all nodes dotted
-
-Yes, accept, no: reject
+% Yes, accept, no: reject
 
 \end{itemize}\end{frame} 
 

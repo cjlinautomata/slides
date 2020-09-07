@@ -1,0 +1,293 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Classes of languages}
+  \begin{itemize}
+  \item Fig 4.10
+
+\begin{center}
+\begin{tikzpicture}
+  % \draw (1,0) circle [radius=1.5];
+  \draw (-3,0.3) circle [x radius=4.6cm, y radius=2.5cm, rotate=15];
+  \draw (-3.5,0) circle [x radius=3.7cm, y radius=2cm, rotate=10];
+  \draw (-4.5,0) circle [x radius=2.5cm, y radius=1.5cm, rotate=10];
+  \draw (-5.7,0) circle [x radius=1cm, y radius=0.8cm];
+  \path (-5.7,0) node {regular};
+  \path (-3.8,1) node {contex-free};
+  \path (-2.3,1.7) node {decidable};
+  \path (-1.5,2.4) node {Turing-recognizable};  
+\end{tikzpicture}
+    \end{center}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Halting problem}
+  \begin{itemize}
+\item We will show that this problem is not decidable
+\item There quite a few undecidable problems:
+
+\item [] For example, program verification are in general not solvable
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$A_{TM}$}
+\begin{equation*}
+  A_{TM}=\{
+\langle  M,w\rangle \mid M: \mbox{ a TM that accepts } w\}
+\end{equation*}
+  \begin{itemize}
+\item We will prove that $A_{TM}$ is undecidable
+\item However, $A_{TM}$ is Turing recognizable
+
+\item We can simply simulate $\langle  M,w\rangle $
+\item To be decidable we hope to avoid an infinite loop
+
+\item [] if at one point, know it cannot halt
+
+$\Rightarrow$ reject
+\item Thus this problem is called the halting problem
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Diagonalization method}
+  \begin{itemize}
+\item We need a technique called ``diagonalization method'' for the proof
+\item It was developed by Cantor  in 1873
+to check if two  infinite sets are equal
+
+\item Example: consider
+  \begin{center}
+  set of even integers
+\end{center}
+versus
+\begin{center}
+set of $\{0,1\}^*$
+\end{center}
+\item Which one is larger ?
+\item Definition: two sets are equal if elements
+can be paired
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Definition 4.12}
+  \begin{itemize}
+\item $f$ is a one-to-one function if:
+  \begin{equation*}
+f(a)\neq f(b) \text{ if } a \neq b
+\end{equation*}
+
+\begin{center}
+  \begin{tabular}{cc}
+\begin{tikzpicture}
+  \draw[->] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
+  \draw[->] (0, -0.5) -- (0, 2.2) node[above] {$y$};
+  \draw[scale=0.5, domain=-2:2, smooth, variable=\x, blue] plot ({\x}, {\x*\x});
+\end{tikzpicture}
+    &
+\begin{tikzpicture}
+  \draw[->] (-0.5, 0) -- (2.2, 0) node[right] {$x$};
+  \draw[->] (0, -1.3) -- (0, 1.5) node[above] {$y$};
+  \draw[scale=0.5, domain=-2:2, smooth, variable=\y, red]  plot ({\y*\y}, {\y});
+\end{tikzpicture}
+  \end{tabular}
+\end{center}
+\item Left: a one-to-one function; right: not
+\item $f:A\rightarrow B$ onto if 
+  \begin{equation*}
+\forall b \in B, \exists a \text{ such that } f(a)=b
+\end{equation*}
+\item Example:
+  \begin{equation*}
+    f(a) = a^2, \text{ where } A = (-\infty, \infty) \text{ and }
+    B = (-\infty, \infty)
+  \end{equation*}
+  This is not an onto function because for $b = -1$, there is no
+  $a$ such that $f(a) = b$
+\item However, if we change it to
+    \begin{equation*}
+    f(a) = a^2, \text{ where } A = (-\infty, \infty) \text{ and }
+    B = [0, \infty)
+  \end{equation*}
+it becomes an onto function
+\item Definition: a function is called a
+  correspondence if it is one-to-one and onto
+\item Example:
+      \begin{equation*}
+    f(a) = a^3, \text{ where } A = (-\infty, \infty) \text{ and }
+    B = (-\infty, \infty)
+  \end{equation*}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 4.13}
+  \begin{itemize}
+\item $N=\{1,2,\ldots\}$
+\item $E=\{2,4,\ldots\}$
+\item The two sets can be paired
+  \begin{center}
+    \begin{tabular}{cc}
+$n$ & $f(n)=2n$\\ \hline
+1 & 2 \\
+2 & 4 \\
+$\vdots$ & $\vdots$
+    \end{tabular}
+  \end{center}
+\item We consider $N$ and $E$ have \alert{the same size}
+\item Definition: a set is countable if it is 
+  \begin{center}
+finite or same size as $N$
+\end{center}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Rational Numbers Countable}
+  \begin{itemize}
+\item $Q=\{m/n
+\mid m,n \in N\}$ countable
+
+
+  \begin{center}
+\begin{tikzpicture}
+\tikzstyle{keepstyle} =[rectangle, rounded corners, draw, fill=white]
+\node at (0,0) {$\vdots$};
+\node[keepstyle] (51) at (0,1) {$\frac{5}{1}$};
+\node[keepstyle] (41) at (0,2) {$\frac{4}{1}$};
+\node[keepstyle] (31) at (0,3) {$\frac{3}{1}$};
+\node[keepstyle] (21) at (0,4) {$\frac{2}{1}$};
+\node[keepstyle] (11) at (0,5) {$\frac{1}{1}$};
+\node at (1,0) {$\vdots$};
+\node[keepstyle] (52) at (1,1) {$\frac{5}{2}$};
+\node at (1,2) {$\frac{4}{2}$};
+\node[keepstyle] (32) at (1,3) {$\frac{3}{2}$};
+\node at (1,4) {$\frac{2}{2}$};
+\node[keepstyle] (12) at (1,5) {$\frac{1}{2}$};
+\node at (2,0) {$\vdots$};
+\node at (2,1) {$\frac{5}{3}$};
+\node[keepstyle] (43) at (2,2) {$\frac{4}{3}$};
+\node at (2,3) {$\frac{3}{3}$};
+\node[keepstyle] (23) at (2,4) {$\frac{2}{3}$};
+\node[keepstyle] (13) at (2,5) {$\frac{1}{3}$};
+\node at (3,0) {$\vdots$};
+\node at (3,1) {$\frac{5}{4}$};
+\node at (3,2) {$\frac{4}{4}$};
+\node[keepstyle] (34) at (3,3) {$\frac{3}{4}$};
+\node at (3,4) {$\frac{2}{4}$};
+\node[keepstyle] (14) at (3,5) {$\frac{1}{4}$};
+\node at (4,0) {$\vdots$};
+\node  at (4,1) {$\frac{5}{5}$};
+\node at (4,2) {$\frac{4}{5}$};
+\node at (4,3) {$\frac{3}{5}$};
+\node[keepstyle] (25) at (4,4) {$\frac{2}{5}$};
+\node[keepstyle] (15) at (4,5) {$\frac{1}{5}$};
+\node at (5,0) {$\vdots$};
+\node  at (5,1) {$\frac{5}{6}$};
+\node at (5,2) {$\frac{4}{6}$};
+\node at (5,3) {$\frac{3}{6}$};
+\node at (5,4) {$\frac{2}{6}$};
+\node[keepstyle] (16) at (5,5) {$\frac{1}{6}$};
+\node at (6,1) {$\cdots$};
+\node at (6,2) {$\cdots$};
+\node at (6,3) {$\cdots$};
+\node at (6,4) {$\cdots$};
+\node at (6,5) {$\cdots$};
+\draw [-latex,red, thick] (11) -- (12);
+\draw [-latex, red, thick] (12) -- (21);
+\draw [-latex, red, thick] (21) -- (31);
+\draw [-latex, red, thick] (31) -- (13);
+\draw [-latex, red, thick] (13) -- (14);
+\draw [-latex, red, thick] (14) -- (23);
+\draw [-latex, red, thick] (23) -- (32);
+\draw [-latex, red, thick] (32) -- (41);
+\draw [-latex, red, thick] (41) -- (51);
+\draw [-latex, red, thick] (51) -- (15);
+\draw [-latex, red, thick] (15) -- (16);
+\draw [-latex, red, thick] (16) -- (25);
+\draw [-latex, red, thick] (25) -- (34);
+\draw [-latex, red, thick] (34) -- (43);
+\draw [-latex, red, thick] (43) -- (52);
+\end{tikzpicture}
+\end{center}
+
+{\small Latex source from \url{https://divisbyzero.com/2013/04/16/countability-of-the-rationals-drawn-using-tikz/})}
+
+\item Note that we skip counting elements with common factors (e.g., $2/2$)
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Real Numbers not Countable}
+  \begin{itemize}
+\item We will use the diagonalization method 
+\item The proof is by contradiction
+\item Assume $R$ is countable. Then there is a table as follows
+  \begin{center}
+  \begin{tabular}{r|r}
+$n$ & $f(n)$ \\ \hline
+1 & 3.14159 $\ldots$\\
+2 & 55.55555$\ldots$\\
+3 & 0.12345 $\ldots$ \\
+4 & 0.50000 $\ldots$ \\
+$\vdots$ & 
+  \end{tabular}
+\end{center}
+
+\item Consider
+  \begin{equation*}
+    \begin{split}
+&    x=0.4641\ldots\\
+&    4\neq 1, 6 \neq 5
+  \end{split}
+\end{equation*}
+\item We have
+  \begin{equation*}
+x \neq f(n), \forall n
+\end{equation*}
+\item But $x \in R$, so a contradiction
+\item To avoid the problem
+  \begin{equation*}
+  1=0.9999\cdots
+\end{equation*}
+for every digit of $x$ we should not choose 0 or 9
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Some languages not Turing-recognizable}
+    \begin{itemize}
+\item $\Sigma^*$ is countable
+
+\item [] Simply count $|w|=1,2,3,\ldots$
+\item For example, if $\Sigma = \{0, 1\}$, then
+  \begin{equation*}
+    \{ \epsilon, 0, 1, 00, 01, 10, 11, \ldots \}
+  \end{equation*}
+\item The sets of TMs is countable
+
+\item Eacho machine can be represented as a finite string
+  (think about the formal definition)
+
+\item Thus the set of TMs is a subset of $\{0,1\}^*$
+
+\item Let
+  \begin{center}
+    \begin{tabular}{l}
+ $L$: all languages over $\Sigma$ \\
+ $B$: all infinite binary sequences
+    \end{tabular}
+\end{center}
+\item For any
+  \begin{equation*}
+  A\in L
+\end{equation*}
+there is a corresponding element in $B$
+\item Example:
+\begin{equation*}
+\begin{split}
+& A: 0 \{0,1\}^*\\
+& \Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001,\ldots\}\\
+& A=\{0, 00, 01, 000, 001, \ldots\}\\
+& \chi_A= 0 1 0 11 00 11 \ldots
+\end{split}
+\end{equation*}
+
+\item One-to-one correspondence between $B$ and $L$
+
+\item $B$ is uncountable (like real numbers)
+
+\item [] Therefore, $L$ is uncountable
+\item Each TM $\Rightarrow$ handles one language in $L$
+
+\item [] Set of TM is countable, but $L$ is not
+
+\item Thus some languages cannot be handled by TM
+\end{itemize}\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

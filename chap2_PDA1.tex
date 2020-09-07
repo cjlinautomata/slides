@@ -162,13 +162,14 @@ q_2
 \end{equation*}
 From $q_1$, read $a$, and replace top of stack
 $b$ with $c$
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 2.14}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Formal definition of example 2.14}
   \begin{itemize}
-\item $\{0^n 1^n\mid n \geq 0\}$
-
+  \item The language is
+    \begin{equation*}
+    \{0^n 1^n\mid n \geq 0\}
+  \end{equation*}
 \item $M_1 = (Q,\Sigma, \Gamma, \delta, 
 q_1, F)$
-
 \begin{equation*}
   \begin{split}
 & Q=\{q_1, q_2, q_3, q_4\} \\
@@ -381,7 +382,7 @@ $\Leftrightarrow$ recognized by pushdown automata
 \item One direction is easier, while the other is harder
 \item As usual, we do the easie one first
   
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$CFL \rightarrow$ PDA}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{CFL $\rightarrow$ PDA}
     \begin{itemize}
     \item Given a CFG, we find a PDA to simulate this grammar
       
@@ -446,36 +447,35 @@ $\Leftrightarrow$ recognized by pushdown automata
 % check if finally it matches \$
 
 \item Consider an Example sequence $aaaab$
-
-\begin{eqnarray*}
-&& q_{start} \stackrel{\epsilon}{\rightarrow}
-q_{loop}, \{S,\$\} 
-\stackrel{\epsilon}{\rightarrow} q_1, \{b,\$\}
-\stackrel{\epsilon}{\rightarrow} q_2, \{T,b,\$\} \\
-&& \stackrel{\epsilon}{\rightarrow} q_{loop}, \{a,T,b,\$\} 
-\stackrel{a}{\rightarrow}
- q_{loop}, \{T,b,\$\} \\
-&& \stackrel{\epsilon}{\rightarrow} q_{3}, \{a, b,\$\} 
-\stackrel{\epsilon}{\rightarrow} q_{loop}, \{T,a,b,\$\}\\
-&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,b,\$\}
-\stackrel{\epsilon}{\rightarrow} q_{loop}, \{T,a,a,b,\$\}\\
-&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,a,b,\$\}
-\stackrel{\epsilon}{\rightarrow} q_{loop}, \{T,a,a,a,b,\$\}\\
-&& \stackrel{\epsilon}{\rightarrow} q_{loop}, \{a,a,a,b,\$\}
-\stackrel{a}{\rightarrow} q_{loop}, \{a,a,b,\$\}\\
-&& \stackrel{a}{\rightarrow} q_{loop},\{a,b,\$\}
-\stackrel{a}{\rightarrow} q_{loop}, \{b,\$\}\\
-&& \stackrel{b}{\rightarrow} q_{loop}, \{\$\}
-\stackrel{\epsilon}{\rightarrow} q_{accept}
-\end{eqnarray*}
-
 % Draw a tree process $aaaa$
-
 % Before the first $a$, we will see $\infty$
 % possibilities. Can handle this situation
 % by confine the stack length to be smaller
 % than the input length
+\end{itemize}
 
-\end{itemize}\end{frame}
+\begin{eqnarray*}
+&& q_{\text{start}} \stackrel{\epsilon}{\rightarrow}
+q_{\text{loop}}, \{S,\$\} 
+\stackrel{\epsilon}{\rightarrow} q_1, \{b,\$\}
+\stackrel{\epsilon}{\rightarrow} q_2, \{T,b,\$\} \\
+&& \stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{a,T,b,\$\} 
+\stackrel{a}{\rightarrow}
+ q_{\text{loop}}, \{T,b,\$\} \\
+&& \stackrel{\epsilon}{\rightarrow} q_{3}, \{a, b,\$\} 
+\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,b,\$\}\\
+&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,b,\$\}
+\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,a,b,\$\}\\
+&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,a,b,\$\}
+\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,a,a,b,\$\}\\
+&& \stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{a,a,a,b,\$\}
+\stackrel{a}{\rightarrow} q_{\text{loop}}, \{a,a,b,\$\}\\
+&& \stackrel{a}{\rightarrow} q_{\text{loop}},\{a,b,\$\}
+\stackrel{a}{\rightarrow} q_{\text{loop}}, \{b,\$\}\\
+&& \stackrel{b}{\rightarrow} q_{\text{loop}}, \{\$\}
+\stackrel{\epsilon}{\rightarrow} q_{accept}
+\end{eqnarray*}
+
+\end{frame}
 
 \end{document}

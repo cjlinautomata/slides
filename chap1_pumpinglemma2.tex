@@ -1,0 +1,150 @@
+\input{header}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{The use of pumping lemma}
+  \begin{itemize}
+    
+  \item Let's start from the following statement
+    \begin{equation*}
+      \forall n, 1 + \cdots + n = \frac{n(n+1)}{2}
+    \end{equation*}
+    What is the opposite statement?
+    \begin{equation*}
+      \exists n \text{ such that } 1 + \cdots + n \neq  \frac{n(n+1)}{2}
+    \end{equation*}
+    
+  \item Formally, in the pumping lemma
+      \begin{center}
+regular $\Rightarrow$ some properties    
+  \end{center}
+  ``Some properties'' are in fact
+  \begin{equation*}
+\exists p, \{\forall s \in A, |s|\geq p [ 
+\exists x,y,z \text{ such that } s = xyz \text{ and }
+\end{equation*}
+\begin{equation*}
+(xy^iz\in A, \forall i \geq 0,
+\mbox{ and }
+|y| > 0
+\mbox{ and }
+|xy|
+\leq p)]\}
+\end{equation*}
+\item Opposite statement of the right-hand side
+ \begin{equation}
+   \begin{split}
+& \forall p, \{\exists s \in A, |s|\geq p, 
+[\forall x,y,z 
+\\
+& (
+(s = xyz
+\text{ and }
+|y| > 0
+ \mbox{ and }
+ |xy|
+ \leq p
+)
+\\
+& \quad \rightarrow
+\exists i \geq 0, xy^iz\notin A)]\} 
+\end{split}
+\label{eq:oppositepumping}
+ \end{equation}
+\item Note that the opposite of
+  \begin{equation*}
+    A \& B
+  \end{equation*}
+is
+\begin{equation*}
+  A \rightarrow \neg B
+\end{equation*}
+See the truth table
+
+\begin{center}
+  \begin{tabular}{cc|cc|cc}
+    $A$ & $B$ & $A \& B$ & $\neg(A\& B)$ & $\neg B$ & $A \rightarrow \neg B$ \\ \hline
+    0& 0 &0 & 1 & 1& 1\\ 
+    0& 1 &0 & 1 & 0& 1\\
+    1& 0 &0 & 1 & 1& 1\\
+    1& 1 &1 & 0 & 0& 0
+  \end{tabular}
+\end{center}
+\item To prove \eqref{eq:oppositepumping}, the ``$exists$'' part
+  is important
+\item You can see that we need to choose $s$ and find an $i$
+\item About
+  \begin{equation*}
+    \forall x, y, z, \cdots
+  \end{equation*}
+  in \eqref{eq:oppositepumping} you can see in examples that we go through
+  all possible cases of $x, y, z$
+  
+% \item Different form
+
+% $\forall p, \exists s \in A, |s|\geq p, 
+% \forall xyz$ with
+
+% $  s= xyz,
+% |y| > 0,
+% |xy|
+% \leq p
+% $
+
+% $xy^iz\notin A, \exists i \geq 0$
+
+
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example 1.75}
+  \begin{itemize}
+\item $F=\{ww\mid w \in \{0,1\}^*\}$ not regular
+\item We choose
+  \begin{equation*}
+s=0^p 1 0^p 1 \in F
+\end{equation*}
+\item If
+  \begin{equation*}
+    s =xyz,
+    |xy|
+\leq p, |y|>0,
+\end{equation*}
+then
+\begin{equation*}
+ y = 0\ldots 0
+\end{equation*}
+and thus
+\begin{equation*}
+xy^2z = 0 \ldots 0 1 0^p 1\neq ww
+\end{equation*}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.76}
+  \begin{itemize}
+\item $D=\{1^{n^2}
+\mid n \geq 0\}$ not regular
+\item We choose
+  \begin{equation*}
+  s=1^{p^2} \in D
+\end{equation*}
+\item If 
+  \begin{equation*}
+s =xyz, |xy |\leq p, |y|>0
+\end{equation*}
+then 
+\begin{equation*}
+p^2 < |xy^2z| \leq p^2 +p < (p+1)^2
+\end{equation*}
+and therefor
+\begin{equation*}
+  xy^2 z \not in D
+\end{equation*}
+\end{itemize}\end{frame}
+
+\end{document}
