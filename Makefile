@@ -15,7 +15,7 @@ TEX_DEPS = *.tex *.sty *.bib
 CLEAN_FILES += *.log *.aux *.out *.ilg *.ind *.lof *.lot *.toc \
 		*.bbl *.blg \
 		*.dvi *.ps *.pdf \
-		*.nav *.snm *.vrb
+		*.nav *.snm *.vrb *.synctex.gz
 
 .SUFFIXES: .tex .dvi .ps .pdf
 

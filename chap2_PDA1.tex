@@ -108,12 +108,13 @@ the same as
 \item Steps:
   \begin{equation*}
     \begin{split}
-& q_1, \epsilon, \{\$\} \text{ (i.e.,  $\emptyset \rightarrow \{\$\}$)}\\
-& q_2, 0, \{0,\$\} \\
-& q_2, 0, \{0,0,\$\}\\
-& q_3, 1, \{0,\$\}\\
-& q_3, 1, \{\$\}\\
-& q_4, \epsilon, \{\$\}
+& q_1, \emptyset, \epsilon\\
+& q_2, \{\$\}, 0 \\
+& q_2, \{0,\$\}, 0\\
+& q_2, \{0,0,\$\}, 1\\
+& q_3, \{0,\$\}, 1\\
+& q_3, \{\$\}, \epsilon\\
+& q_4, \{\}
 \end{split}
 \end{equation*}
 $\{\}$: contents of the stack
@@ -380,7 +381,7 @@ $\Leftrightarrow$ recognized by pushdown automata
 \item Recall that by definition a language is context-free if
   it is constructed by some CFG
 \item One direction is easier, while the other is harder
-\item As usual, we do the easie one first
+\item As usual, we do the easier one first
   
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{CFL $\rightarrow$ PDA}
     \begin{itemize}
@@ -430,10 +431,10 @@ $\Leftrightarrow$ recognized by pushdown automata
       $b, b \rightarrow \epsilon$
     \end{tabular}
   } (q_3)
-  (q_3) edge[right]  node {$\epsilon, \epsilon \rightarrow b$} (q_4)
+  (q_3) edge[right]  node {$\epsilon, S \rightarrow b$} (q_4)
   (q_4) edge[right]  node {$\epsilon, \epsilon \rightarrow T$} (q_6)
   (q_6) edge[bend right, above]  node {$\epsilon, \epsilon \rightarrow a$} (q_3)
-  (q_3) edge[below, bend left]  node {$\epsilon, \epsilon \rightarrow a$} (q_5)
+  (q_3) edge[below, bend left]  node {$\epsilon, T \rightarrow a$} (q_5)
   (q_5) edge[below, bend left]  node {$\epsilon, \epsilon \rightarrow T$} (q_3)  
 ;
   \end{tikzpicture}
@@ -446,7 +447,7 @@ $\Leftrightarrow$ recognized by pushdown automata
 
 % check if finally it matches \$
 
-\item Consider an Example sequence $aaaab$
+\item Consider an example sequence $aaaab$
 % Draw a tree process $aaaa$
 % Before the first $a$, we will see $\infty$
 % possibilities. Can handle this situation
