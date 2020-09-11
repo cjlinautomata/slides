@@ -30,7 +30,7 @@
   
   Quickly we see that this corresponds to
   \begin{equation*}
-  a^*b(a\cup b)
+  a^*b(a\cup b)^*
 \end{equation*}
 \item Example 1.68
 
@@ -80,7 +80,7 @@
   \end{tikzpicture}
   \end{center}
 
-\item This generate a
+\item This generates a
 \alert{generalized NFA}
 \item Our procedure is
   
@@ -188,7 +188,7 @@ regular expression
 \begin{frame}[allowframebreaks] \frametitle{Definition of GNFA}
   \begin{itemize}
 \item Between any two states: a regular expression
-\item $(Q, \Sigma, \delta, q_{start}, q_{accept})$
+\item $(Q, \Sigma, \delta, q_{start}, \{q_{accept}\})$
   \begin{equation*}
     \delta:(Q-\{q_{accept}\})\times
 (Q-\{q_{start}\})\rightarrow R

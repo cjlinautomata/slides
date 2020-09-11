@@ -215,6 +215,7 @@ why can we use 000 as the start state?
 & q_3 \rightarrow q_4:0,1 \Rightarrow 0,1,\epsilon
 \end{split}
 \end{equation*}
+\framebreak
 \begin{center}
     \begin{tikzpicture}
 \node[state,initial] (q_1) {$q_1$};
@@ -225,12 +226,11 @@ why can we use 000 as the start state?
         (q_1) edge[loop above] node {$0,1$} (q_1)
   (q_1) edge[above]  node {$1$} (q_2)
   (q_2) edge[above]  node {$0,1,\epsilon$} (q_3)
-  (q_3) edge[above]  node {$1$} (q_4)
-  (q_4) edge[loop below] node {$0,1, \epsilon$} (q_4);
+  (q_3) edge[above]  node {$0,1,\epsilon$} (q_4);
       \end{tikzpicture}
     \end{center}
 
-  \item What is the language: one of the last three characters
+  \item What is the language: at least one of the last three characters
     is 1
 \item How about DFA for this language?
 

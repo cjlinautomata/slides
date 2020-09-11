@@ -90,7 +90,7 @@ This string is accepted
     \begin{equation*}
     q_1
 \rightarrow q_2 \rightarrow
-q_2 \rightarrow q_3 
+q_3 
 \end{equation*}
 $q_3$ is not an accept state, so the string is rejected
 \item What are all strings accepted?
@@ -101,7 +101,7 @@ $q_3$ is not an accept state, so the string is rejected
 
 
 \begin{frame}[allowframebreaks] \frametitle{Formal definition}
-We formally define a state diagram as a 5-tuple $(Q,\sigma, \Delta, q_0, F)$
+We formally define a state diagram as a 5-tuple $(Q,\Sigma, \delta, q_0, F)$
   \begin{itemize}
 
 \item $Q$: set of states. It is a \alert{finite} set
@@ -196,7 +196,7 @@ Anything ends with 1
     a\ldots a, b \ldots b
   \end{equation*}
 
-$\ldots$ can be any string of $a$ and $b$
+where ``$\ldots$'' can be any string of $a$ and $b$
 \end{itemize}\end{frame}
 
 
