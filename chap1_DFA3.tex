@@ -1,0 +1,150 @@
+\input{header}
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Regular Operations}
+  \begin{itemize}
+\item Regular operations can be used to study whether languages are regular or not
+
+\item  That is, we aim to check for a given language,
+  whether there are finite automata to recognize it or not
+\item Three definitions
+
+\item [] $A,B$ are given languages
+\begin{itemize}
+\item union
+  \begin{equation*}
+  A \cup B
+\end{equation*}
+\item concatenation
+  \begin{equation*}
+  A\circ B=\{xy\mid x\in A, y \in B\}
+\end{equation*}
+\item star:
+  \begin{equation*}
+  A^*=\{x_1 \cdots x_k\mid
+k \geq 0, x_i \in A\}
+\end{equation*}
+\end{itemize}
+\item If $k=0$, what do we mean
+  \begin{equation*}
+    x_1 \cdots x_k?
+  \end{equation*}
+  We define
+  \begin{equation*}
+     \epsilon: \text{ empty string}
+   \end{equation*}
+in this situation
+\item Thus
+  \begin{equation*}
+   \epsilon \in A^*
+ \end{equation*}
+\item Example
+  \begin{equation*}
+    \begin{split}
+& \Sigma =\{a, \ldots, z\}\\
+& A=\{good, bad\} \\
+& B=\{boy,girl\} \\
+& A\circ B=
+\{goodboy, \ldots \}\\
+& A^*: \{\epsilon, good, bad, goodgood, \ldots\}
+\end{split}
+\end{equation*}
+\item We say an operation $R$ is \alert{closed} if the
+  following property holds
+  \begin{center}
+if $x\in A, y \in A$, then $xRy \in A$
+\end{center}
+Example: $N=\{1,2,\ldots\}$ is closed under multiplication
+\item Th 1.25: regular languages are closed under the union operation
+
+  \begin{equation*}
+    \begin{split}
+&    A_1, A_2 \text{ are regular languages} \\
+\Rightarrow & A_1 \cup A_2 \text{is regular}
+  \end{split}
+\end{equation*}
+
+\item Proof
+\item [] Assume we are given two automata
+  \begin{eqnarray*}
+&& M_1 =(Q_1, \Sigma, \delta_1, q_1, F_1)\\
+&& M_2 =(Q_2, \Sigma, \delta_2, q_2, F_2)\\
+  \end{eqnarray*}
+\item Construct a new machine
+  \begin{eqnarray*}
+&& M =(Q, \Sigma, \delta, q, F)\\
+&& Q=\{(r_1,r_2)\mid r_1 \in Q_1, r_2 \in Q_2\}\\
+&& \delta((r_1,r_2),a)=(\delta_1(r_1,a), \delta_2(r_2,a))\\
+&& q_0 = (q_1,q_2)\\
+&& F=\{(r_1, r_2) \mid r_1 \in F_1 
+\text{ or } r_2 \in F_2\}
+  \end{eqnarray*}
+\item Example: combining
+  \begin{equation*}
+    \begin{split}
+      & \{ w \mid w \text{ has an odd \# 1's} \} \cup \\
+      & \{ w \mid w \text{ has an odd \# 0's} \}
+\end{split}
+\end{equation*}
+\begin{center}
+
+    \begin{tikzpicture}
+\node[state,initial] (q_e) {$q_e$};
+\node[state,accepting] (q_o) [right of=q_e] {$q_o$};      
+
+  \path (q_e) edge[bend left, above]  node {$1$} (q_o)
+        (q_e) edge[loop above] node {$0$} (q_e)
+        (q_o) edge[loop above] node {$0$} (q_o)
+        (q_o) edge[bend left, below]  node {$1$} (q_e);
+      \end{tikzpicture}
+
+    \begin{tikzpicture}
+\node[state,initial] (s_e) {$s_e$};
+\node[state,accepting] (s_o) [right of=s_e] {$s_o$};      
+
+  \path (s_e) edge[bend left, above]  node {$0$} (s_o)
+        (s_e) edge[loop above] node {$1$} (s_e)
+        (s_o) edge[loop above] node {$1$} (s_o)
+        (s_o) edge[bend left, below]  node {$0$} (s_e);
+      \end{tikzpicture}
+    \end{center}
+    \begin{center}
+    \begin{tikzpicture}
+      \node[state,initial] (qese) {$q_e,s_e$};
+      \node[state] (qeso) [accepting, above right of = qese] {$q_e,s_o$};
+      \node[state] (qose) [accepting, below right of = qese] {$q_o,s_e$};
+\node[state,accepting] (qoso) [below right of = qeso] {$q_o,s_o$};                  
+\path (qese) edge[bend left, above]  node {$0$} (qeso)
+(qeso) edge[bend left, above]  node {$0$} (qese)
+(qeso) edge[bend left, above]  node {$1$} (qoso)
+(qoso) edge[bend left, above]  node {$1$} (qeso)
+(qese) edge[bend left, above]  node {$1$} (qose)
+(qose) edge[bend left, above]  node {$1$} (qese)
+(qose) edge[bend left, above]  node {$0$} (qoso)
+(qoso) edge[bend left, above]  node {$0$} (qose);
+      \end{tikzpicture}
+    \end{center}
+  
+\item Is this proof rigourously enough ?
+\item [] A formal proof should be done by induction. But we don't
+  provide it here
+\item Th 1.26: closed under concatenation
+  \begin{center}
+    If $A, B$ are regular, then $A \circ B$ is regular
+  \end{center}
+\item [] But the proof is not easy
+\item [] It's unclear where to break the input 
+
+\item To easily do the proof,
+  we introduce a new technique called \alert{nondeterminism}
+  \end{itemize}\end{frame}
+
+\end{document}

@@ -199,49 +199,7 @@ Thus
   \begin{center}
   $f(n)$ always $\leq$ a constant
 \end{center}
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Small-o}
-  \begin{itemize}
-  \item Two different concepts:
-
-  \item [] $O$: no more than something
-
-  \item [] $o$: less than something
-    
-\item Definition 
-  \begin{equation*}
-  f(n)=o(g(n))
-\end{equation*}
-  if
-  \begin{equation*}
-    \lim_{n\rightarrow \infty} \frac{f(n)}{g(n)} = 0.
-  \end{equation*}
-\item The definition of this limit:
-\begin{equation*}
-  \forall c > 0, \exists n_0, \forall n \geq n_0,
-\frac{f(n)}{g(n)} \leq c.
-\end{equation*}
-\item $O$ versus $o$:
-\begin{equation*}
-  \begin{split}
-&  \exists c > 0, \exists n_0, \forall n \geq n_0,
-f(n) \leq c g(n)\\    
-&  \forall c > 0, \exists n_0, \forall n \geq n_0,
-f(n) \leq c g(n)
-\end{split}
-\end{equation*}
-The $\forall c$ causes $o$ to be something smaller
-\item $\sqrt{n}= o(n)$
-  \begin{equation*}
-    \lim_{n \rightarrow \infty} \frac{\sqrt{n}}{n}
-=
-   \lim_{n \rightarrow \infty} \frac{1}{\sqrt{n}}=0
-  \end{equation*}
-\item $f(n) 
-\neq o(f(n))$
-\begin{equation*}
-    \lim_{n \rightarrow \infty} \frac{f(n)}{f(n)} = 1 \neq 0
-\end{equation*}
-
 \end{itemize}\end{frame}
+
 
 \end{document}

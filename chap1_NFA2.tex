@@ -10,6 +10,84 @@
 
 \begin{document}
 
+\begin{frame}[allowframebreaks] \frametitle{Example 1.33}
+\begin{itemize}
+\item Consider the following figure
+    \begin{center}
+\begin{tikzpicture}
+\node[state, initial] (0) {};
+\node[state, accepting, right of=0] (1) {};
+\node[state, right of=1] (2) {};
+\node[state, accepting, below of=1] (3) {};
+\node[state, right of=3] (4) {};
+\node[state, below right of=3] (5) {};
+
+\draw (0) edge[above] node{$\epsilon$} (1)
+(0) edge[below] node{$\epsilon$} (3)
+(1) edge[bend right, below] node{$0$} (2)
+(2) edge[bend right, above] node{$0$} (1)
+(3) edge[above] node{$0$} (4)
+(4) edge[above] node{$0$} (5)
+(5) edge[above] node{$0$} (3);
+\end{tikzpicture}
+\end{center}
+\item For this language, $\Sigma=\{0\}$.
+  This is called unary alphabets
+
+\item What is the language?
+  \begin{equation*}
+\{0^k\mid  k \text{ multiples of 2 or 3}\}
+\end{equation*}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.35}
+  \begin{itemize}
+  \item Fig 1.36
+  \begin{center}
+\begin{tikzpicture}
+\node[state, initial, accepting] (q1) {$q_1$};
+\node[state, below left of=q1] (q2) {$q_2$};
+\node[state, below right of=q1] (q3) {$q_3$};
+
+\draw (q1) edge[left] node{$b$} (q2)
+(q2) edge[loop left, left] node{$a$} (q2)
+(q1) edge[bend right, left] node{$\epsilon$} (q3)
+(q2) edge[below] node{$a, b$} (q3)
+(q3) edge[bend right, right] node{$a$} (q1);
+\end{tikzpicture}
+\end{center}
+    
+\item Accept
+
+$\epsilon$, $a$, $baba$, $baa$ can be accepted
+\item But babba is rejected
+\item [] See the tree below
+
+  \begin{center}
+\begin{tikzpicture} [level distance=30pt]% grow=right
+  \node  {$q_1$}
+  child [grow=right] {node  {$q_3$} edge from parent[draw=none]}
+  child [grow=down] {node  {$q_2$}
+    child {node {$q_2$}
+      child {node  {$q_3$}
+        child [grow=left] {node (4) {} edge from parent[draw=none]
+          child [grow=up] {node (3) {} edge from parent[draw=none]
+            child [grow=up] {node (2) {} edge from parent[draw=none]
+              child [grow=up] {node (1) {} edge from parent[draw=none]
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+  \path (1) -- (2) node [midway] {b};
+  \path (2) -- (3) node [midway] {a};
+  \path (3) -- (4) node [midway] {b};
+\end{tikzpicture}
+\end{center}
+\item This example is later used to illustrate the
+  procedure for converting NFA to DFA
+\end{itemize}\end{frame}
+
 \begin{frame}[allowframebreaks] \frametitle{Definition: NFA}
   \begin{itemize}
 \item $(Q, \Sigma, \delta, q_0, F)$
@@ -90,229 +168,6 @@ where $y_i \in \Sigma_{\alert{\epsilon}}$
   \end{enumerate}
 \item So $m$ may not be the original length (as $y_i$ may be
   $\epsilon$)
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{DFA $\equiv$ NFA}
-  \begin{itemize}
-\item DFA $\Rightarrow$ NFA
-
-\item Formally, a language recognized by a DFA $\rightarrow$
-  recognized by an NFA
-
-\item The proof is easy because a DFA is an NFA
-\item However, \alert{formally DFA is not an NFA}
-because DFA uses $\Sigma$ but not $\Sigma_\epsilon$
-
-\item [] Can easily handle this by adding
-  \begin{equation*}
-  q_i, \epsilon \rightarrow \emptyset
-\end{equation*}
-\item The other direction: NFA $\Rightarrow $ DFA
-
-\item Need to convert NFA to an equivalent DFA
-\item [] That is, they recognize the same language
-\item We do the proof by an example
-\end{itemize}\end{frame}
-
-\begin{frame}[allowframebreaks] \frametitle{Example 1.41}
-  \begin{itemize}
-  \item Consider the following NFA (we discussed this NFA before)
-    \begin{center}
-\begin{tikzpicture}
-\node[state, initial, accepting] (q1) {$q_1$};
-\node[state, below left of=q1] (q2) {$q_2$};
-\node[state, below right of=q1] (q3) {$q_3$};
-
-\draw (q1) edge[left] node{$b$} (q2)
-(q2) edge[loop left, left] node{$a$} (q2)
-(q1) edge[bend right, left] node{$\epsilon$} (q3)
-(q2) edge[below] node{$a, b$} (q3)
-(q3) edge[bend right, right] node{$a$} (q1);
-\end{tikzpicture}
-\end{center}
-\item The resulting DFA diagram
-\end{itemize}
-\begin{center}
-\begin{tikzpicture}
-\node[state] (phi) {$\emptyset$};
-\node[state, accepting, right of=phi] (1) {$\{1\}$};
-\node[state, right of=1] (2) {$\{2\}$};
-\node[state, accepting, right of=2] (12) {$\{1, 2\}$};
-\node[state, below of=phi] (3) {$\{3\}$};
-\node[state, initial, initial where=above, accepting, right of=3] (13) {$\{1, 3\}$};
-\node[state, right of=13] (23) {$\{2, 3\}$};
-\node[state, accepting, right of=23] (123) {$\{1, 2, 3\}$};
-\draw (phi) edge[loop left] node{$a, b$} (phi)
-(1)
-edge[above] node{$a$} (phi)
-(1)
-edge[above] node{$b$} (2)
-(2)
-edge[right] node{$a$} (23)
-(2)
-edge[above] node{$b$} (3)
-(12) edge[above, pos=.3, left=2pt] node{$a, b$} (23)
-(3)
-edge[left] node{$b$} (phi)
-(3)
-edge[below] node{$a$} (13)
-(13) edge[loop right,left] node{$a$} (13)
-(13) edge[above] node{$b$} (2)
-(23) edge[bend left, above] node{$a$} (123)
-(23) edge[bend left, below] node{$b$} (3)
-(123) edge[loop below, above] node{$a$} (123)
-(123) edge[bend left, below] node{$b$} (23);
-\end{tikzpicture}
-\end{center}
-
-\end{frame}
-
-\begin{frame}[allowframebreaks]
-  \frametitle{Explanation of the Procedure}
-\begin{itemize}
-\item Each state is a subset of $\{1,2,3\}$
-\item Let's check details of
-
-  \begin{center}
-    \begin{tikzpicture}
-      \node[state] (12) {$\{1, 2\}$};
-      \node[state, right of=12] (23) {$\{2, 3\}$};
-\draw (12) edge[above] node{$a$} (23);      
-    \end{tikzpicture}
-  \end{center}
-
-\item We see
-  \begin{equation*}
-    \begin{split}
-      & q_1 \xrightarrow{a} \emptyset\\
-& q_2 \xrightarrow{a} \{q_2, q_3\}      
-    \end{split}
-  \end{equation*}
-Thus
-\begin{equation*}
-  \emptyset \cup \{ 2, 3\} = \{2, 3\}
-\end{equation*}
-\item Start state:
-  \begin{center}
-    $\{1, 3\}$ but not $\{1\}$
-  \end{center}
-  The reason is that in the beginning, even without any
-  input, we can already reach $q_3$
-\item Accept states: any state including $q_1$ is an accept state
-\end{itemize}
-\end{frame}
-\begin{frame}[allowframebreaks]
-  \frametitle{Figure 1.44}
-  \begin{itemize}
-  \item Some states can never be reached
-  \item We can remove them to simplify the diagram
-  \item Turns out any state \alert{having 1 but without 3}
-    can never be reached
-  \end{itemize}
-  
-\begin{center}
-\begin{tikzpicture}
-\node[state, initial, initial where=left, accepting, right of=3] (13) {$\{1, 3\}$};
-\node[state, below of=13] (2) {$\{2\}$};
-\node[state, right of=13] (3) {$\{3\}$};
-\node[state, right of=3] (phi) {$\emptyset$};
-\node[state, right of=2] (23) {$\{2, 3\}$};
-\node[state, accepting, right of=23] (123) {$\{1, 2, 3\}$};
-\draw
-(phi) edge[loop above] node{$a, b$} (phi)
-(2)
-edge[above] node{$a$} (23)
-(2)
-edge[above] node{$b$} (3)
-(3)
-edge[above] node{$b$} (phi)
-(3)
-edge[above] node{$a$} (13)
-(13) edge[loop above,left] node{$a$} (13)
-(13) edge[left] node{$b$} (2)
-(23) edge[bend left, above] node{$a$} (123)
-(23) edge[right] node{$b$} (3)
-(123) edge[loop right, below] node{$a$} (123)
-(123) edge[bend left, below] node{$b$} (23);
-\end{tikzpicture}
-\end{center}
-\end{frame}
-
-
-\begin{frame}[allowframebreaks] \frametitle{More explanation
-    of example 1.41}
-\begin{itemize}
-
-\item Idea: 
-
-  
-\item [] Each node includes all states at the current layer
-  
-\item Example: $baa$
-
-
-  \begin{center}
-\begin{tikzpicture} [level distance=30pt]% grow=right
-  \node  {$q_1$}
-  child [grow=right] {node  {$q_3$} edge from parent[draw=none]}
-  child [grow=down] {node  {$q_2$}
-    child {node {$q_2$}
-      child {node  {$q_2$}
-        child [grow=left] {node (4) {} edge from parent[draw=none]
-          child [grow=up] {node (3) {} edge from parent[draw=none]
-            child [grow=up] {node (2) {} edge from parent[draw=none]
-              child [grow=up] {node (1) {} edge from parent[draw=none]
-              }
-            }
-          }
-        }
-      }
-      child {node {$q_3$}}
-    }
-    child {edge from parent[draw=none]}
-    child {node {$q_3$}
-      child {node {$q_1$}}
-      child {node {$q_3$}}      
-    }    
-  };
-  \path (1) -- (2) node [midway] {b};
-  \path (2) -- (3) node [midway] {a};
-  \path (3) -- (4) node [midway] {a};
-\end{tikzpicture}
-\end{center}
-We see
-\begin{equation*}
-  \{1\} \xrightarrow{b} \{2\} \xrightarrow{a} \{2, 3\}
-  \xrightarrow{a} \{1, 2, 3\}
-\end{equation*}
-\item Proof
-  \item[] Given NFA
-    \begin{equation*}
-(Q,\Sigma, \delta, q_0, F)
-\end{equation*}
-We would like to convert it to a DFA
-\begin{equation*}
-(Q', \Sigma, \delta', q'_0, F')
-\end{equation*}
-Details of this DFA:
-\begin{itemize}
-\item $Q'=P(Q)$
-\item $q_0' \in P(Q)$ includes
-  \begin{center}
- $q_0$ + states
-reached by $\epsilon$
-\end{center}
-We call such a set $E(q_0)$
-\item $F'=
-\{R\mid R \in Q', R \cap F\neq \emptyset\}$
-\item $\delta'$:
-  \begin{equation*}
-    \delta'(R,a)=
-\cup_{r\in R} E(\delta(r,a))
-\end{equation*}
-Note that we cannot just do
-\begin{equation*}
-\cup_{r\in R}\delta(r,a)
-\end{equation*}
-\end{itemize}
 \end{itemize}\end{frame}
 
 \end{document}

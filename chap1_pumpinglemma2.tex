@@ -10,6 +10,53 @@
 
 \begin{document}
 
+\begin{frame}[allowframebreaks] \frametitle{Example 1.39}
+  \begin{itemize}
+\item $C=\{w \mid \#0 = \#1\}$
+\item We follow the previous example to have
+  \begin{equation*}
+  s=0^p 1^p=xyz
+\end{equation*}
+\item However, we cannot get the needed contradiction for the case
+  of
+  \begin{equation*}
+    y = 0 \cdots 0 1 \cdots 1
+  \end{equation*}
+\item Earlier we said
+  \begin{equation*}
+    xyyz \text{ not in the form of } 0^? 1^?
+  \end{equation*}
+but now we only require
+\begin{equation*}
+  \# 0 = \# 1
+\end{equation*}
+\item It is posible that 
+  \begin{equation*}
+x=\epsilon, z=\epsilon, y = 0^p 1^p 
+\end{equation*}
+and then
+\begin{equation*}
+|y| > 0 \text{ and } xy^i z\in C
+\end{equation*}
+
+\item The 3rd condition should be applied
+  \begin{equation*}
+|xy| \leq p \Rightarrow y = 0 \cdots 0 \text{ in } s = 0^p 1^p
+\end{equation*}
+Then 
+\begin{equation*}
+xyyz \notin C
+\end{equation*}
+\item Question: the pumping says
+  \begin{equation*}
+    \forall s \in A, \cdots
+  \end{equation*}
+  but why in the examples we analyzed a \alert{particular $s$}?
+\item And it seems that the selection of $s$ is important. Why?
+
+\item Below we will explain our use of the lemma
+\end{itemize}\end{frame}
+
 \begin{frame}[allowframebreaks] \frametitle{The use of pumping lemma}
   \begin{itemize}
     
