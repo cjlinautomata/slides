@@ -103,12 +103,12 @@ stone & T & F & F
 
 \item Edges: connection between nodes
 
-\item [] Degree= \# edges at a node
+\item [] Degree = \# edges at a node
 
-\item [] Subgraph: $G$ subgraph of $H$ if 
+\item [] Subgraph: $G$ is subgraph of $H$ if 
 
 \begin{itemize}
-\item $G$ a graph
+\item $G$ is a graph
 \item node($G$) $\subset$ node(H)
 \item edge($G$) = subset of edge(H) connecting node(G)
 \end{itemize}
@@ -190,6 +190,16 @@ saying rainy implies wet land is ok.
   \item Proof by contradiction
     $$\neg B \rightarrow \neg A$$
 
+    \begin{center}
+      \begin{tabular}{ll|c|llc}
+        $P$ & $Q$ & $P \rightarrow Q$ & $\neg Q$ & $\neg P$ & $\neg Q \rightarrow \neg P$\\ \hline
+        0& 0 & 1 & 1 & 1 & 1\\ 
+        0& 1 & 1 & 0 & 1 & 1\\
+        1& 0 & 0 & 1 & 0 & 0\\
+        1& 1 & 1 & 0 & 0 & 1
+      \end{tabular}
+    \end{center}
+    
   \item Example 1:
 
 Every graph $\Rightarrow$ sum of degrees is even
@@ -217,7 +227,7 @@ total \# degrees = $2\times $ \# edges
   \item The implication
     \begin{equation*}
       \begin{split}
-&   \text{Definition of rational number}\\
+&   \text{Definition of rational numbers}\\
 \Rightarrow&  \sqrt{2} \text{ is not rational}
 \end{split}
 \end{equation*}
