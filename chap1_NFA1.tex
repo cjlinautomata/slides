@@ -24,7 +24,9 @@
   DFA: deterministic finite automata
 \end{center}
   and
+  \begin{center}
   NFA: non-deterministic finite automata
+\end{center}
 \item Fig 1.27
 
 \begin{center}
@@ -52,7 +54,7 @@ $q_3$ without any input
 \item A kind of parallel machines
 \item ex: 010110
 
-  Fig 1.29
+\item Fig 1.29
 
 \begin{tikzpicture} [level distance=30pt]% grow=right
 \node  {$q_1$}
@@ -114,16 +116,22 @@ $q_3$ without any input
   \path (6) -- (7) node [midway] {0};
 \end{tikzpicture}
 
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Some NFA examples}
+\item After processing the string, if one path reaches an
+  accept state, then the string is accepted
+\item Note that we handle the $\epsilon$ edge \alert{immediately}
+\item So each layer of the tree is the collection of states that
+  can be reached up to the current input character
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example 1.30}
   \begin{itemize}
-\item Example 1.30
 
-\item [] Strings with 1 in 3rd position from the end
+\item Strings with 1 in 3rd position from the end
 
-\item [] 00100, 0100 are accepted , but 0010 is not
+\item [] 00100, 0100 are accepted, but 0010 is not
 
 
-\item [] Fig 1.31
+\item Fig 1.31
 
 \begin{center}
     \begin{tikzpicture}
@@ -138,14 +146,17 @@ $q_3$ without any input
   (q_3) edge[above]  node {$0,1$} (q_4);
       \end{tikzpicture}
     \end{center}
-
+  \item The only nondeterministic place is at $q_1$
+  \item At $q_1$ we nondeterministically guess if we are already
+    at the third position from the end
+    
 \item DFA and NFA
 
-\item They are equivalent. We will explain this later
+\item They are equivalent. We will formally explain this later
 
-\item [] Fig 1.32.  For this example in fact we are able to design a DFA
+\item For this example we can directly design a DFA
   for this language
-
+\item Fig 1.32
 \end{itemize}
 \begin{tikzpicture}
 \node[state, initial] (000) {$q_{000}$};
@@ -205,10 +216,15 @@ why can we use 000 as the start state?
   \begin{equation*}
     \_\_\_ \xrightarrow{0}
     \_\_0 \xrightarrow{1}
-    \_10
+    \_01
   \end{equation*}
+\end{itemize}\end{frame}
 
-\item A modification of the NFA 
+
+\begin{frame}[allowframebreaks] \frametitle{A modification of example 1.30}
+  \begin{itemize}
+
+\item Consider a modification of the NFA in example 1.30
   \begin{equation*}
     \begin{split}
 & q_2 \rightarrow q_3:0,1 \Rightarrow 0,1,\epsilon\\
