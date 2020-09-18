@@ -93,6 +93,16 @@ Fig 1.57    $(ab\cup a)^*$}
   NFA with the smallest number of
 states
 \item This example $\Rightarrow$ can be by 2 states
+
+  \begin{center}
+\begin{tikzpicture}
+    \node[state, initial, accepting] (q1) {$q_1$};                    
+    \node[state, right of=q1] (q2) {$q_2$};          
+    \draw (q1) edge[loop above] node{$a$} (q1);
+    \draw (q1) edge[above, bend left] node{$a$} (q2);
+    \draw (q2) edge[below, bend left] node{$b$} (q1);        
+\end{tikzpicture}
+\end{center}
   \begin{equation*}
     (\{q_1, q_2\}, \{a,b\}, \delta, q_1, \{q_1\})
   \end{equation*}
@@ -105,179 +115,5 @@ $q_2$ & $\emptyset$ & $\{q_1\}$ &$\emptyset$
 \end{center}
 \end{itemize}\end{frame}
 
-\begin{frame}[allowframebreaks] \frametitle{Regular $\Rightarrow$  a regular
-    expression}
-  \begin{itemize} 
-  \item That is, if given an NFA, how can we convert it to a
-    regular expression?
-\item Example:
-
-  \begin{center}
-    \begin{tikzpicture}
-    \node[state, initial] (1) {1};                    
-    \node[state, accepting, right of=1] (2) {2};          
-
-    \draw (1) edge[above] node{$b$} (2);
-\draw (1) edge[loop above, left] node{$a$} (1);    
-\draw (2) edge[loop above, right] node{$a,b$} (2);    
-\end{tikzpicture}
-  \end{center}
-  
-  Quickly we see that this corresponds to
-  \begin{equation*}
-  a^*b(a\cup b)^*
-\end{equation*}
-\item Example 1.68
-
-\item [] Consider the following DFA
-
-  \begin{center}
-    \begin{tikzpicture}
-    \node[state, initial] (1) {1};                    
-    \node[state, accepting, right of=1] (2) {2};
-    \node[state, accepting, below right of=1] (3) {3};              
-
-    \draw (1) edge[bend left=10, above] node{$a$} (2);
-    \draw (2) edge[bend left=10, below] node{$a$} (1);
-    \draw (1) edge[bend left=10, right] node{$b$} (3);
-    \draw (3) edge[bend left=10, below] node{$b$} (1);    
-    
-    \draw (2) edge[loop above, right] node{$b$} (2);
-    \draw (3) edge[right] node{$a$} (2);        
-\end{tikzpicture}
-  \end{center}
-\item It is not that easy to directly see what the regular
-  expression is
-\item We need a procedure shown below
-\item First, add a start and an accept states
-    \begin{center}
-      \begin{tikzpicture}
-        \node[state, initial] (s) {$s$};
-    
-    \node[state, above right of=s] (1) {1};                    
-    \node[state, right of=1] (2) {2};
-    \node[state, below right of=1] (3) {3};              
-        \node[state, accepting, below right of=2] (a) {$a$};        
-
-    \draw (1) edge[bend left=10, above] node{$a$} (2);
-    \draw (2) edge[bend left=10, below] node{$a$} (1);
-    \draw (1) edge[bend left=10, right] node{$b$} (3);
-    \draw (3) edge[bend left=10, below] node{$b$} (1);    
-    
-    \draw (2) edge[loop above, right] node{$b$} (2);
-    \draw (3) edge[right] node{$a$} (2);        
-
-    \draw (s) edge[above] node{$\epsilon$} (1);        
-
-    \draw (2) edge[above] node{$\epsilon$} (a);        
-    \draw (3) edge[below] node{$\epsilon$} (a);
-
-  \end{tikzpicture}
-  \end{center}
-
-\item This generates a
-\alert{generalized NFA}
-\item Our procedure is
-  
-  \begin{center}
-  DFA $\rightarrow$ GNFA $\rightarrow$
-regular expression
-\end{center}
-\item Remove state 1
-\begin{center}
-\begin{tikzpicture}
-  \node[state, initial] (s) {$s$};
-    
-  \node[state, above right of=s] (2) {2};
-  \node[state, below right of=s] (3) {3};              
-  \node[state, accepting, below right of=2, xshift=0.8cm] (a) {$a$};        
-
-  \draw (s) edge[above] node{$a$} (2);
-  \draw (s) edge[below] node{$b$} (3);        
-  \draw (3) edge[bend right=10, right] node{$ba \cup a$} (2);
-  \draw (2) edge[bend right=10, left] node{$ab$} (3);
-  \draw (2) edge[loop right, right] node{$aa\cup b$} (2);
-  \draw (3) edge[loop right, right] node{$bb$} (3);  
-    \draw (2) edge[above] node{$\epsilon$} (a);        
-    \draw (3) edge[below] node{$\epsilon$} (a);
-  \end{tikzpicture}
-  \end{center}
-
-\item Example: the link
-  \begin{equation*}
-    3 \rightarrow 2
-  \end{equation*}
-  \begin{center}
-    \begin{tikzpicture}
-  \node[state] (3) {3};
-  \node[state, below right of=3] (1) {1};
-  \node[state, right of=3, xshift=1cm] (2) {2};                
-
-  \draw (3) edge[above] node{$a$} (2);
-  \draw (3) edge[left] node{$b$} (1);
-  \draw (1) edge[right] node{$a$} (2);          
-    \end{tikzpicture}
-  \end{center}
-\item Thus $ba \cup a$
-  
-\item Remove state 2
-  \begin{center}
-\begin{tikzpicture}
-  \node[state, initial] (s) {$s$};
-  \node[state, below right of=s] (3) {3};              
-  \node[state, accepting, right of=s, xshift=0.8cm] (a) {$a$};        
-
-  \draw (s) edge[above] node{$a(aa\cup b)^*$} (a);          
-  \draw (s) edge[left] node{$a(aa\cup b)^* ab \cup b$} (3);        
-  \draw (3) edge[loop below, below] node{$(ba \cup a)(aa\cup b)^*ab \cup bb$} (3);  
-    \draw (3) edge[right] node{$(ba \cup a)(aa\cup b)^* \cup \epsilon$} (a);
-  \end{tikzpicture}
-\end{center}
-
-\item Example:
-  \begin{equation*}
-    s \rightarrow 3
-  \end{equation*}
-
-  \begin{center}
-    \begin{tikzpicture}
-  \node[state] (s) {$s$};
-  \node[state, below right of=s] (2) {2};
-  \node[state, right of=s, xshift=1cm] (3) {3};                
-
-  \draw (s) edge[above] node{$b$} (3);
-  \draw (s) edge[left] node{$a$} (2);
-  \draw (2) edge[right] node{$ab$} (3);
-  \draw (2) edge[loop below] node{$aa \cup b$} (2);            
-    \end{tikzpicture}
-  \end{center}
-\item Thus $a (aa \cup b)^*ab  \cup b$
-\item Here we need to handle
-  \begin{equation*}
-    2 \xrightarrow{aa \cup b} 2
-  \end{equation*}
-
-\item Remove state 3
-
-  \begin{center}
-\begin{tikzpicture}
-  \node[state, initial] (s) {$s$};
-  \node[state, accepting, right of=s, xshift=3cm] (a) {$a$};        
-
-  \draw (s) edge[below] node{} (a);          
-  \end{tikzpicture}
-\end{center}
-\begin{equation*}
-  \begin{split}
-& (a(aa\cup b)^* ab \cup b)
-((ba \cup a)(aa \cup b)^* ab \cup bb)^*
-\\
-&((ba \cup a)
-    (aa\cup b)^* \cup \epsilon) \cup a(aa \cup b)^*
-  \end{split}
-\end{equation*}
-\item We will formally explain the procedure
-\end{itemize}
-\end{frame}
 
 \end{document}

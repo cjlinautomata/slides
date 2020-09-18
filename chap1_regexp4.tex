@@ -1,0 +1,191 @@
+\input{header}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Definition of GNFA}
+  \begin{itemize}
+\item Between any two states: a regular expression
+\item $(Q, \Sigma, \delta, q_{start}, q_{accept})$
+  \begin{equation*}
+    \delta:(Q-\{q_{accept}\})\times
+(Q-\{q_{start}\})\rightarrow R
+  \end{equation*}
+$R$: all regular expressions over $\Sigma$
+
+% \item States are connected by an R
+
+% \item GNFA accepts $w=w_1 \cdots w_k, w_i \in \Sigma^*$
+
+% \item [] If a sequence of states $q_0 \cdots q_k$ such that
+% \begin{enumerate}
+% \item $q_0 =q_{start}$
+% \item $q_k=q_{accept}$
+% \item $R_i=\delta(q_{i-1},q_i), w_i \in L(R_i)$
+% \end{enumerate}
+\item DFA $\rightarrow $ GNFA
+
+\item [] Two new states: $q_{start}, q_{accept}$
+
+  \begin{center}
+    \begin{tabular}{l}
+$q_{start} \rightarrow q_0$ with $\epsilon$ \\
+any $q \in F \rightarrow q_{accept}$ with $\epsilon$
+    \end{tabular}
+\end{center}
+\item In the definition, between any two states there is
+  an expression
+
+\item [] But what if in the graph two states are not connected ?
+
+\item [] $\emptyset \in R$ so if no connection, we simply consider
+  $\emptyset$ as the expression between two states
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{GNFA $\rightarrow$ regular expression}
+    \begin{itemize}
+\item Fig 1.63
+
+  \begin{center}
+\begin{tikzpicture}
+  \node[state] (qi) {$q_i$};
+  \node[state, right of=qi] (qj) {$q_j$};
+  \node[state, below right of=qi] (qr) {$q_{\text{rip}}$};  
+
+  \draw (qi) edge[bend right, left] node{$R_1$} (qr);
+  \draw (qi) edge[bend left, above] node{$R_4$} (qj);  
+  \draw (qr) edge[bend right, right] node{$R_3$} (qj);
+  \draw (qr) edge[loop below, right] node{$R_2$} (qr);            
+  \end{tikzpicture}
+\end{center}
+
+
+  \begin{center}
+\begin{tikzpicture}
+  \node[state] (qi) {$q_i$};
+  \node[state, right of=qi, xshift=3cm] (qj) {$q_j$};        
+
+  \draw (qi) edge[above] node{$(R_1)(R_2)^*(R_3)\cup (R_4)$} (qj);          
+  \end{tikzpicture}
+\end{center}
+\item $q_{\text{rip}}$ is the state being removed
+\item In the procedure 
+  
+3-state DFA $\rightarrow $ 5-state GNFA
+$\rightarrow$ 4-state $\cdots \rightarrow$ 2-state GNFA $\rightarrow$
+regular expression
+\item In the procedure any any $(i,j)$ related to $q_{\text{rip}}$ considered
+\item Algorithm: convert(G)
+  \begin{enumerate}
+  \item $k$: \# of G
+  \item If $k=2$
+    \begin{center}
+      return $R$
+    \end{center}
+
+  \item If $k > 2$, choose any $q_{\text{rip}} \in Q \backslash \{q_s,
+    q_a\}$ for removal
+\begin{equation*}
+  Q'
+=Q - \{q_{\text{rip}}\}
+\end{equation*}
+\begin{equation*}
+  \forall q_i \in Q' - \{q_{accept}\},
+q_j \in Q' - \{q_{start}\}
+\end{equation*}
+\begin{equation*}
+  \delta'(q_i,q_j)
+= R_1 R_2^* R_3 \cup R_4,
+\end{equation*}
+where
+\begin{gather*}
+R_1=\delta(q_i,q_{\text{rip}}),
+R_2=\delta(q_{\text{rip}},q_{\text{rip}}),
+\\
+R_3 =\delta(q_{\text{rip}},q_j), 
+R_4=\delta(q_i,q_j)
+\end{gather*}
+
+\item Run convert$(G')$, where
+  \begin{equation*}
+    G' =
+(Q', \Sigma, \delta', q_s, q_a)
+  \end{equation*}
+  \end{enumerate}
+
+\item Why in the textbook we modify DFA to GNFA?
+\item [] Is it ok to use NFA?
+
+\item [] Seems ok?? 
+\end{itemize}\end{frame}
+
+% \begin{frame}[allowframebreaks]
+
+% \frametitle{Formal proof: any GNFA  $G$,
+% convert$(G) \equiv G$}
+%   \begin{itemize}
+% \item 
+% by induction on $k$
+% \item $k=2$: yes
+% \item $k-1 \Rightarrow k$
+
+% $G'$: remove $Q_{\text{rip}}$ from $G$
+
+% Strategy
+% \begin{enumerate}
+% \item convert$(G')$ = convert$(G)$
+
+% as $G \rightarrow G' \cdots \rightarrow R$
+
+% i.e., they lead to the same regular expression
+% \item $G = G'$
+
+% Details: 
+% \begin{gather*}
+%   w \in G \Rightarrow w \in G'\\
+% w \in G' \Rightarrow w \in G
+% \end{gather*}
+% \item By induction
+
+% $G' = \mbox{convert}(G')$
+% \end{enumerate}
+% Thus
+
+% $G \equiv G' \equiv
+% \mbox{convert}(G')=
+% \mbox{convert}(G)$
+
+% \item $G \equiv G'$
+% \item $G$ accepts $w
+% \Rightarrow G'$ as well
+
+% $G$: $q_{start}q_1 \cdots q_{accept}$
+
+% if no $q_{rid}$ in them
+
+% $\Rightarrow$ $ G'$ accepts $w$
+
+% Though in $G'$, $q_i \rightarrow q_j$
+% changed
+
+% Due to union, original still there
+
+% if $q_{rid} \Rightarrow 
+% q_i q_{rid} q_j \Rightarrow$ OK
+% \item $G'$ accepts $w$
+% $\Rightarrow G$ as well
+
+% $q_i \rightarrow q_j$ in $G'$ 
+% $\Rightarrow$
+% $q_i \rightarrow q_j \mbox{ or }
+% q_i \rightarrow q_{\text{rip}} 
+% \rightarrow q_j$ in $G$
+
+% \end{itemize}\end{frame}
+
+\end{document}

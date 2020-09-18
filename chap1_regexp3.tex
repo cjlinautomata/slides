@@ -10,182 +10,198 @@
 
 \begin{document}
 
-\begin{frame}[allowframebreaks] \frametitle{Definition of GNFA}
-  \begin{itemize}
-\item Between any two states: a regular expression
-\item $(Q, \Sigma, \delta, q_{start}, q_{accept})$
-  \begin{equation*}
-    \delta:(Q-\{q_{accept}\})\times
-(Q-\{q_{start}\})\rightarrow R
-  \end{equation*}
-$R$: all regular expressions over $\Sigma$
-
-% \item States are connected by an R
-
-% \item GNFA accepts $w=w_1 \cdots w_k, w_i \in \Sigma^*$
-
-% \item [] If a sequence of states $q_0 \cdots q_k$ such that
-% \begin{enumerate}
-% \item $q_0 =q_{start}$
-% \item $q_k=q_{accept}$
-% \item $R_i=\delta(q_{i-1},q_i), w_i \in L(R_i)$
-% \end{enumerate}
-\item DFA $\rightarrow $ GNFA
-
-\item [] Two new states: $q_{start}, q_{accept}$
+\begin{frame}[allowframebreaks] \frametitle{Regular $\Rightarrow$  a regular
+    expression}
+  \begin{itemize} 
+  \item That is, if given an NFA, how can we convert it to a
+    regular expression?
+\item Example:
 
   \begin{center}
-    \begin{tabular}{l}
-$q_{start} \rightarrow q_0$ with $\epsilon$ \\
-any $q \in F \rightarrow q_{accept}$ with $\epsilon$
-    \end{tabular}
-\end{center}
-\item In the definition, between any two states there is
-  an expression
+    \begin{tikzpicture}
+    \node[state, initial] (1) {1};                    
+    \node[state, accepting, right of=1] (2) {2};          
 
-\item [] But what if in the graph two states are not connected ?
-
-\item [] $\emptyset \in R$ so if no connection, we simply consider
-  $\emptyset$ as the expression between two states
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{GNFA $\rightarrow$ regular expression}
-    \begin{itemize}
-\item Fig 1.63
-
-  \begin{center}
-\begin{tikzpicture}
-  \node[state] (qi) {$q_i$};
-  \node[state, right of=qi] (qj) {$q_j$};
-  \node[state, below right of=qi] (qr) {$q_{\text{rip}}$};  
-
-  \draw (qi) edge[bend right, left] node{$R_1$} (qr);
-  \draw (qi) edge[bend left, above] node{$R_4$} (qj);  
-  \draw (qr) edge[bend right, right] node{$R_3$} (qj);
-  \draw (qr) edge[loop below, right] node{$R_2$} (qr);            
-  \end{tikzpicture}
-\end{center}
-
-
-  \begin{center}
-\begin{tikzpicture}
-  \node[state] (qi) {$q_i$};
-  \node[state, right of=qi, xshift=3cm] (qj) {$q_j$};        
-
-  \draw (qi) edge[above] node{$(R_1)(R_2)^*(R_3)\cup (R_4)$} (qj);          
-  \end{tikzpicture}
-\end{center}
-\item $q_{\text{rip}}$ is the state being removed
-\item In the procedure 
+    \draw (1) edge[above] node{$b$} (2);
+\draw (1) edge[loop above, left] node{$a$} (1);    
+\draw (2) edge[loop above, right] node{$a,b$} (2);    
+\end{tikzpicture}
+  \end{center}
   
-3-state DFA $\rightarrow $ 5-state GNFA
-$\rightarrow$ 4-state $\cdots \rightarrow$ 2-state GNFA $\rightarrow$
-regular expression
-\item In the procedure any any $(i,j)$ related to $q_{\text{rip}}$ considered
-\item Algorithm: convert(G)
-  \begin{enumerate}
-  \item $k$: \# of G
-  \item If $k=2$
-    \begin{center}
-      return $R$
-    \end{center}
-
-  \item If $k > 2$, choose any $q_{\text{rip}} \in Q \backslash \{q_s,
-    q_a\}$ for removal
-\begin{equation*}
-  Q'
-=Q - \{q_{\text{rip}}\}
-\end{equation*}
-\begin{equation*}
-  \forall q_i \in Q' - \{q_{accept}\},
-q_j \in Q' - \{q_{start}\}
-\end{equation*}
-\begin{equation*}
-  \delta'(q_i,q_j)
-= R_1 R_2^* R_3 \cup R_4,
-\end{equation*}
-where
-\begin{gather*}
-R_1=\delta(q_i,q_{\text{rip}}),
-R_2=\delta(q_{\text{rip}},q_{\text{rip}}),
-\\
-R_3 =\delta(q_{\text{rip}},q_j), 
-R_4=\delta(q_i,q_j)
-\end{gather*}
-
-\item Run convert$(G')$, where
+  Quickly we see that this corresponds to
   \begin{equation*}
-    G' =
-(Q', \Sigma, \delta', q_s, q_a)
+  a^*b(a\cup b)^*
+\end{equation*}
+\item Example 1.68
+
+\item [] Consider the following DFA
+
+  \begin{center}
+    \begin{tikzpicture}
+    \node[state, initial] (1) {1};                    
+    \node[state, accepting, right of=1] (2) {2};
+    \node[state, accepting, below right of=1] (3) {3};              
+
+    \draw (1) edge[bend left=10, above] node{$a$} (2);
+    \draw (2) edge[bend left=10, below] node{$a$} (1);
+    \draw (1) edge[bend left=10, right] node{$b$} (3);
+    \draw (3) edge[bend left=10, below] node{$b$} (1);    
+    
+    \draw (2) edge[loop above, right] node{$b$} (2);
+    \draw (3) edge[right] node{$a$} (2);        
+\end{tikzpicture}
+  \end{center}
+\item It is not that easy to directly see what the regular
+  expression is
+\item We need a procedure shown below
+\item First, add a start and an accept states
+    \begin{center}
+      \begin{tikzpicture}
+        \node[state, initial] (s) {$s$};
+    
+    \node[state, above right of=s] (1) {1};                    
+    \node[state, right of=1] (2) {2};
+    \node[state, below right of=1] (3) {3};              
+        \node[state, accepting, below right of=2] (a) {$a$};        
+
+    \draw (1) edge[bend left=10, above] node{$a$} (2);
+    \draw (2) edge[bend left=10, below] node{$a$} (1);
+    \draw (1) edge[bend left=10, right] node{$b$} (3);
+    \draw (3) edge[bend left=10, below] node{$b$} (1);    
+    
+    \draw (2) edge[loop above, right] node{$b$} (2);
+    \draw (3) edge[right] node{$a$} (2);        
+
+    \draw (s) edge[above] node{$\epsilon$} (1);        
+
+    \draw (2) edge[above] node{$\epsilon$} (a);        
+    \draw (3) edge[below] node{$\epsilon$} (a);
+
+  \end{tikzpicture}
+  \end{center}
+
+\item This generates a
+\alert{generalized NFA}
+\item Our procedure is
+  
+  \begin{center}
+  DFA $\rightarrow$ GNFA $\rightarrow$
+regular expression
+\end{center}
+\item Remove state 1
+\begin{center}
+\begin{tikzpicture}
+  \node[state, initial] (s) {$s$};
+    
+  \node[state, above right of=s] (2) {2};
+  \node[state, below right of=s] (3) {3};              
+  \node[state, accepting, below right of=2, xshift=0.8cm] (a) {$a$};        
+
+  \draw (s) edge[above] node{$a$} (2);
+  \draw (s) edge[below] node{$b$} (3);        
+  \draw (3) edge[bend right=10, right] node{$ba \cup a$} (2);
+  \draw (2) edge[bend right=10, left] node{$ab$} (3);
+  \draw (2) edge[loop right, right] node{$aa\cup b$} (2);
+  \draw (3) edge[loop right, right] node{$bb$} (3);  
+    \draw (2) edge[above] node{$\epsilon$} (a);        
+    \draw (3) edge[below] node{$\epsilon$} (a);
+  \end{tikzpicture}
+  \end{center}
+
+\item Example: the link
+  \begin{equation*}
+    3 \rightarrow 2
   \end{equation*}
-  \end{enumerate}
+  \begin{center}
+    \begin{tikzpicture}
+  \node[state] (3) {3};
+  \node[state, below right of=3] (1) {1};
+  \node[state, right of=3, xshift=1cm] (2) {2};                
 
-\item Why in the textbook we modify DFA to GNFA?
-\item [] Is it ok to use NFA?
+  \draw (3) edge[above] node{$a$} (2);
+  \draw (3) edge[left] node{$b$} (1);
+  \draw (1) edge[right] node{$a$} (2);          
+    \end{tikzpicture}
+  \end{center}
+\item Thus $ba \cup a$
+  
+\item Remove state 2
+  \begin{center}
+\begin{tikzpicture}
+  \node[state, initial] (s) {$s$};
+  \node[state, below right of=s] (3) {3};              
+  \node[state, accepting, right of=s, xshift=0.8cm] (a) {$a$};        
 
-\item [] Seems ok?? 
-\end{itemize}\end{frame}
+  \draw (s) edge[above] node{$a(aa\cup b)^*$} (a);          
+  \draw (s) edge[left] node{$a(aa\cup b)^* ab \cup b$} (3);        
+  \draw (3) edge[loop below, below] node{$(ba \cup a)(aa\cup b)^*ab \cup bb$} (3);  
+    \draw (3) edge[right] node{$(ba \cup a)(aa\cup b)^* \cup \epsilon$} (a);
+  \end{tikzpicture}
+\end{center}
 
-% \begin{frame}[allowframebreaks]
+\item Example:
+  \begin{equation*}
+    s \rightarrow 3
+  \end{equation*}
 
-% \frametitle{Formal proof: any GNFA  $G$,
-% convert$(G) \equiv G$}
-%   \begin{itemize}
-% \item 
-% by induction on $k$
-% \item $k=2$: yes
-% \item $k-1 \Rightarrow k$
+  \begin{center}
+    \begin{tikzpicture}
+  \node[state] (s) {$s$};
+  \node[state, below right of=s] (2) {2};
+  \node[state, right of=s, xshift=1cm] (3) {3};                
 
-% $G'$: remove $Q_{\text{rip}}$ from $G$
+  \draw (s) edge[above] node{$b$} (3);
+  \draw (s) edge[left] node{$a$} (2);
+  \draw (2) edge[right] node{$ab$} (3);
+  \draw (2) edge[loop below] node{$aa \cup b$} (2);            
+    \end{tikzpicture}
+  \end{center}
+\item Thus $a (aa \cup b)^*ab  \cup b$
+\item Here we need to handle
+  \begin{equation*}
+    2 \xrightarrow{aa \cup b} 2
+  \end{equation*}
 
-% Strategy
-% \begin{enumerate}
-% \item convert$(G')$ = convert$(G)$
+\item Thus in the early example of removing state 1, we actually have
+  \begin{center}
+    \begin{tikzpicture}
+  \node[state] (3) {3};
+  \node[state, below right of=3] (1) {1};
+  \node[state, right of=3, xshift=1cm] (2) {2};                
 
-% as $G \rightarrow G' \cdots \rightarrow R$
+  \draw (3) edge[above] node{$a$} (2);
+  \draw (3) edge[left] node{$b$} (1);
+  \draw (1) edge[right] node{$a$} (2);
+  \draw (1) edge[loop below] node{$\emptyset$} (1);          
+    \end{tikzpicture}
+  \end{center}
+  and
+  \begin{equation*}
+    b\emptyset^*a \cup a
+    = b\epsilon a \cup a
+    = ba \cup a
+  \end{equation*}
+\item Remove state 3
 
-% i.e., they lead to the same regular expression
-% \item $G = G'$
+  \begin{center}
+\begin{tikzpicture}
+  \node[state, initial] (s) {$s$};
+  \node[state, accepting, right of=s, xshift=3cm] (a) {$a$};        
 
-% Details: 
-% \begin{gather*}
-%   w \in G \Rightarrow w \in G'\\
-% w \in G' \Rightarrow w \in G
-% \end{gather*}
-% \item By induction
-
-% $G' = \mbox{convert}(G')$
-% \end{enumerate}
-% Thus
-
-% $G \equiv G' \equiv
-% \mbox{convert}(G')=
-% \mbox{convert}(G)$
-
-% \item $G \equiv G'$
-% \item $G$ accepts $w
-% \Rightarrow G'$ as well
-
-% $G$: $q_{start}q_1 \cdots q_{accept}$
-
-% if no $q_{rid}$ in them
-
-% $\Rightarrow$ $ G'$ accepts $w$
-
-% Though in $G'$, $q_i \rightarrow q_j$
-% changed
-
-% Due to union, original still there
-
-% if $q_{rid} \Rightarrow 
-% q_i q_{rid} q_j \Rightarrow$ OK
-% \item $G'$ accepts $w$
-% $\Rightarrow G$ as well
-
-% $q_i \rightarrow q_j$ in $G'$ 
-% $\Rightarrow$
-% $q_i \rightarrow q_j \mbox{ or }
-% q_i \rightarrow q_{\text{rip}} 
-% \rightarrow q_j$ in $G$
-
-% \end{itemize}\end{frame}
+  \draw (s) edge[below] node{} (a);          
+  \end{tikzpicture}
+\end{center}
+\begin{equation*}
+  \begin{split}
+& (a(aa\cup b)^* ab \cup b)
+((ba \cup a)(aa \cup b)^* ab \cup bb)^*
+\\
+&((ba \cup a)
+    (aa\cup b)^* \cup \epsilon) \cup a(aa \cup b)^*
+  \end{split}
+\end{equation*}
+\item We will formally explain the procedure
+\end{itemize}
+\end{frame}
 
 \end{document}

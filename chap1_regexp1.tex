@@ -56,13 +56,12 @@ expressions
 \item $R_1 \circ R_2$, where $R_1, R_2$ are regular expressions
 \item $R_1^*$,  where $R_1$ is a regular expression
 \end{enumerate}
-\item  Some notes
+
 \item $\emptyset$ and $\epsilon$
 
 \item  [] $\epsilon$: empty string
 
 \item []  $\emptyset$: empty language (language without any string)
-
   \begin{equation*}
     \begin{split}
 &(0 \cup \epsilon)1^*=01^* \cup 1^* \\
@@ -146,7 +145,7 @@ $\Rightarrow$ regular (described by an automaton)
   \begin{equation*}
     \begin{split}
 & N = (\{q_1,q_2\}, \Sigma, \delta, q_1, \{q_2\}) \\
-& \delta(q_1,a)=q_2 \\
+& \delta(q_1,a)= \{q_2\} \\
 & \delta(r,b)=\emptyset, r \neq q_1\mbox{ or } b \neq a
 \end{split}
 \end{equation*}
