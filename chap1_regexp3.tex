@@ -13,25 +13,6 @@
 \begin{frame}[allowframebreaks] \frametitle{Regular $\Rightarrow$  a regular
     expression}
   \begin{itemize} 
-  \item That is, if given an NFA, how can we convert it to a
-    regular expression?
-\item Example:
-
-  \begin{center}
-    \begin{tikzpicture}
-    \node[state, initial] (1) {1};                    
-    \node[state, accepting, right of=1] (2) {2};          
-
-    \draw (1) edge[above] node{$b$} (2);
-\draw (1) edge[loop above, left] node{$a$} (1);    
-\draw (2) edge[loop above, right] node{$a,b$} (2);    
-\end{tikzpicture}
-  \end{center}
-  
-  Quickly we see that this corresponds to
-  \begin{equation*}
-  a^*b(a\cup b)^*
-\end{equation*}
 \item Example 1.68
 
 \item [] Consider the following DFA
@@ -81,7 +62,7 @@
   \end{center}
 
 \item This generates a
-\alert{generalized NFA}
+\alert{generalized NFA} (GNFA)
 \item Our procedure is
   
   \begin{center}
@@ -124,7 +105,8 @@ regular expression
     \end{tikzpicture}
   \end{center}
 \item Thus $ba \cup a$
-  
+\item Idea: now 1 is removed. Need to check how we can go from 3 to 2 via state 1
+\item Need to check all pairs of states
 \item Remove state 2
   \begin{center}
 \begin{tikzpicture}
