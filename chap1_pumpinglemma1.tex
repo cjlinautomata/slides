@@ -13,7 +13,7 @@
 \begin{frame}[allowframebreaks] \frametitle{Nonregular language}
 We are interested in the limit of finite automata
   \begin{itemize}
-\item Some languages not recognized
+\item Some languages cannot be recognized
   \begin{equation*}
     \{0^n 1^n \mid n \geq 0\}
   \end{equation*}
@@ -105,13 +105,17 @@ $1\ldots p+1$ two states must be the same (pigeonhole principle)
   \begin{equation*}
 q_j \text{ and } q_l \text{ with } j \leq p+1, l \leq p+1
 \end{equation*}
-are two same states. Then
+are two same states. Then let
 \begin{equation*}
 x = s_1 \cdots s_{j-1},
 y = s_j,  \cdots s_{l-1},
 z = s_l \cdots s_n
 \end{equation*}
-Because $j \neq l$, 
+We then have
+\begin{equation*}
+  \forall i \geq 0, xy^i z \in A
+\end{equation*}
+\item Because $j \neq l$, 
 \begin{equation*}
 |y| > 0
 \end{equation*}
@@ -123,58 +127,5 @@ Thus all conditions are satisfied
 \end{itemize}\end{frame} 
 
 
-\begin{frame}[allowframebreaks] \frametitle{Example 1.73}
-  \begin{itemize}
-  \item Let's apply pumping lemma to prove that
-    \begin{equation*}
-    B=\{0^n 1^n\mid
-    n \geq 0\}
-  \end{equation*}
-    is not regular
-  \item Assume $B$ is regular. From the lemma there is
-    $p$ such that
-  \begin{equation*}
-    s = 0^p 1^p = xy z
-  \end{equation*}
-  By the lemma, $|y| > 0$ and $xy^i z \in B, \forall i \geq 0$
-\begin{enumerate}
-\item If
-  \begin{equation*}
-  y=0 \cdots 0
-\end{equation*}
-then
-\begin{equation*}
-xy = 0 \cdots 0 \text{ and }
-z = 0 \cdots 0 1 \cdots 1
-\end{equation*}
-Thus
-\begin{equation*}
-xyyz: \#0 > \#1
-\end{equation*}
-\item Then $xy^2 z \notin B$, a contradiction
-\item If
-  \begin{equation*}
-y = 1 \cdots 1,
-\end{equation*}
-similarly
-\begin{equation*}
-  xy^2z \notin B \text{ as } \# 0 < \# 1
-\end{equation*}
-
-\item If
-  \begin{equation*}
-y = 0 \cdots 0 1 \cdots 1
-\end{equation*}
-then
-\begin{equation*}
-xyyz \notin B \text{ as it is not in the form of } 0^? 1^?
-\end{equation*}
-\end{enumerate}
-\item We see that the condition
-  \begin{equation*}
-    |xy| \leq p
-  \end{equation*}
-is not used
-\end{itemize}\end{frame}
 
 \end{document}

@@ -10,6 +10,78 @@
 
 \begin{document}
 
+\begin{frame}[allowframebreaks] \frametitle{Example 1.73}
+  \begin{itemize}
+  \item Let's apply pumping lemma to prove that
+    \begin{equation*}
+    B=\{0^n 1^n\mid
+    n \geq 0\}
+  \end{equation*}
+    is not regular
+  \item Assume $B$ is regular. From the lemma there is
+    $p$ such that \alert{$\forall s$} in the language with $|s| \geq p$ some
+    properties hold
+  \item Now consider \alert{a particular $s$} in the language
+  \begin{equation*}
+    s = 0^p 1^p
+  \end{equation*}
+  We see that $|s| \geq p$.
+  By the lemma, $s$ can be split to 
+  \begin{equation*}
+s = xy z
+\end{equation*}
+such that
+\begin{equation*}
+ xy^i z \in B, \forall i \geq 0, \quad
+  |y| > 0, \quad \text{ and } |xy| \leq p
+\end{equation*}
+\item However, we will show that this is not possible
+\begin{enumerate}
+\item If
+  \begin{equation*}
+  y=0 \cdots 0
+\end{equation*}
+then
+\begin{equation*}
+xy = 0 \cdots 0 \text{ and }
+z = 0 \cdots 0 1 \cdots 1
+\end{equation*}
+Thus
+\begin{equation*}
+xyyz: \#0 > \#1
+\end{equation*}
+Then $xy^2 z \notin B$, a contradiction
+\item If
+  \begin{equation*}
+y = 1 \cdots 1,
+\end{equation*}
+similarly
+\begin{equation*}
+  xy^2z \notin B \text{ as } \# 0 < \# 1
+\end{equation*}
+
+\item If
+  \begin{equation*}
+y = 0 \cdots 0 1 \cdots 1
+\end{equation*}
+then
+\begin{equation*}
+xyyz \notin B \text{ as it is not in the form of } 0^? 1^?
+\end{equation*}
+\end{enumerate}
+\item Therefore, we fail to find $xyz$ with $|y|> 0$ such that
+  \begin{equation*}
+     xy^i z \in B, \forall i \geq 0
+  \end{equation*}
+Thus we get a contradiction
+\item We see that the condition
+  \begin{equation*}
+    |xy| \leq p
+  \end{equation*}
+is not used, but we already reach the contradiction
+\item For subsequent examples we will see that this condition is used
+\end{itemize}\end{frame}
+
 \begin{frame}[allowframebreaks] \frametitle{Example 1.39}
   \begin{itemize}
 \item $C=\{w \mid \#0 = \#1\}$
@@ -36,7 +108,7 @@ x=\epsilon, z=\epsilon, y = 0^p 1^p
 \end{equation*}
 and then
 \begin{equation*}
-|y| > 0 \text{ and } xy^i z\in C
+|y| > 0 \text{ and } xy^i z\in C, \forall i
 \end{equation*}
 
 \item The 3rd condition should be applied
@@ -47,151 +119,15 @@ Then
 \begin{equation*}
 xyyz \notin C
 \end{equation*}
-\item Question: the pumping says
+\item Question: the pumping lemma says
   \begin{equation*}
     \forall s \in A, \cdots
   \end{equation*}
   but why in the examples we analyzed a \alert{particular $s$}?
 \item And it seems that the selection of $s$ is important. Why?
 
-\item Below we will explain our use of the lemma
+\item We will explain our use of the lemma in more detail
 \end{itemize}\end{frame}
 
-\begin{frame}[allowframebreaks] \frametitle{The use of pumping lemma}
-  \begin{itemize}
-    
-  \item Let's start from the following statement
-    \begin{equation*}
-      \forall n, 1 + \cdots + n = \frac{n(n+1)}{2}
-    \end{equation*}
-    What is the opposite statement?
-    \begin{equation*}
-      \exists n \text{ such that } 1 + \cdots + n \neq  \frac{n(n+1)}{2}
-    \end{equation*}
-    
-  \item Formally, in the pumping lemma
-      \begin{center}
-regular $\Rightarrow$ some properties    
-  \end{center}
-  ``Some properties'' are in fact
-  \begin{equation*}
-\exists p, \{\forall s \in A, |s|\geq p [ 
-\exists x,y,z \text{ such that } s = xyz \text{ and }
-\end{equation*}
-\begin{equation*}
-(xy^iz\in A, \forall i \geq 0,
-\mbox{ and }
-|y| > 0
-\mbox{ and }
-|xy|
-\leq p)]\}
-\end{equation*}
-\item Opposite statement of the right-hand side
- \begin{equation}
-   \begin{split}
-& \forall p, \{\exists s \in A, |s|\geq p, 
-[\forall x,y,z 
-\\
-& (
-(s = xyz
-\text{ and }
-|y| > 0
- \mbox{ and }
- |xy|
- \leq p
-)
-\\
-& \quad \rightarrow
-\exists i \geq 0, xy^iz\notin A)]\} 
-\end{split}
-\label{eq:oppositepumping}
- \end{equation}
-\item Note that the opposite of
-  \begin{equation*}
-    A \& B
-  \end{equation*}
-is
-\begin{equation*}
-  A \rightarrow \neg B
-\end{equation*}
-See the truth table
-
-\begin{center}
-  \begin{tabular}{cc|cc|cc}
-    $A$ & $B$ & $A \& B$ & $\neg(A\& B)$ & $\neg B$ & $A \rightarrow \neg B$ \\ \hline
-    0& 0 &0 & 1 & 1& 1\\ 
-    0& 1 &0 & 1 & 0& 1\\
-    1& 0 &0 & 1 & 1& 1\\
-    1& 1 &1 & 0 & 0& 0
-  \end{tabular}
-\end{center}
-\item To prove \eqref{eq:oppositepumping}, the ``$exists$'' part
-  is important
-\item You can see that we need to choose $s$ and find an $i$
-\item About
-  \begin{equation*}
-    \forall x, y, z, \cdots
-  \end{equation*}
-  in \eqref{eq:oppositepumping} you can see in examples that we go through
-  all possible cases of $x, y, z$
-  
-% \item Different form
-
-% $\forall p, \exists s \in A, |s|\geq p, 
-% \forall xyz$ with
-
-% $  s= xyz,
-% |y| > 0,
-% |xy|
-% \leq p
-% $
-
-% $xy^iz\notin A, \exists i \geq 0$
-
-
-\end{itemize}\end{frame}
-
-\begin{frame}[allowframebreaks] \frametitle{Example 1.75}
-  \begin{itemize}
-\item $F=\{ww\mid w \in \{0,1\}^*\}$ not regular
-\item We choose
-  \begin{equation*}
-s=0^p 1 0^p 1 \in F
-\end{equation*}
-\item If
-  \begin{equation*}
-    s =xyz,
-    |xy|
-\leq p, |y|>0,
-\end{equation*}
-then
-\begin{equation*}
- y = 0\ldots 0
-\end{equation*}
-and thus
-\begin{equation*}
-xy^2z = 0 \ldots 0 1 0^p 1\neq ww
-\end{equation*}
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.76}
-  \begin{itemize}
-\item $D=\{1^{n^2}
-\mid n \geq 0\}$ not regular
-\item We choose
-  \begin{equation*}
-  s=1^{p^2} \in D
-\end{equation*}
-\item If 
-  \begin{equation*}
-s =xyz, |xy |\leq p, |y|>0
-\end{equation*}
-then 
-\begin{equation*}
-p^2 < |xy^2z| \leq p^2 +p < (p+1)^2
-\end{equation*}
-and therefore
-\begin{equation*}
-  xy^2 z \notin D
-\end{equation*}
-\end{itemize}\end{frame}
 
 \end{document}
