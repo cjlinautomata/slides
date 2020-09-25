@@ -1,0 +1,216 @@
+\input{header}
+
+\AtBeginSection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{The use of pumping lemma}
+  \begin{itemize}
+  \item Recall that from previous examples we need to choose a string $s$
+  \item Some are confused about why we need to choose $s$ but not $p$
+  \item Here we will discuss in detail about how we really use the pumping lemma
+  \item Let's start from the following statement
+    \begin{equation*}
+      \forall n, 1 + \cdots + n = \frac{n(n+1)}{2}
+    \end{equation*}
+    What is the opposite statement?
+    \begin{equation*}
+      \exists n \text{ such that } 1 + \cdots + n \neq  \frac{n(n+1)}{2}
+    \end{equation*}
+    
+  \item Formally, in the pumping lemma
+      \begin{center}
+regular $\Rightarrow$ some properties    
+  \end{center}
+  ``Some properties'' are in fact
+  \begin{equation*}
+\exists p, \{\forall s \in A, |s|\geq p [ 
+\exists x,y,z \text{ such that } s = xyz \text{ and }
+\end{equation*}
+\begin{equation*}
+(xy^iz\in A, \forall i \geq 0,
+\mbox{ and }
+|y| > 0
+\mbox{ and }
+|xy|
+\leq p)]\}
+\end{equation*}
+\item To do the proof by contradiction, we need the opposite statement of the right-hand side
+\begin{equation*}
+  \begin{split}
+& \forall p, \{\exists s \in A, |s|\geq p, 
+[\forall x,y,z \text{ (opposite of } \\
+& (s = xyz \text{ and } \\  
+& \quad (xy^iz\in A, \forall i \geq 0,
+\mbox{ and }
+|y| > 0
+\mbox{ and }
+|xy|
+\leq p)))]\}
+\end{split}
+\end{equation*}
+\item What is the opposite of
+\begin{equation*}
+  \begin{split}
+& s = xyz \text{ and }
+xy^iz\in A, \forall i \geq 0,
+\mbox{ and } \\
+& |y| > 0
+\mbox{ and }
+|xy|
+\leq p?
+\end{split}
+\end{equation*}
+\item Various equivalent forms are possible. The one we consider is
+  \begin{equation*}
+    \begin{split}
+      & 
+(s = xyz
+\text{ and }
+|y| > 0
+ \mbox{ and }
+ |xy|
+ \leq p
+)
+\\
+& \quad \rightarrow
+\exists i \geq 0, xy^iz\notin A
+    \end{split}
+  \end{equation*}
+\item Therefore, the
+  opposite statement of the right-hand side that we really use is
+ \begin{equation}
+   \begin{split}
+& \forall p, \{\exists s \in A, |s|\geq p, 
+[\forall x,y,z 
+\\
+& (
+(s = xyz
+\text{ and }
+|y| > 0
+ \mbox{ and }
+ |xy|
+ \leq p
+)
+\\
+& \quad \rightarrow
+\exists i \geq 0, xy^iz\notin A)]\} 
+\end{split}
+\label{eq:oppositepumping}
+ \end{equation}
+\item Note that the opposite of
+  \begin{equation*}
+    A \& B
+  \end{equation*}
+is
+\begin{equation*}
+  A \rightarrow \neg B
+\end{equation*}
+See the truth table
+
+\begin{center}
+  \begin{tabular}{cc|cc|cc}
+    $A$ & $B$ & $A \& B$ & $\neg(A\& B)$ & $\neg B$ & $A \rightarrow \neg B$ \\ \hline
+    0& 0 &0 & 1 & 1& 1\\ 
+    0& 1 &0 & 1 & 0& 1\\
+    1& 0 &0 & 1 & 1& 1\\
+    1& 1 &1 & 0 & 0& 0
+  \end{tabular}
+\end{center}
+\item To prove \eqref{eq:oppositepumping}, the ``\alert{exists}'' part
+  is important
+\item You can see that we need to \alert{choose $s$ and find an $i$}
+\item In a sense we guess $s$ or $i$ to see if the statement can be proved. 
+\item [] If not, we may try other choices
+\item About
+  \begin{equation*}
+    \forall x, y, z, \cdots
+  \end{equation*}
+  in \eqref{eq:oppositepumping} you can see in examples that we go through
+  all possible cases of $x, y, z$
+  
+% \item Different form
+
+% $\forall p, \exists s \in A, |s|\geq p, 
+% \forall xyz$ with
+
+% $  s= xyz,
+% |y| > 0,
+% |xy|
+% \leq p
+% $
+
+% $xy^iz\notin A, \exists i \geq 0$
+
+
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example 1.75}
+  \begin{itemize}
+\item $F=\{ww\mid w \in \{0,1\}^*\}$ not regular
+\item We choose
+  \begin{equation*}
+s=0^p 1 0^p 1 \in F
+\end{equation*}
+\item If
+  \begin{equation*}
+    s =xyz,
+    |xy|
+\leq p, |y|>0,
+\end{equation*}
+then
+\begin{equation*}
+ y = 0\ldots 0
+\end{equation*}
+and thus
+\begin{equation*}
+xy^2z = 0 \ldots 0 1 0^p 1\neq ww
+\end{equation*}
+\item What if we say there exists $i = 3$ such that
+  \begin{equation*}
+xy^iz = xy^3z = 0 \ldots 0 1 0^p 1\neq ww?
+\end{equation*}
+The proof is still correct. 
+\item Note that we only need to \alert{find an $i$}
+such that $xy^iz$ is not in the language
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.76}
+  \begin{itemize}
+\item $D=\{1^{n^2}
+\mid n \geq 0\}$ not regular
+\item We choose
+  \begin{equation*}
+  s=1^{p^2} \in D
+\end{equation*}
+\item If 
+  \begin{equation*}
+s =xyz, |xy |\leq p, |y|>0
+\end{equation*}
+then 
+\begin{equation*}
+p^2 < |xy^2z| \leq p^2 +p < (p+1)^2
+\end{equation*}
+and therefore
+\begin{equation*}
+  xy^2 z \notin D
+\end{equation*}
+\item What if we consider $i=0$? It seems that
+  \begin{equation*}
+(p-1)^2 < p^2 -p \leq |xy^0z| < p^2 
+\end{equation*}
+can also give us $xy^0z$ not in the language. However,
+\begin{equation*}
+  (p-1)^2 < p^2 -p
+\end{equation*}
+may not hold at $p = 1$. 
+\item Note that $p$ is any positive integer now
+\item However, we still have the proof because as we said,
+  one $i$ is enough
+\end{itemize}\end{frame}
+
+\end{document}
