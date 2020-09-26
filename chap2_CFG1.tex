@@ -14,7 +14,7 @@
   \begin{itemize}
 \item In Chapter 1 we consider two ways to describe languages
 
-\item [] automata \& regular expression
+\item [] automata \& regular expressions
 \item Context-free grammars (CFG)
 
 \item [] More powerful than automata
@@ -34,7 +34,7 @@ for parsers to read programs
 \end{eqnarray*}
 Each one is called a substitution rule
 \item Variables: $A,B$ (capital letters)
-\item Terminals: 0,1,\# (lowercase letters,
+\item Terminals: 0, 1, \# (lowercase letters,
 number, special symbols)
 \item Start variable: $A$
 \item A grammar: a collection of substitution rules
@@ -98,13 +98,13 @@ for tree={
 \end{forest}
 }
 \item $L(G)$: language of grammar
-
+\item For the CFG example we just discussed, 
   \begin{equation*}
 L(G_1) = 
 \{0^n \#  1^n\mid n \geq 0\}
 \end{equation*}
 
-More powerful than regular expressions because we showed earlier
+\item CFG is more powerful than regular expressions because we showed earlier
 that this language is not regular
 
 \item Representation of rules:
@@ -187,7 +187,7 @@ then we say
 \begin{equation*}
 u \mydef{*}{\Rightarrow} v 
 \end{equation*}
-\item Language
+\item Language of a CFG
   \begin{equation*}
 \{ w \in \Sigma^*\mid 
 S \mydef{*}{\Rightarrow} w\}

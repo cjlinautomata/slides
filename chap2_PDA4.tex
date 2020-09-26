@@ -1,0 +1,218 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{The Overall Procedure}
+  \begin{itemize}
+  \item Given
+    \begin{equation*}
+    P=(Q,\Sigma, \Gamma, \delta, q_0, \{q_{accept}\})
+  \end{equation*}
+  \item Construct a CFG $G$
+    \begin{equation*}
+\text{var}(G) =\{A_{pq}\mid p, q \in Q\}
+\end{equation*}
+\item Start variable:
+  \begin{equation*}
+  A_{q_0, q_{accept}}
+\end{equation*}
+
+\item Rules: see earlier slides
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Needed modifications of PDA}
+  \begin{itemize}
+  \item Recall we need PDA to satisfy
+    \begin{enumerate}
+    \item Single accept state
+    \item Stack empty before accepting
+    \item Each transition push or pop, but not both
+    \end{enumerate}
+  \item Single accept:
+
+  \item [] A new start $q_s \rightarrow q_{s'}$ with $\epsilon, \epsilon
+\rightarrow \$ $
+
+\item [] For any $q \in F$, $\epsilon, a\rightarrow \epsilon $ to $q$, $\forall a$ to pop things out
+\item [] Then $\epsilon, \$ \rightarrow
+\epsilon$ to $q_a$.
+
+\item Original PDA:
+
+  \begin{tikzpicture}
+    \node[state,initial] (q_0) {$q_{s'}$};
+\node[state,draw=none,fill=white] (q_d) [right of=q_0, xshift=-1cm] {$\cdots$};    
+\node[state] (q_1) [above right of=q_d, accepting, yshift=-1cm] {$q_1$};
+\node[state] (q_2) [below right of=q_d, accepting, yshift=1cm] {$q_2$};
+  \end{tikzpicture}
+
+  New:
+  \begin{tikzpicture}
+    \node[state] (q_0) {$q_{s'}$};
+    \node[state,initial above, left of=q_0] (q_s) {$q_{s}$};    
+\node[state,draw=none,fill=white] (q_d) [right of=q_0, xshift=-1.3cm] {$\cdots$};    
+\node[state] (q_1) [above right of=q_d, yshift=-1.2cm,xshift=-0.3cm] {$q_1$};
+\node[state] (q_2) [below right of=q_d, yshift=1.2cm,xshift=-0.3cm] {$q_2$};
+\node[state,accepting, right of=q_d, xshift=2cm] (q_a) {$q_{a}$};
+
+  \path 
+  (q_s) edge[above]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_0)
+  (q_1) edge[loop above]  node {$\epsilon, a \rightarrow \epsilon$\quad $\epsilon, b \rightarrow \epsilon$ } (q_1)
+  (q_2) edge[loop below]  node {$\epsilon, a \rightarrow \epsilon$\quad $\epsilon, b \rightarrow \epsilon$} (q_2)  
+  (q_1) edge[above]  node {$\epsilon, \$ \rightarrow \epsilon$} (q_a)
+  (q_2) edge[below]  node {$\epsilon, \$ \rightarrow \epsilon$} (q_a);
+  \end{tikzpicture}
+\item  To have each transition push or pop, but not both,
+change
+\begin{center}
+$q_1 \rightarrow q_2$ with $a, a \rightarrow b$ 
+\end{center}
+to
+\begin{center}
+  \begin{tabular}{l}
+$q_1 \rightarrow q_3, a, a \rightarrow \epsilon$\\
+$q_3 \rightarrow q_2, \epsilon, \epsilon \rightarrow b$  
+  \end{tabular}
+\end{center}
+and change 
+\begin{center}
+$q_1\rightarrow q_2, a, \epsilon \rightarrow \epsilon$ 
+\end{center}
+to
+\begin{center}
+  \begin{tabular}{l}
+$q_1 \rightarrow q_3, a, \epsilon \rightarrow ?$ \\
+$q_3 \rightarrow q_2, \epsilon, ? \rightarrow \epsilon$
+  \end{tabular}
+\end{center}
+  \end{itemize}
+\end{frame}
+
+% \begin{frame}[allowframebreaks]
+%   \frametitle{Claim 2.30, ``$\Rightarrow$'' of (\ref{eq:emptystack})}
+%   \begin{itemize}  
+% \item $A_{pq}$ generates $x \Rightarrow p \rightarrow q$ with
+% empty stack
+% \item formal proof by induction
+% on \# steps to derive $x$
+
+% basis: 1-step derivation
+% \begin{equation*}
+%   A_{pp} \rightarrow \epsilon
+% \end{equation*}
+
+% is our only such rule
+
+% trivial: $p$ with empty stack to $p$ with empty stack
+
+% induction: ok rules with derivation length
+% $\leq k$
+
+% $A\stackrel{*}{\Rightarrow} x, k+1$ steps
+
+% ($\stackrel{*}{\Rightarrow}$ defined on p 94)
+% \item first step
+%   \begin{equation*}
+%     A_{pq}\Rightarrow a A_{rs}b
+% \mbox{ or } A_{pq}
+% \Rightarrow A_{pr} A_{rq}
+%   \end{equation*}
+%   \begin{enumerate}
+%   \item $x=ayb,p\rightarrow r, $ stack $\{\$\}\rightarrow\{a\}$
+
+% induction $r\rightarrow s$ with $y$ and stack $\{a\}$
+
+% $s\rightarrow q$, stack $\{a\}\rightarrow \{\$\}$
+% \item $x=yz$
+
+% $A_{pr}\stackrel{*}{\Rightarrow}y,
+% A_{rq}\stackrel{*}{\Rightarrow}z\leq k$ steps
+
+%   \end{enumerate}
+% \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Claim 2.31: ``$\Leftarrow$'' of (\ref{eq:emptystack})}
+%   \begin{itemize}
+% \item ($p$ empty stack)
+% $\stackrel{x}{\rightarrow}$
+% ($q$ empty stack)
+% $\Rightarrow A_{pq}$ generates $x$
+% \item induction on \#steps by PDA
+
+% basic: 0 step
+
+% $p\rightarrow p$ with $\epsilon$
+
+% $A_{pp}\rightarrow \epsilon$ in G, OK
+
+% induction: $k$ ok $k+1$ ?
+
+% $p\rightarrow q$ with $x$ , empty stack
+% \begin{enumerate}
+% \item 
+% empty, only beginning and end
+% \item empty in the middle as well
+% \end{enumerate}
+% \begin{enumerate}
+% \item symbol pushed at $p=$
+% popped at $q$
+
+% (not empty in the middle)
+
+% call it $t$
+
+% $p$: input $a$ , $q$: input $b$
+
+% $(r,t)\in \delta(p,a,\epsilon), 
+% (q,\epsilon)\in \delta(s,b,t)$
+
+% $\Rightarrow \rightarrow a A_{rs} b$ in G
+
+% $x=ayb$
+
+% by induction $A_{rs}\stackrel{*}{\Rightarrow}y$ so
+
+% $A_{pq}\stackrel{*}{\Rightarrow}x$
+
+
+% \item 
+% Let $r$ a state stack empty
+
+% $x=yz$
+
+% $p\rightarrow r,r\rightarrow q \leq k$ steps
+
+% by induction $A_{pr}\stackrel{*}{\Rightarrow}y,
+% A_{rq}\stackrel{*}{\Rightarrow} z$
+
+% our construction $A_{pq}\rightarrow A_{pr}A_{rq}$ in G
+
+% $A_{pq}\stackrel{*}{\Rightarrow} x$
+% \end{enumerate}
+% \end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Regular language is context Free}
+  \begin{itemize}
+\item We roughly know this but didn't give a formal proof. Here are the steps
+\item Regular language $\Rightarrow$ recognized by DFA (in Chapter 1)
+\item DFA is a PDA
+\item Thus regular language recognized by PDA
+\item Then any regular language is context free (by the proof in this chapter)
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Non-context free languages}
+  \begin{itemize}
+\item There are such languages
+\item We omit the discussion
+
+\end{itemize}\end{frame}
+
+\end{document}
