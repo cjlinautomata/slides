@@ -1,0 +1,123 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Chomsky normal form (CNF)}
+  \begin{itemize}
+\item Purpose: a simplified form of grammars
+\item Every rule must be either
+  \begin{equation*}
+A \rightarrow BC
+\end{equation*}
+or
+\begin{equation*}
+A \rightarrow a
+\end{equation*}
+\item $B,C$ are not start variables
+\item $a \in\Sigma $ so
+  \begin{equation*}
+    A \rightarrow \epsilon
+  \end{equation*}
+  is not allowed. 
+\item However,
+  \begin{equation*}
+S \rightarrow \epsilon
+\end{equation*}
+is allowed, where $S$ is the start
+variable
+\item This form is useful later (but not in this chapter)
+\item To convert a CFG to a CNF, let's show an example first
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Example to convert CFG to CNF}
+  \begin{itemize}
+\item The original CFG
+  \begin{eqnarray*}
+&& S \rightarrow ASA\mid aB\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b \mid \epsilon\\
+\end{eqnarray*}
+\item Add
+  \begin{equation*}
+S_0 \rightarrow S
+\end{equation*}
+because the start variable cannot be on the right
+  \begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b \mid \epsilon\\
+\end{eqnarray*}
+\item Remove
+  \begin{equation*}
+  B \rightarrow \epsilon 
+\end{equation*}
+because $\epsilon$ cannot be on the right
+\begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB|\alert{a}\\
+&& A \rightarrow B\mid \alert{\epsilon} \mid S\\
+&& B \rightarrow b\\
+\end{eqnarray*}
+\item Remove $A\rightarrow \epsilon$ 
+\begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB\mid a \mid \alert{AS\mid SA \mid S}\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b
+\end{eqnarray*}
+\item What if
+  \begin{equation*}
+    B \rightarrow \epsilon
+  \end{equation*}
+appears again? An infinite loop? We will discuss this issue later
+\item Remove $S\rightarrow S$ because the right-hand side
+  cannot be a single variable
+\begin{eqnarray*}
+&& S_0 \rightarrow S\\
+&& S \rightarrow ASA\mid aB\mid a \mid AS\mid SA\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b
+\end{eqnarray*}
+ 
+\item Remove $S_0 \rightarrow S$
+  \begin{eqnarray*}
+&& S_0 \rightarrow \alert{ASA\mid aB\mid a \mid AS\mid SA}\\
+&& S \rightarrow ASA\mid aB\mid a \mid AS \mid SA\\
+&& A \rightarrow B\mid S\\
+&& B \rightarrow b
+\end{eqnarray*}
+
+\item Remove $A\rightarrow B, A\rightarrow S$
+  \begin{eqnarray*}
+&& S_0 \rightarrow ASA\mid aB\mid a \mid AS\mid SA\\
+&& S \rightarrow ASA\mid aB\mid a \mid AS \mid SA\\
+&& A \rightarrow \alert{b \mid ASA \mid aB\mid a \mid AS \mid SA}\\
+&& B \rightarrow b
+\end{eqnarray*}
+\item Finally
+\begin{eqnarray*}
+&& S_0 \rightarrow AA_1\mid UB\mid a \mid AS\mid SA\\
+&& S \rightarrow AA_1 \mid UB\mid  a \mid AS \mid SA\\
+&& A \rightarrow b \mid AA_1 \mid UB\mid a \mid AS \mid SA\\
+&& A_1 \rightarrow SA\\
+&& U \rightarrow a\\
+&& B \rightarrow b\\
+  \end{eqnarray*}
+
+\end{itemize}\end{frame}
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
