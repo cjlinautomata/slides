@@ -124,16 +124,16 @@ for tree={
 & S \rightarrow S_1 \mid S_2
 \end{split}
 \end{equation*}
-\item If CFG regular $\Rightarrow $
+\item CFG versus DFA
+\item [] For a CFG that is regular, it can be recognized
 by DFA
-
-\begin{center}
-  \begin{tabular}{l}
-$R_i \rightarrow a R_j$ if $\delta(q_i,a)
-= q_j$ \\
-$R_i \rightarrow \epsilon$ if $q_i \in F$
-  \end{tabular}
-\end{center}
+\item [] Rules of CFG can be
+  \begin{equation*}
+    \begin{split}
+&R_i \rightarrow a R_j \text{ if } \delta(q_i,a) = q_j \\
+&R_i \rightarrow \epsilon \text{ if } q_i \in F
+\end{split}
+\end{equation*}
 \item We see the main difference between CFG and DFA
 
   
@@ -161,7 +161,7 @@ where we treat each $R_i$ as a state and let
 \langle \text{expr}\rangle\times\langle \text{expr}\rangle\mid
     (\langle \text{expr}\rangle)|a
 \end{gather*}
-We see the following ways to parse
+\item We see the following ways to parse
 \begin{equation*}
 a + a \times a
 \end{equation*}
@@ -242,12 +242,13 @@ for tree={
     \begin{center}
 the same parse tree, but different derivations
 \end{center}
-For the CFG discussed earlier we can do
+\item For the CFG discussed earlier we can do
 \begin{eqnarray*}
   \langle \text{expr}\rangle& \Rightarrow& \langle \text{expr}\rangle+\langle \text{term}\rangle\\
 & \Rightarrow & \langle \text{expr}\rangle+\langle \text{term}\rangle\times\langle \text{factor}\rangle
 \end{eqnarray*}
-where the second part is expanded. On the other hand, we
+where the second part is expanded. 
+\item On the other hand, we
 can handle the first one first.
 \begin{eqnarray*}
 \langle \text{expr}\rangle & \Rightarrow & \langle \text{expr}\rangle + \langle \text{term}\rangle\\
@@ -268,7 +269,7 @@ grammars
 \item We say a CFG is inherently ambiguous
 if it only has ambiguous grammars
 
-\item [] See prob 2.29 in the textbook. Details not given here.
+\item See prob 2.29 in the textbook. Details not given here.
 
 \end{itemize}\end{frame}
 
