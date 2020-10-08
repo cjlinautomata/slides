@@ -10,174 +10,110 @@
 
 \begin{document}
 
-\begin{frame}[allowframebreaks]
-  \frametitle{PDA $\rightarrow$ CFL}
-  \begin{itemize}
-\item Lemma 2.27
-\item Language recognized by PDA
-$\Rightarrow$ context free
-\item Idea:
+\begin{frame}[allowframebreaks] \frametitle{Equivalence with context-free grammars}
+  \begin{itemize}  
+\item Language context free
+$\Leftrightarrow$ recognized by pushdown automata
+
+\item Recall that by definition a language is context-free if
+  it is constructed by some CFG
+\item One direction is easier, while the other is harder
+\item As usual, we do the easier one first
+  
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{CFL $\rightarrow$ PDA}
+    \begin{itemize}
+    \item Given a CFG, we find a PDA to simulate this grammar
+      
+\item Two keys:
+
+\item [] stack 
+
+\item [] nondeterminism: different substitutions
+
+  
+\item We do the proof by an example
+\item Suppose we are given the following
+  CFG
   \begin{equation*}
     \begin{split}
-& \text{ any states } p,q \text{ of a PDA P} \\
-\Rightarrow & \text{ we have a variable } A_{pq}
-\end{split}
-\end{equation*}
-and
-\begin{eqnarray}
-&& \mbox{$A_{pq}$ generates $x
-\Leftrightarrow$}  \label{eq:emptystack} \\ 
-&& \mbox{P from $p$ with empty
-stack to $q$ with empty stack}
-\nonumber
-\end{eqnarray}
-\item Need to modify P so that
-
-  \begin{enumerate}
-  \item Single accept: $q_{accept}$
-
-  \item [] Then  $A_{q_{start} q_{accept}}$
-    is the start state to generate any string $x$
-    of this language
-  \item Stack should be empty before accepting
-  \item [] In the beginning stack is empty and we need this property to
-    have \eqref{eq:emptystack}
-  \item Each transition push or pop, but not both
-  \end{enumerate}
-
-\item We will explain how to make the PDA satisfy these conditions
-
-\item Now we focus on the more important part: construction of the rules
-
-\item For \eqref{eq:emptystack} we don't really mean
-  ``empty stack.'' We actually mean ``stack with the same
-  contents.''
-\item For the following figure, rule
-  \begin{equation*}
-    A_{pq} \rightarrow A_{pr} A_{rq}, \forall p, q, r \in Q
-  \end{equation*}
-should be generated
-\item $x$-axis: input string
-\item [] $y$-axis: stack height
-  
-\begin{center}
-\begin{tikzpicture}
-\draw[] (-0.2,0) -- (6,0);
-\draw[] (0,-0.2) -- (0,3.5);
-\draw[-] (0,0) .. controls (2,3.5) .. (3.5, 0);
-\draw[-] (3.5, 0) .. controls (3.8, 2) .. (5.5,0);
-\draw[draw=none] (0,-0.3) node {$p$};
-\draw[draw=none] (3.5,-0.3) node {$r$};
-\draw[draw=none] (5.5,-0.3) node {$q$};
-\end{tikzpicture}
-\end{center}
-
-\item We have
-  \begin{equation*}
-  p,q,r,s \in Q, t \in \Gamma, a, b
-\in \Sigma_\epsilon
-\end{equation*}
-If
-\begin{equation*}
-(r,t)\in \delta(p,a,\epsilon),
-(q,\epsilon)\in \delta(s,b,t)
-\end{equation*}
-then we should have
-\begin{equation*}
-A_{pq}\rightarrow aA_{rs} b
-\end{equation*}
-
-\begin{center}
-\begin{tikzpicture}
-\draw[] (-0.2,0) -- (6,0);
-\draw[] (0,-0.2) -- (0,3.5);
-\draw[-] plot [smooth] coordinates { (0,0) (0.55,1) (2,3.2) (3.1, 1) (4.2, 2.6) (5.05, 1 ) (5.5,0)};
-\draw[-,dashed] (0.55,1) -- (0.55,0);
-\draw[-,dashed] (5.05,1) -- (5.05,0);
-\draw[draw=none] (-0.2,-0.3) node {$p$};
-\draw[draw=none] (0.3,-0.3) node {$a$};
-\draw[draw=none] (5.3,-0.3) node {$b$};
-\draw[draw=none] (5.7,-0.3) node {$q$};
-\draw[draw=none] (0.8,1) node {$r$};
-\draw[draw=none] (4.8,1) node {$s$};
-\end{tikzpicture}
-\end{center}
-\item Finally we need
-  \begin{equation*}
-A_{pp}\rightarrow \epsilon, \forall p \in Q
+      & S \rightarrow aTb \mid b\\
+      & T \rightarrow Ta \mid \epsilon
+    \end{split}
   \end{equation*}
 
-\item Let's discuss an example first
+\item Idea: for rule substitution, push right-hand side to stack
 
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Examples}
-  \begin{itemize}
-\item $\{0^n1^n\mid n \geq \alert{1}\}$
-\item Figure 2.15 but $q_1$ not an accept state
+\item [] For example, $aTb$ is pushed to stack in a reversed way
 
-\begin{center}
+  \item
+  A PDA can be as follows
+
 \begin{tikzpicture}
-\node[state,initial] (q_1) {$q_1$};
-\node[state] (q_2) [right of=q_1] {$q_2$};
-\node[state] (q_3) [below of=q_2] {$q_{3}$};
-\node[state,accepting] (q_4) [left of=q_3] {$q_{4}$};      
+\node[state,initial] (q_1) {$q_s$};
+\node[state] (q_2) [below of=q_1,yshift=1.2cm] {};
+\node[state] (q_3) [below of=q_2,yshift=1.2cm] {$q_{\text{loop}}$};
+\node[state] (q_4) [above right of=q_3, yshift=-0.5cm, xshift=0.5cm] {};
+\node[state] (q_6) [right of=q_4, yshift=1.8cm] {};
+\node[state] (q_5) [below right of=q_3, yshift=0.5cm, xshift=2.5cm] {};
+\node[state] (q_7) [below of=q_3,yshift=1.2cm,accepting] {$q_a$};
   \path 
-  (q_1) edge[above]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_2)
-  (q_2) edge[loop right]  node {$0,\epsilon \rightarrow 0$} (q_2)
-  (q_2) edge[right]  node {$1, 0 \rightarrow \epsilon$} (q_3)
-  (q_3) edge[loop right]  node {$1, 0 \rightarrow \epsilon$} (q_3)  
-  (q_3) edge[below] node {$\epsilon, \$ \rightarrow \epsilon$} (q_4);
+  (q_1) edge[left]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_2)
+  (q_2) edge[left]  node {$\epsilon, \epsilon \rightarrow S $} (q_3)
+  (q_3) edge[left]  node {$\epsilon, \$ \rightarrow \epsilon $} (q_7)    
+  (q_3) edge[loop left]  node [xshift=-0.5cm] {
+    \begin{tabular}{l}
+      $\epsilon,S \rightarrow b$\\
+      $\epsilon, T \rightarrow \epsilon$\\
+      $a, a \rightarrow \epsilon$\\
+      $b, b \rightarrow \epsilon$
+    \end{tabular}
+  } (q_3)
+  (q_3) edge[right]  node {$\epsilon, S \rightarrow b$} (q_4)
+  (q_4) edge[right]  node {$\epsilon, \epsilon \rightarrow T$} (q_6)
+  (q_6) edge[bend right, above]  node {$\epsilon, \epsilon \rightarrow a$} (q_3)
+  (q_3) edge[below, bend left]  node {$\epsilon, T \rightarrow a$} (q_5)
+  (q_5) edge[below, bend left]  node {$\epsilon, \epsilon \rightarrow T$} (q_3)  
+;
   \end{tikzpicture}
-\end{center}
-  
-\item Three conditions satisfied
 
-Each transition push or pop only
-\item $t=\$$
+% \item Fig 2.22
 
-  \begin{center}
-  \begin{tabular}{lllllll}
-p & r & s & q & t & a & b\\ \hline
-1 & 2 & 3 & 4 & \$ & $\epsilon$ & $\epsilon$
-  \end{tabular}
-\end{center}
-rule:
-\begin{equation*}
-A_{14} \rightarrow \epsilon A_{23}\epsilon
-\end{equation*}
-\item $t = 0$
+% inermediate string: 01A1A0
 
-  \begin{center}
-  \begin{tabular}{lllllll}
-p & r & s & q & t & a & b\\ \hline
-2 & 2 & 2 & 3 & 0 & 0 & 1\\
-2 & 2 & 3 & 3 & 0 & 0 & 1\\
-  \end{tabular}
-\end{center}
+% substitute A by ??
 
-rules:
-\begin{equation*}
-  \begin{split}
-& A_{23} \rightarrow 0 A_{22} 1 \\
-& A_{23} \rightarrow 0 A_{23} 1
-\end{split}
-\end{equation*}
+% check if finally it matches \$
 
-\item Other rules: 64 rules
-  \begin{eqnarray*}
-&&A_{11}\rightarrow A_{11}A_{11}\\
-&&A_{11}\rightarrow A_{12}A_{21}\\
-&&A_{11}\rightarrow A_{13}A_{31}\\
-&&A_{11}\rightarrow A_{14}A_{41}\\
-&&\vdots
-\end{eqnarray*}
-and
+\item Consider an example sequence $aaaab$
+% Draw a tree process $aaaa$
+% Before the first $a$, we will see $\infty$
+% possibilities. Can handle this situation
+% by confine the stack length to be smaller
+% than the input length
+\end{itemize}
+
 \begin{eqnarray*}
-&& A_{11}\rightarrow \epsilon \\  
-&& A_{22}\rightarrow \epsilon \\
-&& A_{33}\rightarrow \epsilon \\
-&& A_{44}\rightarrow \epsilon 
+&& q_{\text{start}} \stackrel{\epsilon}{\rightarrow}
+q_{\text{loop}}, \{S,\$\} 
+\stackrel{\epsilon}{\rightarrow} q_1, \{b,\$\}
+\stackrel{\epsilon}{\rightarrow} q_2, \{T,b,\$\} \\
+&& \stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{a,T,b,\$\} 
+\stackrel{a}{\rightarrow}
+ q_{\text{loop}}, \{T,b,\$\} \\
+&& \stackrel{\epsilon}{\rightarrow} q_{3}, \{a, b,\$\} 
+\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,b,\$\}\\
+&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,b,\$\}
+\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,a,b,\$\}\\
+&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,a,b,\$\}
+\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,a,a,b,\$\}\\
+&& \stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{a,a,a,b,\$\}
+\stackrel{a}{\rightarrow} q_{\text{loop}}, \{a,a,b,\$\}\\
+&& \stackrel{a}{\rightarrow} q_{\text{loop}},\{a,b,\$\}
+\stackrel{a}{\rightarrow} q_{\text{loop}}, \{b,\$\}\\
+&& \stackrel{b}{\rightarrow} q_{\text{loop}}, \{\$\}
+\stackrel{\epsilon}{\rightarrow} q_{accept}
 \end{eqnarray*}
 
-\end{itemize}\end{frame}
+\end{frame}
 
 \end{document}

@@ -17,7 +17,7 @@
 \mid i=j \mbox{ or } i = k\}
 \end{equation*}
   \begin{itemize}
-\item Idea: put $a^i$ into stack
+\item Idea: push $a^i$ into stack
 
 \item [] But should we check $b$ or $c$ ?
 
@@ -31,6 +31,8 @@
 \end{equation*}
 We see the power set $P(Q\times \Gamma_\epsilon)$ 
 \item Fig 2.17
+\item [] The upper part checks if $i=j$
+\item [] The lower part checks if $i=k$
 \end{itemize}
 
 \scalebox{0.9}{
@@ -168,7 +170,7 @@ child [grow=right, level distance=35pt] { node  { $q_2\{\$\}$ } edge from parent
       $1,\epsilon \rightarrow 1$
     \end{tabular}
 } (q_2)
-  (q_2) edge[right]  node {$\epsilon \rightarrow \epsilon$} (q_3)
+  (q_2) edge[right]  node {$\epsilon, \epsilon \rightarrow \epsilon$} (q_3)
   (q_3) edge[loop right]  node {
     \begin{tabular}{l}
       $0, 0 \rightarrow \epsilon$
@@ -181,110 +183,5 @@ child [grow=right, level distance=35pt] { node  { $q_2\{\$\}$ } edge from parent
 \end{center}
 
   
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Equivalence with context-free grammars}
-  \begin{itemize}  
-\item Language context free
-$\Leftrightarrow$ recognized by pushdown automata
-
-\item Recall that by definition a language is context-free if
-  it is constructed by some CFG
-\item One direction is easier, while the other is harder
-\item As usual, we do the easier one first
-  
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{CFL $\rightarrow$ PDA}
-    \begin{itemize}
-    \item Given a CFG, we find a PDA to simulate this grammar
-      
-\item Two keys:
-
-\item [] stack 
-
-\item [] nondeterminism: different substitutions
-
-  
-\item We do the proof by an example
-\item Suppose we are given the following
-  CFG
-  \begin{equation*}
-    \begin{split}
-      & S \rightarrow aTb \mid b\\
-      & T \rightarrow Ta \mid \epsilon
-    \end{split}
-  \end{equation*}
-
-\item Idea: for rule substitution, push right-hand side to stack
-
-\item [] For example, $aTb$ is pushed to stack in a reversed way
-
-  \item
-  A PDA can be as follows
-
-\begin{tikzpicture}
-\node[state,initial] (q_1) {$q_s$};
-\node[state] (q_2) [below of=q_1,yshift=1.2cm] {};
-\node[state] (q_3) [below of=q_2,yshift=1.2cm] {$q_{\text{loop}}$};
-\node[state] (q_4) [above right of=q_3, yshift=-0.5cm, xshift=0.5cm] {};
-\node[state] (q_6) [right of=q_4, yshift=1.8cm] {};
-\node[state] (q_5) [below right of=q_3, yshift=0.5cm, xshift=2.5cm] {};
-\node[state] (q_7) [below of=q_3,yshift=1.2cm,accepting] {$q_a$};
-  \path 
-  (q_1) edge[left]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_2)
-  (q_2) edge[left]  node {$\epsilon, \epsilon \rightarrow S $} (q_3)
-  (q_3) edge[left]  node {$\epsilon, \$ \rightarrow \epsilon $} (q_7)    
-  (q_3) edge[loop left]  node [xshift=-0.5cm] {
-    \begin{tabular}{l}
-      $\epsilon,S \rightarrow b$\\
-      $\epsilon, T \rightarrow \epsilon$\\
-      $a, a \rightarrow \epsilon$\\
-      $b, b \rightarrow \epsilon$
-    \end{tabular}
-  } (q_3)
-  (q_3) edge[right]  node {$\epsilon, S \rightarrow b$} (q_4)
-  (q_4) edge[right]  node {$\epsilon, \epsilon \rightarrow T$} (q_6)
-  (q_6) edge[bend right, above]  node {$\epsilon, \epsilon \rightarrow a$} (q_3)
-  (q_3) edge[below, bend left]  node {$\epsilon, T \rightarrow a$} (q_5)
-  (q_5) edge[below, bend left]  node {$\epsilon, \epsilon \rightarrow T$} (q_3)  
-;
-  \end{tikzpicture}
-
-% \item Fig 2.22
-
-% inermediate string: 01A1A0
-
-% substitute A by ??
-
-% check if finally it matches \$
-
-\item Consider an example sequence $aaaab$
-% Draw a tree process $aaaa$
-% Before the first $a$, we will see $\infty$
-% possibilities. Can handle this situation
-% by confine the stack length to be smaller
-% than the input length
-\end{itemize}
-
-\begin{eqnarray*}
-&& q_{\text{start}} \stackrel{\epsilon}{\rightarrow}
-q_{\text{loop}}, \{S,\$\} 
-\stackrel{\epsilon}{\rightarrow} q_1, \{b,\$\}
-\stackrel{\epsilon}{\rightarrow} q_2, \{T,b,\$\} \\
-&& \stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{a,T,b,\$\} 
-\stackrel{a}{\rightarrow}
- q_{\text{loop}}, \{T,b,\$\} \\
-&& \stackrel{\epsilon}{\rightarrow} q_{3}, \{a, b,\$\} 
-\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,b,\$\}\\
-&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,b,\$\}
-\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,a,b,\$\}\\
-&& \stackrel{\epsilon}{\rightarrow} q_3, \{a,a,a,b,\$\}
-\stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{T,a,a,a,b,\$\}\\
-&& \stackrel{\epsilon}{\rightarrow} q_{\text{loop}}, \{a,a,a,b,\$\}
-\stackrel{a}{\rightarrow} q_{\text{loop}}, \{a,a,b,\$\}\\
-&& \stackrel{a}{\rightarrow} q_{\text{loop}},\{a,b,\$\}
-\stackrel{a}{\rightarrow} q_{\text{loop}}, \{b,\$\}\\
-&& \stackrel{b}{\rightarrow} q_{\text{loop}}, \{\$\}
-\stackrel{\epsilon}{\rightarrow} q_{accept}
-\end{eqnarray*}
-
-\end{frame}
-
+\end{itemize}\end{frame}
 \end{document}
