@@ -1,0 +1,116 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Deterministic CFL}
+  \begin{itemize}
+  \item Recall that PDA is \alert{non-deterministic}
+  \item We can actually define \alert{deterministic} PDA (DPDA)
+    
+\item In Chapter 1,
+  \begin{center}
+    DFA $\equiv$ NFA
+  \end{center}
+\item [] Both generate regular languages
+\item But 
+  \begin{center}
+    PDA $\neq$ DPDA
+  \end{center}
+and therefore
+\begin{center}
+  CFL $\neq$ DCFL
+\end{center}
+\item DPDA was not discussed in earlier versions of the textbook
+\item As this topic is less important, we will only explain what DPDA is
+  and will not get into more details
+\item It's more complicated to define DPDA than PDA
+\item The reason is that in DPDA we must ensure the deterministic moves
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Formal definition of DPDA}
+  \begin{itemize}
+\item $(Q,\Sigma, \Gamma, \delta, q_0, F)$
+
+\item [] $Q, \Sigma, \Gamma, F$: finite sets
+\begin{enumerate}
+\item $Q$: states
+\item $\Sigma$: alphabet
+\item $\Gamma$: stack alphabet
+\item $\delta$: 
+  \begin{equation*}
+Q \times 
+\Sigma_{\epsilon} \times \Gamma_{\epsilon}
+\rightarrow (Q\times \Gamma_\epsilon)\cup \{\emptyset\} 
+\end{equation*}
+\item $q_0 \in Q$: start state
+\item $F \subset Q$: set of accept states
+\end{enumerate}
+\item Note for PDA
+  \begin{equation*}
+\delta: Q \times 
+\Sigma_{\epsilon} \times \Gamma_{\epsilon}
+\rightarrow P(Q\times \Gamma_\epsilon)
+\end{equation*}
+\item Also $\delta$ satisfies $\forall q \in Q, a \in \Sigma, x \in
+\Gamma$, exactly one of
+\begin{equation*}
+  \delta(q,a,x), \qquad \delta(q,a,\epsilon), \qquad
+\delta(q, \epsilon, x), \qquad \delta(q, \epsilon, \epsilon)
+\end{equation*}
+is not $\emptyset$
+
+\item Reason: at $q$ all four can be taken at PDA
+\item Rule: follow the one which is not $\emptyset$
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Acceptance and rejection of DPDA}
+  \begin{itemize}
+\item Acceptance: same as DFA. 
+\item [] Reach an accept state after the last symbol
+\item [] Otherwise: reject
+
+\item Rejection: occurs if
+  \begin{enumerate}
+  \item not at an accept state after the last symbol (same as DFA)
+  \item DPDA fails to read the input
+    \begin{enumerate}
+    \item pop an empty stack
+    \item endless $\epsilon$-input moves
+    \end{enumerate}
+  \end{enumerate}
+
+\item Example: pop an empty stack
+
+  \begin{center}
+  \begin{tabular}{c|cccc}
+    & \multicolumn{2}{c}{0} & \multicolumn{2}{c}{$\epsilon$}\\
+& 0 & $\epsilon$ & 0 & $\epsilon$ \\ \hline
+q & $\emptyset$ & $\emptyset$ & (q, $\epsilon$) & $\emptyset$
+  \end{tabular}
+\end{center}
+
+input 0,$\emptyset$ is rejected: the only possible move is to pop up
+zero, but the stack is empty
+
+\item Example: fails to read the whole string
+
+  \begin{center}
+  \begin{tabular}{c|cccc}
+    & \multicolumn{2}{c}{0} & \multicolumn{2}{c}{$\epsilon$}\\
+& 0 & $\epsilon$ & 0 & $\epsilon$
+\\ \hline
+q & $\emptyset$ & $\emptyset$ & $\emptyset$& (q, $1$)
+  \end{tabular}
+\end{center}
+input $0,\emptyset$ is rejected: endless $\epsilon$-input
+\begin{equation*}
+  0,\emptyset \rightarrow 0, \{1\}, \rightarrow 0, \{1, 1\}
+  \rightarrow \cdots
+\end{equation*}
+\end{itemize}\end{frame}
+
+\end{document}
