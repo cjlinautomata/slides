@@ -39,15 +39,19 @@
     \item Stack empty before accepting
     \item Each transition push or pop, but not both
     \end{enumerate}
-  \item Single accept:
+  \item Let's handle the first two together:
+    single accept and stack empty before accepting:
 
-  \item [] A new start $q_s \rightarrow q_{s'}$ with $\epsilon, \epsilon
+  \item A new start $q_s \rightarrow q_{s'}$ with $\epsilon, \epsilon
 \rightarrow \$ $
 
-\item [] For any $q \in F$, $\epsilon, a\rightarrow \epsilon $ to $q$, $\forall a$ to pop things out
-\item [] Then $\epsilon, \$ \rightarrow
+\item For any $q \in F$, we have
+  $\epsilon, a\rightarrow \epsilon $ back to $q$, $\forall a$.
+  This pops things out before accepting a string
+\item Then from any $q \in F$, we do $\epsilon, \$ \rightarrow
 \epsilon$ to $q_a$.
-
+\item $q \in F$ are no longer accept states
+\item See the illustration in the following figures
 \item Original PDA:
 
   \begin{tikzpicture}

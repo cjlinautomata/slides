@@ -37,7 +37,7 @@ stack to $q$ with empty stack}
   \item Single accept: $q_{accept}$
 
   \item [] Then  $A_{q_{start} q_{accept}}$
-    is the start state to generate any string $x$
+    is the start variable to generate any string $x$
     of this language
   \item Stack should be empty before accepting
   \item [] In the beginning stack is empty and we need this property to
@@ -52,7 +52,7 @@ stack to $q$ with empty stack}
 \item For \eqref{eq:emptystack} we don't really mean
   ``empty stack.'' We actually mean ``stack with the same
   contents.''
-\item For the following figure, rule
+\item For the following figure, rules
   \begin{equation*}
     A_{pq} \rightarrow A_{pr} A_{rq}, \forall p, q, r \in Q
   \end{equation*}
@@ -71,8 +71,19 @@ should be generated
 \draw[draw=none] (5.5,-0.3) node {$q$};
 \end{tikzpicture}
 \end{center}
-
-\item We have
+\item Reason: If we can go
+  \begin{center}
+    from $p$ to $r$ without changing stack
+  \end{center}
+  and
+  \begin{center}
+    from $r$ to $q$ without changing stack
+  \end{center}
+  then we can do
+  \begin{center}
+    from $p$ to $q$ without changing stack
+  \end{center}
+\item In the following figure we have
   \begin{equation*}
   p,q,r,s \in Q, t \in \Gamma, a, b
 \in \Sigma_\epsilon
@@ -112,7 +123,7 @@ A_{pp}\rightarrow \epsilon, \forall p \in Q
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Examples}
   \begin{itemize}
 \item $\{0^n1^n\mid n \geq \alert{1}\}$
-\item Figure 2.15 but $q_1$ not an accept state
+\item This is modified from an earlier example. Now $q_1$ is not an accept state
 
 \begin{center}
 \begin{tikzpicture}

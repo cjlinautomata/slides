@@ -15,9 +15,9 @@
 \item Language context free
 $\Leftrightarrow$ recognized by pushdown automata
 
-\item Recall that by definition a language is context-free if
+\item For the left-hand side, recall that by definition a language is context-free if
   it is constructed by some CFG
-\item One direction is easier, while the other is harder
+\item For the proof, one direction is easier, while the other is harder
 \item As usual, we do the easier one first
   
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{CFL $\rightarrow$ PDA}
@@ -113,7 +113,15 @@ q_{\text{loop}}, \{S,\$\}
 && \stackrel{b}{\rightarrow} q_{\text{loop}}, \{\$\}
 \stackrel{\epsilon}{\rightarrow} q_{accept}
 \end{eqnarray*}
-
+\begin{itemize}
+\item 
+  Even with a non-deterministic setting, we ensure that only strings generated
+  by this CFG can be accepted by the PDA
+  \begin{enumerate}
+  \item A string is accepted only if all characters are processed
+  \item We have $\$$ to ensure that the stack is empty in the end
+  \end{enumerate}
+\end{itemize}
 \end{frame}
 
 \end{document}

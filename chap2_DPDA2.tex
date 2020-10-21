@@ -1,0 +1,184 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Example of DPDA}
+  \begin{itemize}
+\item Example
+  \begin{equation*}
+    \{ 0^n 1^n \mid n \geq 0\}
+  \end{equation*}
+  The diagram we had earlier is
+  \begin{center}
+  \begin{tikzpicture}
+\node[state,initial,accepting] (q_1) {$q_1$};
+\node[state] (q_2) [right of=q_1] {$q_2$};
+\node[state] (q_3) [below of=q_2] {$q_{3}$};
+\node[state,accepting] (q_4) [left of=q_3] {$q_{4}$};      
+  \path 
+  (q_1) edge[above]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_2)
+  (q_2) edge[loop right]  node {$0,\epsilon \rightarrow 0$} (q_2)
+  (q_2) edge[right]  node {$1, 0 \rightarrow \epsilon$} (q_3)
+  (q_3) edge[loop right]  node {$1, 0 \rightarrow \epsilon$} (q_3)  
+  (q_3) edge[below] node {$\epsilon, \$ \rightarrow \epsilon$} (q_4);
+  \end{tikzpicture}
+\end{center}
+  
+\item The $\delta$ function
+\begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_1$ &$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$&
+$\emptyset$&$\emptyset$&$\emptyset$& $(q_2,\$)$\\
+$q_2$ &$\emptyset$&$\emptyset$&$(q_2,0)$&$(q_3,\epsilon)$&$q_r$&
+$\emptyset$&$\emptyset$&$\emptyset$& $\emptyset$\\
+$q_3$ &$q_r$&$\emptyset$&$\emptyset$&$(q_3,\epsilon)$&$\emptyset$&$\emptyset$&$\emptyset$&$(q_4,\epsilon)$&$\emptyset$ \\
+$q_4$ &$q_r$&$q_r$&$\emptyset$&$q_r$&$q_r$&$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$ \\ 
+$q_r$ &$q_r$&$q_r$&$\emptyset$&$q_r$&$q_r$&$\emptyset$&$\emptyset$&$\emptyset$&$\emptyset$ \\ 
+\end{tabular}
+\item For the first row,
+  \begin{equation*}
+    \delta(q_1, \epsilon, \epsilon) = (q_2, \$)
+  \end{equation*}
+  implies that
+  \begin{equation*}
+    \delta(q_1, a, x) =
+    \delta(q_1, a, \epsilon)=
+\delta(q_1, \epsilon, x)    = \emptyset, \forall a \in \Sigma, x \in \Gamma
+\end{equation*}
+Thus we see everything else in the first row is $\emptyset$
+\item For the second row,
+  \begin{equation*}
+    \delta(q_2, 0, \epsilon) = (q_2, 0)
+  \end{equation*}
+  implies
+  \begin{center}
+\begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_2$ &$\emptyset$&$\emptyset$&$(q_2,0)$&&&
+&$\emptyset$&$\emptyset$& $\emptyset$\\
+\end{tabular}
+\end{center}
+Then
+\begin{equation*}
+  \delta(q_2, 1, 0) = (q_3, \epsilon)
+\end{equation*}
+further implies
+  \begin{center}
+\begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_2$ &$\emptyset$&$\emptyset$&$(q_2,0)$&$(q_3, \epsilon)$&&$\emptyset$
+&$\emptyset$&$\emptyset$& $\emptyset$\\
+\end{tabular}
+\end{center}
+Finally, we must have
+
+  \begin{center}
+\begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_2$ &$\emptyset$&$\emptyset$&$(q_2,0)$&$(q_3, \epsilon)$&\alert{$\neq \emptyset$}&$\emptyset$
+&$\emptyset$&$\emptyset$& $\emptyset$\\
+\end{tabular}
+\end{center}
+because
+\begin{equation*}
+  \delta(q_2, 1, \epsilon)
+  =   \delta(q_2, \epsilon, \$)
+  =   \delta(q_2, \epsilon, \epsilon) = \emptyset
+\end{equation*}
+\item Thus we consider an additional state $q_r$. We need it to ensure that one of the four 
+is not $\emptyset$
+\item Formally, we should have
+  \begin{equation*}
+      \delta(q_2, 1, \$) = (q_r, \epsilon)
+  \end{equation*}
+though we wrote only $q_r$ for simplicity
+\item For the third row, we have
+  \begin{center}
+\begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_3$ &&&&$(q_3,\epsilon)$&&$\emptyset$&$\emptyset$&&$\emptyset$ \\
+\end{tabular}
+\end{center}
+Then
+\begin{center}
+  \begin{tabular}{lccc|ccc|ccc}
+&
+\multicolumn{3}{c|}{0} &
+\multicolumn{3}{c|}{1} &
+\multicolumn{3}{c}{$\epsilon$}\\ \hline
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ 
+& 0 & \$ & $\epsilon$ \\ \hline
+$q_3$ &&$\emptyset$&$\emptyset$&$(q_3,\epsilon)$&$\emptyset$&$\emptyset$&$\emptyset$&$(q_4,\epsilon)$&$\emptyset$ \\
+\end{tabular}
+\end{center}
+In the end
+\begin{equation*}
+  \delta(q_3, 0, 0) = q_r
+\end{equation*}
+\item For the fourth row, there is no out link at $q_4$
+\item We let
+  \begin{equation*}
+    \delta(q_4, a, x) = q_r
+  \end{equation*}
+and
+\begin{equation*}
+  \delta(q_4, a, \epsilon) =
+  \delta(q_4, \epsilon, x) =
+  \delta(q_4, \epsilon, \epsilon) = \emptyset
+\end{equation*}
+\item We can do the same for the last row
+\item Consider an input string 011
+\begin{equation*}
+  q_1 \mydef{\epsilon}{\rightarrow} q_2, \{\$\}
+  \mydef{0}{\rightarrow} q_2, \{0\$\}
+\mydef{1}{\rightarrow} q_3, \{\$\}
+\mydef{\epsilon}{\rightarrow} q_4, \emptyset
+\end{equation*}
+\item From $q_4$, the two possible moves are
+  \begin{equation*}
+    \delta(q_4, 1, \epsilon) \text{ and } \delta(q_4, \epsilon, \epsilon)
+  \end{equation*}
+Both are $\emptyset$, so  we don't know where to go
+\item Thus this input string is rejected
+\end{itemize}\end{frame}
+
+\end{document}
