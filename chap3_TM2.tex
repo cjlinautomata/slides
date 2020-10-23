@@ -37,7 +37,7 @@ Strings in this language are
 \item go back to stage 1
   \end{enumerate}
 
-\item Formally definition
+\item Formal definition
 
 \item [] $Q=\{q_1, q_2, q_3, q_4, q_5, q_{accept}, q_{reject}\}$
 
@@ -105,7 +105,9 @@ $\sqcup  x x x q_2$ & $\sqcup  x x x \sqcup q_a$ &&&
 & 0 & x & $\sqcup$\\ \hline
 $q_1 $ & $q_2,\sqcup,R$ & $q_{reject},x,R$ & $q_{reject},\sqcup,
 R$\\
-$q_2$ & $q_3,x,R$ & $q_2,x,R$ & $q_{accept},\sqcup,R$
+  $q_2$ & $q_3,x,R$ & $q_2,x,R$ & $q_{accept},\sqcup,R$
+  \\
+  $\vdots$ &&&
 \end{tabular}
 \end{center}
 
@@ -129,14 +131,13 @@ $\sqcup$
 \end{itemize}
 \item $q_2 \rightarrow q_3$: handle initial 00
 
-\item $q_3\rightarrow q_4$: sequentially $00 \rightarrow 0x$
+\item $q_3\rightarrow q_4 \rightarrow q_3$: sequentially $00 \rightarrow 0x$
 
   \begin{itemize}
-  \item key of this algorithm
-  \item If not pairs (e.g. 0x0x0x), fails
-  \item The place where \# is even checked
+  \item If not pairs (e.g., 0x0x0x), fails
+  \item This is the place of checking if \# of remained zeros is even
   \end{itemize}
-$q_3 \rightarrow q_5 \rightarrow q_2 $ back to beginning
+\item $q_3 \rightarrow q_5 \rightarrow q_2 $ back to beginning
 
 % \item Why $q_2, q_3$ cannot be combined
 
@@ -151,7 +152,7 @@ q_2 \rightarrow \cdots
 \rightarrow q_2 \rightarrow \cdots \rightarrow
 q_{accept}
 \end{equation*}
-check if single 0
+check if a single 0 is left in the string
 % \item Exercise 
 
 % 000000
