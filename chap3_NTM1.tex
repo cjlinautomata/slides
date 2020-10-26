@@ -1,0 +1,154 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Nondeterministic TM}
+  \begin{itemize}
+\item $\delta$:
+  \begin{equation*}
+    \delta: Q\times \Gamma
+\rightarrow P(Q\times \Gamma \times \{L,R\})
+  \end{equation*}
+$P$: power set
+\item Note that following the textbook, we allow only
+  $\{L, R\}$ instead of $\{L, S, R\}$
+\item Example:
+  \begin{eqnarray*}
+    q_0,a & \rightarrow & q_1,b,R\\
+& \rightarrow & q_2, c, L
+  \end{eqnarray*}
+\item What if 
+  \begin{eqnarray*}
+    q_0,a & \rightarrow & q_{accept} \\
+& \rightarrow & q_{reject}
+  \end{eqnarray*}
+
+\item
+  For NTM, by definition $w$ is accepted if one branch works
+
+\item
+  In this sense, unless all branches are finite
+  \begin{center}
+  NTM $\rightarrow$ accept or endless loop
+\end{center}
+\item
+  Thus NTM is like an ``acceptor''
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example of NTM}
+  \begin{itemize}
+\item 
+$A = \{w\mid w\mbox{ contains } aab\}$
+\item State diagram
+
+  \begin{center}
+    \begin{tikzpicture}
+  \node[state,initial] (q_0) {$q_0$};
+  \node[state,right of=q_0] (q_1) {$q_1$};
+  \node[state,right of=q_1] (q_2) {$q_2$};
+  \node[state,right of=q_2] (q_a) {$q_a$};
+  \node[state,below right of=q_0,yshift=-0.5cm] (q_r) {$q_r$};
+  \path (q_0) edge[loop above] node{
+      $a, b \rightarrow a, b,$ R
+    } (q_0);
+  \path (q_0) edge[above] node{
+      $a \rightarrow$ R
+  } (q_1);
+  \path (q_1) edge[above] node{
+      $a \rightarrow$ R
+  } (q_2);
+  \path (q_2) edge[above] node{
+      $b \rightarrow$ R
+    } (q_a);
+  \path (q_0) edge[left] node{
+      $\sqcup \rightarrow$ R      
+    } (q_r);
+  \path (q_1) edge[right] node{
+    \begin{tabular}{l}
+      $b \rightarrow$ R\\
+      $\sqcup \rightarrow$ R      
+    \end{tabular}
+    } (q_r);
+  \path (q_2) edge[right, bend left] node{
+    \begin{tabular}{l}
+      $a \rightarrow$ R\\
+      $\sqcup \rightarrow$ R      
+    \end{tabular}
+    } (q_r);
+    \end{tikzpicture}
+  \end{center}
+%   \begin{center}
+%     \begin{pspicture}(-.2,-.5)(9,4)% \showgrid
+%       \psset{radius=.3}
+% \rput(.5,2.5){\circlenode{0}{$q_0$}}
+% \rput(2.5,2.5){\circlenode{1}{$q_1$}}
+% \rput(4.5,2.5){\circlenode{2}{$q_2$}}
+% \rput(2.5,0.0){\circlenode{3}{$q_r$}}
+% \rput(6.5,2.5){\circlenode{4}{$q_a$}}
+% \ncline{->}{0}{1}
+% \ncline{->}{1}{2}
+% \ncline{->}{2}{4}
+% \ncline{->}{0}{3}
+% \ncline{->}{1}{3}
+% \ncline{->}{2}{3}
+% \pnode(-.2,2.5){B}
+% \ncline{->}{B}{0}
+% \rput(1.4,2.7){$a \rightarrow R$}
+% \rput(3.4,2.7){$a \rightarrow R$}
+% \rput(5.4,2.7){$b \rightarrow R$}
+% \rput(0.6,1.5){$\sqcup \rightarrow R$}
+% \rput(3.1,1.5){$\sqcup \rightarrow R$}
+% \rput(3.1,1.8){$b \rightarrow R$}
+% \rput(4.5,1.5){$\sqcup \rightarrow R$}
+% \rput(4.5,1.8){$a \rightarrow R$}
+% \nccircle{<-}{0}{.4}
+% \rput(0.5,3.6){$a,b\rightarrow a,b,R$}
+%     \end{pspicture}
+%   \end{center}
+
+  
+\item You may recall that this is an NFA example discussed before
+  
+\item Only the first node is nondeterministic
+
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example of NTM}
+  \begin{itemize}
+\item $L=\{0^n\mid n \mbox{ composite number}\}$
+\item From p. 204 of Lewis and Papadimitriou
+\item Composite number: product of two natural numbers
+\item Procedure
+  \begin{itemize}
+  \item Nondeterministically choose $p$ and $q$
+
+  \item [] Sequentially try $p$ from $2$ to $n-1$
+
+  \item Check if $n=pq$
+
+  \item [] This can be done by the earlier example
+    \begin{equation*}
+    \{a^n b^p c^q\mid n = p \times q\}
+  \end{equation*}
+  \end{itemize}
+\item Question: details about ``non-deterministically'' choose $p$ and $q$?
+\item If we sequentially try all $(p,q)$ combinations, then
+  looks like we have a deterministic setting?
+  
+\item Our generation of  $p$ and $q$ can be non-deterministic
+\item Say we do a copy operation to generate $p$ elements. The TM can
+  stop this operation at any time point
+\end{itemize}\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+
