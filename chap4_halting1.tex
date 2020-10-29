@@ -10,12 +10,14 @@
 
 \begin{document}
 
-\begin{frame}[allowframebreaks] \frametitle{Halting problem}
+\begin{frame}[allowframebreaks] \frametitle{Undecidable problems}
   \begin{itemize}
-\item We will show that this problem is not decidable
-\item There quite a few undecidable problems:
+\item There quite a few undecidable problems
 
-\item [] For example, program verification are in general not solvable
+\item For example, program verification are in general not solvable
+
+\item We will discuss an undecidable example called the ``halting problem''
+  
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$A_{TM}$}
 \begin{equation*}
   A_{TM}=\{
@@ -46,7 +48,7 @@ versus
 \begin{center}
 set of $\{0,1\}^*$
 \end{center}
-\item Which one is larger ?
+\item Both are infinite sets. Which one is larger ?
 \item Definition: two sets are equal if elements
 can be paired
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Definition 4.12}
@@ -61,14 +63,19 @@ f(a)\neq f(b) \text{ if } a \neq b
 \begin{tikzpicture}
   \draw[->] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
   \draw[->] (0, -0.5) -- (0, 2.2) node[above] {$y$};
-  \draw[scale=0.5, domain=-2:2, smooth, variable=\x, blue] plot ({\x}, {\x*\x});
+  \draw[-][scale=0.5, domain=-2.2:2.2, smooth, variable=\x, blue] plot ({\x}, {0.5*exp(\x)});
 \end{tikzpicture}
     &
 \begin{tikzpicture}
-  \draw[->] (-0.5, 0) -- (2.2, 0) node[right] {$x$};
-  \draw[->] (0, -1.3) -- (0, 1.5) node[above] {$y$};
-  \draw[scale=0.5, domain=-2:2, smooth, variable=\y, red]  plot ({\y*\y}, {\y});
+  \draw[->] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
+  \draw[->] (0, -0.5) -- (0, 2.2) node[above] {$y$};
+  \draw[-][scale=0.5, domain=-2:2, smooth, variable=\x, blue] plot ({\x}, {\x*\x});
 \end{tikzpicture}
+% \begin{tikzpicture}
+%   \draw[->] (-0.5, 0) -- (2.2, 0) node[right] {$x$};
+%   \draw[->] (0, -1.3) -- (0, 1.5) node[above] {$y$};
+%   \draw[scale=0.5, domain=-2:2, smooth, variable=\y, red]  plot ({\y*\y}, {\y});
+% \end{tikzpicture}
   \end{tabular}
 \end{center}
 \item Left: a one-to-one function; right: not
@@ -182,7 +189,7 @@ finite or same size as $N$
 \end{tikzpicture}
 \end{center}
 
-{\small Latex source from \url{https://divisbyzero.com/2013/04/16/countability-of-the-rationals-drawn-using-tikz/})}
+{\small (Latex source from \url{https://divisbyzero.com/2013/04/16/countability-of-the-rationals-drawn-using-tikz/})}
 
 \item Note that we skip counting elements with common factors (e.g., $2/2$)
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Real Numbers not Countable}
@@ -218,55 +225,8 @@ x \neq f(n), \forall n
   1=0.9999\cdots
 \end{equation*}
 for every digit of $x$ we should not choose 0 or 9
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Some languages not Turing-recognizable}
-    \begin{itemize}
-\item $\Sigma^*$ is countable
-
-\item [] Simply count $|w|=1,2,3,\ldots$
-\item For example, if $\Sigma = \{0, 1\}$, then
-  \begin{equation*}
-    \{ \epsilon, 0, 1, 00, 01, 10, 11, \ldots \}
-  \end{equation*}
-\item The sets of TMs is countable
-
-\item Eacho machine can be represented as a finite string
-  (think about the formal definition)
-
-\item Thus the set of TMs is a subset of $\{0,1\}^*$
-
-\item Let
-  \begin{center}
-    \begin{tabular}{l}
- $L$: all languages over $\Sigma$ \\
- $B$: all infinite binary sequences
-    \end{tabular}
-\end{center}
-\item For any
-  \begin{equation*}
-  A\in L
-\end{equation*}
-there is a corresponding element in $B$
-\item Example:
-\begin{equation*}
-\begin{split}
-& A: 0 \{0,1\}^*\\
-& \Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001,\ldots\}\\
-& A=\{0, 00, 01, 000, 001, \ldots\}\\
-& \chi_A= 0 1 0 11 00 11 \ldots
-\end{split}
-\end{equation*}
-
-\item One-to-one correspondence between $B$ and $L$
-
-\item $B$ is uncountable (like real numbers)
-
-\item [] Therefore, $L$ is uncountable
-\item Each TM $\Rightarrow$ handles one language in $L$
-
-\item [] Set of TM is countable, but $L$ is not
-
-\item Thus some languages cannot be handled by TM
 \end{itemize}\end{frame}
+
 
 \end{document}
 

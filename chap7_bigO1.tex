@@ -45,14 +45,14 @@ otherwise, accept
 
 \item average-case analysis
 \item Usually it is easier to do worst-case analysis
-\item A function
+\item We use a function
   \begin{equation*}
   f: N \rightarrow N
 \end{equation*}
 to represent the number of steps
 \item [] $N$: natural number
 
-\item [] $n$: length of input
+\item [] $n$: length of input, $f(n)$: number of steps
 
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Big-O}
   \begin{itemize}
@@ -117,9 +117,9 @@ cannot always hold because we can choose large $n$ such that
 \begin{equation*}
 n^3 > cn^2
 \end{equation*}
-Formally we have the following opposite statement:
+\item Formally we have the following opposite statement of the definition:
 \begin{equation*}
-  \forall c, n_0 \exists n \geq n_0, f(n) > c g(n)
+  \forall c, n_0, \exists n \geq n_0, f(n) > c g(n)
 \end{equation*}
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 7.4}
   \begin{itemize}
@@ -141,7 +141,7 @@ by
 
 \item Note that
   \begin{equation*}
- \log_2 n / \log_2 b= \log_b n
+\frac{ \log_2 n }{ \log_2 b}= \log_b n
 \end{equation*}
 \item So we write
   \begin{equation*}

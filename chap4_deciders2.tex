@@ -12,7 +12,7 @@
 
 \begin{frame}[allowframebreaks] \frametitle{Decidability and CFL}
   \begin{itemize}
-\item CFG
+\item Acceptance problem of CFG
   \begin{equation*}
     A_{CFG}
 =\{\langle  G,w\rangle \mid
@@ -35,7 +35,7 @@ G: CFG,\mbox{ generates } w\}
 \item Any $w, |w|=n$, derivation in 
 exactly $2n-1$ steps
 
-\item If $q$:\# rules, check $q^{2n-1}$ branches
+\item If $q$ is the \# rules, check all $q^{2n-1}$ branches
 
 \item Proof
   \begin{enumerate}
@@ -43,9 +43,11 @@ exactly $2n-1$ steps
   \item Check all $q^{2n-1}$ branches
   \end{enumerate}
 
-  \item Results apply to PDA as well
+\item Results apply to PDA as well: for PDF we have a finite
+  procedure to generate a CFG.
+\end{itemize}\end{frame}
 
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$E_{CFG}$}
+\begin{frame}[allowframebreaks] \frametitle{$E_{CFG}$}
 \begin{equation*}
   E_{CFG}
 =\{\langle  G\rangle \mid
@@ -57,7 +59,7 @@ G: CFG, L(G)=\emptyset\}
   \begin{equation*}
     A\rightarrow a
   \end{equation*}
-  We search if $\exists$
+  We search if there is a rule
 \begin{equation*}
   B\rightarrow A
 \end{equation*}
@@ -65,7 +67,7 @@ G: CFG, L(G)=\emptyset\}
 \item Proof:
   \begin{enumerate}
   \item Mark all terminals
-  \item Repeat until no new variables marked
+  \item Repeat until no new variables are marked
 
   \item [] \quad if
     \begin{equation*}
@@ -76,9 +78,12 @@ G: CFG, L(G)=\emptyset\}
 \text{all }    U_1, \ldots, U_k \text{ marked}
  \end{equation*}
 \quad $\Rightarrow$  mark $A$
-\item If start state marked, accept
+\item If start variable is not marked, accept
 \item [] Otherwise, reject
   \end{enumerate}
+\item Number of iterations is finite: bounded by the number of
+  variables
+\item Each iteration is a finite procedure: we check all rules
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$EQ_{CFG}$}
 \begin{equation*}
   EQ_{CFG}
@@ -96,7 +101,7 @@ $\cap$ and complementation
 
 \begin{frame}[allowframebreaks] \frametitle{CFL decidable}
   \begin{itemize}
-\item This question different from $A_{CFG}$ decidable
+\item This question is different from $A_{CFG}$ decidable
 or not
 \item How about converting PDA to a TM?
 \item For nondeterministic PDA we can do NTM 

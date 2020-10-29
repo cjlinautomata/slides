@@ -17,7 +17,7 @@
 
 \item Need a TM to decide it
 
-\item [] i.e., accept/reject in finite \# steps
+\item [] i.e., accept/reject in a finite number of steps
 
 \item We will show some examples
   
@@ -49,9 +49,8 @@ otherwise $\Rightarrow$ reject
   \end{equation*}
 into a tape
 \item Check if $w\in \Sigma^*$ and $B$ a valid DFA
-\item Simulate $w$ according to $\delta$ after the last element of $w$
-
-check if in a final state
+\item Simulate $w$ according to $\delta$
+\item After processing the last element of $w$, check if in a final state
 
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$A_{NFA}$}
 \begin{equation*}
@@ -72,6 +71,8 @@ as a subroutine
   \begin{itemize}
 \item It's similar
 \item We convert $R$ to a DFA first
+\item Recall that we had a procedure to convert $R$ to an NFA. Then we
+  can convert the NFA to a DFA
 \item The key is that the conversion is a \alert{finite} procedure
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$E_{DFA}$}
 \begin{equation*}
@@ -124,7 +125,7 @@ L(A)=L(B)\}
 \item $EQ_{DFA}$ is decidable
 \item Idea for the proof:
 
-\item [] DFA C: exclusive or of A and B
+\item Let a DFA C be the exclusive or of A and B
 
 \item [] If
   \begin{equation*}
@@ -140,7 +141,7 @@ then
     [filled/.style={fill=blue!20, draw=blue!50, thick}, outline/.style={draw=blue!50, thick}]
     \draw[filled, even odd rule] (0,0) circle (1.5cm) node {$A$}
                                  (0:2cm) circle (1.5cm) node{$B$};
-    \node[anchor=south] at (current bounding box.north) {$\overline{A \cap B}$};
+    \node[anchor=south] at (current bounding box.north) {Exclusive or of $A$ and $B$};
 \end{tikzpicture}
 \end{center}
 {\small (latex source from
@@ -158,7 +159,8 @@ $B$ DFA $\Rightarrow$ so is $\overline{B}$
 \item $A, B$ DFA $\Rightarrow$ so is 
 $A\cup B, A\cap B$
 
-\item Use $E_{DFA}$
+\item We then use $E_{DFA}$ to check if 
+$  L(C)=\emptyset $ or not
 \end{itemize}\end{frame}
 
 \end{document}

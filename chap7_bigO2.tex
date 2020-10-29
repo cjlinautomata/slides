@@ -79,7 +79,9 @@ n/2 \times O(n) = O(n^2)
   \begin{equation*}
 O(n) + O(n^2) +O(n) = O(n^2)
 \end{equation*}
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Def: Time complexity class}
+\end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Time complexity class}
   \begin{itemize}
   \item Definition:
     \begin{equation*}
@@ -148,8 +150,8 @@ cross off every other 0 and 1
 
 \item [] $1+\log_2 n$ iterations
 
-\item Each iter: $O(n)$ operations
-
+\item Each iteration: $O(n)$ operations
+\item [] Note that length of tap contents is still $n$ as we only ``mark'' elements
 \item Total cost: $O(n \log n)$
 
 \item Therefore

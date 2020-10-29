@@ -59,7 +59,7 @@ $c_1 \cdots c_k$
 
 \begin{frame}[allowframebreaks] \frametitle{Turing-recognizable}
   \begin{itemize}
-\item A language if Turing-recognizable if it is recognized by a TM
+\item A language is Turing-recognizable if it is recognized by a TM
 \item For a Turing machine, there are three possible outcomes
   \begin{center}
 accept, reject, loop
@@ -116,7 +116,7 @@ accept, reject, loop
 \end{tikzpicture}
 
 \begin{itemize}
-\item Links to $q_r$ not shown
+\item Links to $q_r$ are not shown
 \item Simulate $01\#01$
 
 \begin{center}
@@ -130,7 +130,33 @@ accept, reject, loop
  $xx \# xx q_8 \sqcup$ &  $xx \# xx \sqcup q_a$ &&
 \end{tabular}
 \end{center}
-  
+\item Idea of the diagram:
+  \begin{equation*}
+    q_1 \rightarrow q_2 \rightarrow q_4 \rightarrow q_6
+  \end{equation*}
+  check 0 at the same position of the two strings
+  \begin{equation*}
+    q_1 \rightarrow q_3 \rightarrow q_5 \rightarrow q_6    
+  \end{equation*}
+  check 1
+at the same position of the two strings
+\item $q_6$: move left to the beginning of the second string
+\item $q_7$: move left by
+  \begin{equation*}
+    q_7 \xrightarrow{0, 1 \rightarrow L} q_7
+  \end{equation*}
+until finding the first 0, 1 not handled yet:
+\begin{equation*}
+  q_7 \xrightarrow{x \rightarrow R} q_1
+\end{equation*}
+\item Thus $q_6$ and $q_7$ cannot be combined. At $q_6$,
+  \begin{equation*}
+    x \rightarrow L
+  \end{equation*}
+but at $q_7$
+\begin{equation*}
+  x \rightarrow R
+\end{equation*}
 \end{itemize}
 
 \end{frame}
@@ -143,7 +169,7 @@ accept, reject, loop
   \item check if the input is $a^+ b^+ c^+$
   \item back to start
   \item fix $a$, for each $b$, cancel $c$
-  \item store $b$ back, cancel one $a$, goto step 3
+  \item store $b$ back, cancel one $a$, go to step 3
   \end{enumerate}
 \item Too complicated to draw state diagram
 \item But one may wonder if TM can really do the above procedure
@@ -165,7 +191,7 @@ accept, reject, loop
 & x_{l-1} x_l
 \end{split}
 \end{equation*}
-\item Very rough $\Rightarrow$ more details
+\item This description is rough. Let's check more details
 
 \item [] For $x_i, x_j$ mark \#'s of both strings
 by $\dot{\#}$
@@ -176,7 +202,7 @@ being compared
 
 \item [] Can use a TM similar to that for $w \# w$
 
-\item We can copy $x_1, x_2$ to the end
+\item We can copy $x_i, x_j$ to the end
   and do the comparison there
   
 % $\dot{\#}x_1\dot{\#}x_2 \# x_3 \hat{\#}x_1

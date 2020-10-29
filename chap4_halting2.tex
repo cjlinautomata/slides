@@ -10,12 +10,62 @@
 
 \begin{document}
 
+\begin{frame}[allowframebreaks] \frametitle{Some languages not Turing-recognizable}
+    \begin{itemize}
+\item $\Sigma^*$ is countable
+
+\item [] Simply count $w$ with $|w|=0, 1,2,3,\ldots$
+\item For example, if $\Sigma = \{0, 1\}$, then
+  \begin{equation*}
+    \{ \epsilon, 0, 1, 00, 01, 10, 11, \ldots \}
+  \end{equation*}
+\item The set of TMs is countable
+
+\item Each machine can be represented as a finite string
+  (think about the formal definition)
+
+\item Thus the set of TMs is a subset of $\{0,1\}^*$
+
+\item Let
+  \begin{center}
+    \begin{tabular}{l}
+ $L$: all languages over $\Sigma$ \\
+ $B$: all infinite binary sequences
+    \end{tabular}
+\end{center}
+\item For any
+  \begin{equation*}
+  A\in L
+\end{equation*}
+there is a corresponding element in $B$
+\item Example:
+\begin{equation*}
+\begin{split}
+& A: 0 \{0,1\}^*\\
+& \Sigma^*=\{\epsilon,0,1,00,01,10,11,000,001,\ldots\}\\
+& A=\{0, 00, 01, 000, 001, \ldots\}\\
+& \chi_A= 0 1 0 11 00 11 \ldots
+\end{split}
+\end{equation*}
+
+\item One-to-one correspondence between $B$ and $L$
+
+\item $B$ is uncountable (like real numbers)
+
+\item [] Therefore, $L$ is uncountable
+\item Each TM $\Rightarrow$ handles one language in $L$
+
+\item [] Set of TM is countable, but $L$ is not
+
+\item Thus some languages cannot be handled by TM
+\end{itemize}\end{frame}
+
 \begin{frame}[allowframebreaks] \frametitle{Halting problem undecidable}
   \begin{itemize}
 \item Recall the halting problem is
   \begin{equation*}
 A_{TM}
-=\{(M,w)\mid M: \mbox{TM, accepts } w\}
+=\{\langle M,w \rangle \mid M: \mbox{TM, accepts } w\}
 \end{equation*}
 We prove it is undecidable
 by contradiction
@@ -50,6 +100,7 @@ outputs the opposite result of $H$
 \begin{cases}
   \mbox{accept } & 
   \mbox{if } M \mbox{ rejects } \langle  M\rangle \\
+  \mbox{reject } &   
 \mbox{if } M \mbox{ accepts } \langle  M\rangle
 \end{cases}
   \end{equation*}
@@ -110,23 +161,6 @@ if its complement is Turing-recognizable
 \item Theorem 4.22
 \item[] Decidable $\Leftrightarrow$
 Turing-recognizable and co-Turing-recognizable
-\item Why complement may not be Turing-recognizable?
-\item [] Note that ``recognizable'' means any
-  \begin{center}
-  $w \in $ language
-\end{center}
-is accepted by the machine in \alert{a finite steps}
-\item That is, no infinite loop
-\item Example:
-\item [] $A_{TM}$ Turing-recognizable but not decidable
-
-\item [] $\overline{A_{TM}}$ not Turing-recognizable
-  \begin{equation*}
-    w \in \overline{A_{TM}}
-  \end{equation*}
-  $\Rightarrow$ reject or loop
-
-
 \item Why not
   \begin{equation*}
     \begin{split}
@@ -134,6 +168,22 @@ is accepted by the machine in \alert{a finite steps}
 \Rightarrow & \text{ complement Turing-recognizable}
 \end{split}
 \end{equation*}
+\item Note that ``recognizable'' means any
+  \begin{center}
+  $w \in $ language
+\end{center}
+is accepted by the machine in \alert{a finite number of steps}
+\item That is, no infinite loop
+\item Example:
+\item [] $A_{TM}$ Turing-recognizable but not decidable
+  \begin{equation*}
+    w \in \overline{A_{TM}}
+  \end{equation*}
+  $\Rightarrow$ reject or loop
+
+  
+\item [] Thus $\overline{A_{TM}}$ is not Turing-recognizable
+
 \item What if we swap $q_{accept},q_{reject}$?
 
 \item If
@@ -144,10 +194,7 @@ then
 \begin{center}
 $a \in \overline{A}$, but TM still loops
 \end{center}
-\item Recall that $\overline{A}$ is Turing-recognizable means
-that any
-$a \in \overline{A}$ can be recognized in a finite \#
-of steps.
+We cannot reach the new $q_{accept}$ state
 
 \item Proof of Theorem 4.22
 \item ``$\Rightarrow$''
