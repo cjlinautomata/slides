@@ -13,7 +13,7 @@
     \begin{itemize}
 \item In Chapter 3 we showed that various TMs are equivalent
 \item For example, single-tape and multi-tape TMs are equivalent
-\item However, their ``time complexity'' are different
+\item However, their ``time complexities'' are different
 \end{itemize}\end{frame}
 
 \begin{frame}[allowframebreaks] \frametitle{Complexity of Multi-tape
@@ -21,13 +21,13 @@
   \begin{itemize}
   \item Theorem 7.8
     
-  \item [] $O(t(n))$ multi-tape TM
+  \item [] Let $t(n) \geq n$. For a $t(n)$ multi-tape TM
 
 $\Rightarrow \exists$ equivalent 
 $O(t(n)^2)$ single-tape TM
 \item Idea for the proof: similar to how we proved their equivalence
 
-\item Show that simulating each step of a multi-tape TM
+\item We will show that simulating each step of a multi-tape TM
 takes
 $O(t(n))$ on a single-tape TM
 
@@ -73,7 +73,7 @@ $O(t(n))$ on a single-tape TM
 \end{tikzpicture}
 \end{center}
 
-\item Simulate each step of multi-tape TM: scan to know where heads point to
+\item To simulate each step of multi-tape TM, we scan to know where heads point to
   and do the update
 \item However, we may have to
 right shift the tape 
@@ -81,13 +81,12 @@ right shift the tape
 \begin{equation*}
   k \times O(t(n)) = O(t(n)) 
 \end{equation*}
-\item Why $O(t(n))$?
   
-\item Each tape of multi-tape TM has $O(t(n))$ length
+\item Note that each tape of multi-tape TM has $O(t(n))$ length. Why?
 
-\item [] An $O(t(n))$ multi-tape TM generates
+\item A $t(n)$ multi-tape TM generates
 $O(t(n))$ contents in 
-$O(t(n))$ time (note that $O(t(n))\geq n$).
+$O(t(n))$ time
 
 \item Thus the cost of
   simulating each step of multi-tape TM on a single-tape TM is
@@ -101,30 +100,56 @@ $O(t(n))$ time (note that $O(t(n))\geq n$).
 
 \begin{frame}[allowframebreaks] \frametitle{Complexity of Nondeterministic TM}
   \begin{itemize}
-\item Remember NTM a decider if all branches halt on all inputs
+\item Remember NTM is a decider if all branches halt on all inputs
 
-\item Definition of NTM time complexity $f(n)$:
+\item Definition of NTM time complexity $t(n)$:
 
-\item [] maximum \# of steps the machine uses on any branch
-on any input length $n$
+\item [] maximum \# of steps the machine uses for any path from root
+  to a leave
 
 \item Theorem 7.11
-\item [] For an $t(n) \geq n, O(t(n))$ NTM (single tape)
+\item [] Let $t(n) \geq n$. For a $t(n)$ NTM (single tape)
 
 \item [] $\Rightarrow \exists \text{ a } 2^{O(t(n))}$ TM (single tape)
 \item Assume $b$ is the maximal number of branches at each layer
-\item Recall that we use a depth-first way for the simulation
-\item Total number of nodes in the tree:
-  \begin{equation*}
-  O(b^{t(n)})
-\end{equation*}
-\item Depth $d$ finished, do $d+1$
+\item Recall our way of doing the simulation is by the following
+  three-tape TM
+
+\begin{center}
+  \begin{tikzpicture}[ampersand replacement=\&]
+\matrix[nodes={minimum height=8mm}]     
+{
+  \node[draw](0) {CPU}; \& [1cm]  \& \node(1){} ; \&\&\& \& \\
+  \& \node[draw]{0}; \& \node[draw](a){1}; \& \node[draw]{1}; \& \node[draw]{1};  \& \node[draw]{0 $\cdots$};  \& \node{tape 1};\\
+\node(2){} ; \&  \&  \& \node(21){} ; \&\& \&\\  
+\& \node[draw]{x}; \& \node[draw]{x}; \& \node[draw](b){1}; \& \node[draw]{1}; \& \node[draw]{0 $\cdots$}; \& \node{tape 2};  \\
+\node(3){} ; \& \node(31){} ; \&  \&\& \& \&\\
+\& \node[draw](c){1}; \& \node[draw]{2}; \& \node[draw]{3}; \& \node[draw]{2}; \& \node[draw]{3 $\cdots$}; \&  \node{tape 3}; \\
+};
+
+\draw [-,red,thick] (0) -- (1.center) ;
+\draw [->,red,thick] (1.center) -- (a) ;
+\draw [-,red,thick] (0) -- (2.center) ;
+\draw [-,red,thick] (2.center) -- (21.center) ;
+\draw [->,red,thick] (21.center) -- (b) ;
+\draw [-,red,thick] (0) -- (3.center) ;
+\draw [-,red,thick] (3.center) -- (31.center) ;
+\draw [->,red,thick] (31.center) -- (c) ;
+\end{tikzpicture}
+\end{center}
+
+\item We use a depth-first way for the simulation
+\item That is, after one layer is finished, we do the next
 
 \item Tape 3: all possible paths so far
 
-\item Tape 2: original input w, simulate one path, 1 step further
-with all possible branches
+\item Total number of nodes in the tree:
+\begin{equation*}
+  O(b^{t(n)})
+\end{equation*}
 
+\item Tape 2: run the original input w from root to one node in the
+  tree
 
 \item Cost of running from root to one node in tape 2: $O(t(n))$
 
@@ -132,17 +157,22 @@ with all possible branches
 
 \item Total cost $\leq O(b^{t(n)})$ for each node
 \item Total time:
-
   \begin{equation*}
     \begin{split}
 & \# \text{ nodes } \times \text{ cost per node}\\      
 = &   O(b^{t(n)}) \times O(b^{t(n)}) \\
-= & O((b^2)^{t(n)} ) = O(2^{t(n)})
+= & O((b^2)^{t(n)} ) = 2^{O(t(n))}
 \end{split}
 \end{equation*}
+\item Note that in the above equality we used
+  \begin{equation*}
+    b^{t(n)} \times b^{t(n)}
+    = b^{2t(n)} =
+    2^{\log_2 b^{2t(n)}} = 2^{(\log_2 b)(2 t(n))}
+  \end{equation*}
 
 \item This is by a 3-tape TM
-\item To use a single-tape TM to simular a 3-tape one, we need
+\item To use a single-tape TM to simulate a 3-tape one, we need
   \begin{equation*}
 (2^{O(t(n))})^2
 = 2^{O(t(n))}
