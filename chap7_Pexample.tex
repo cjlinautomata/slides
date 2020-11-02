@@ -79,8 +79,8 @@ on a computer
 
   \item sequentially check if one has $s$ to $t$
 
-  \item the cost is exponential
-\end{enumerate}
+  \end{enumerate}
+  \item the cost is exponential  
 \item A polynomial algorithm
 
 \item [] input $\langle  G,s,t\rangle $, $G$ includes nodes and edges
@@ -99,8 +99,8 @@ $\Rightarrow $ mark $b$
 
 otherwise $\Rightarrow$ reject
 \end{enumerate}
-\item \# of ``2'': at most $m$ (if no newly marked, stop)
-\item each ``2'': \#edges=$m^2$
+\item \# of steps in the main loop: at most $m$ (if no newly marked, stop)
+\item at each step, need to scan \#edges=$m^2$
 \item cost to mark a node: polynomial
 \item whole algorithm: polynomial
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Relatively Prime}
@@ -115,7 +115,7 @@ otherwise $\Rightarrow$ reject
 \item Example: 10 and 22
   \begin{equation*}
 10=2 \times 5, 22
-=3\times 11
+=2\times 11
 \end{equation*}
 They are not relatively prime
 \item Problem: test if two numbers are relatively
@@ -133,12 +133,28 @@ $\Leftrightarrow$ $x,y$ relatively prime
   \begin{enumerate}
   \item Repeat if $y \neq 0$
     \begin{equation*}
-x \leftarrow x \mod y
+x \leftarrow x \text{ mod } y
 \end{equation*}
 exchange $x$ and $y$
 \item Output $x$
   \end{enumerate}
 \item The output is the gcd
+\item Note that in the beginning we don't need
+  \begin{equation*}
+    x\geq y
+  \end{equation*}
+If
+\begin{equation*}
+  x < y,
+\end{equation*}
+then
+\begin{equation*}
+  x = x \text{ mod } y
+\end{equation*}
+and
+\begin{equation*}
+  (x,y) \text{ becomes } (y,x)
+\end{equation*}
 \item Why this works
   \begin{equation*}
     \begin{split}
@@ -147,33 +163,32 @@ exchange $x$ and $y$
 & 24 = 18d + e \\
 & ac=abd + e \\
 & e = a (c-bd) \\
-& a \mid  24-18
+& a \mid  24-18d
 \end{split}
 \end{equation*}
 \item Is this algorithm polynomial?
 
+\item At each iteration, $x$ or $y$ reduced at least by half 
+  
 \item If $x > y$
 \begin{equation*}
-  x \mod y \leq x/2
+  x \text{ mod } y \leq x/2
 \end{equation*}
 Proof
 \begin{equation*}
-  \mbox{if } x/2 \geq y, x \mod y \leq y \leq x/2
+  \mbox{if } x/2 \geq y, x \text{ mod } y \leq y \leq x/2
 \end{equation*}
 \begin{equation*}
-  \mbox{if } x/2 < y, x \mod y = x-y \leq x/2
+  \mbox{if } x/2 < y, x \text{ mod } y = x-y \leq x/2
 \end{equation*}
-\item Each iteration
-
-\item [] $x$ or $y$ reduced at least by half 
-
+\item Therefore,
   \begin{equation*}
-\text{\#iter } \leq 2\max(\log_2 x, \log_2 y)= O(n)
+\text{\#iterations } \leq 2\max(\log_2 x, \log_2 y)= O(n)
 \end{equation*}
 $n$: length of input ($x$ and $y$ are stored as bit strings), $\log_2 x + \log_2 y$
 \item Each iteration
 
-\item [] $x \mod y$:  polynomial
+\item [] $x \text{ mod } y$:  polynomial
 
 \item [] see: 1100011 \% 101
 
@@ -187,7 +202,7 @@ $n$: length of input ($x$ and $y$ are stored as bit strings), $\log_2 x + \log_2
   \begin{itemize}
 \item Context-free language $\in P$
 
-\item Th 4.8: CFL decidable
+% \item Th 4.8: CFL decidable
 
 \item Proof omitted
 \end{itemize}\end{frame}

@@ -21,7 +21,7 @@
 
 \item [] ``$\Leftarrow$'' using NTM's accepting branch as  certificate
 \item Proof:
-\item ``$\Rightarrow$'': now we have a verifier V in time $O(n^k)$
+\item ``$\Rightarrow$'': now we have a verifier V in time $n^k$
 
   
 \item [] Recall the definition below
@@ -35,6 +35,8 @@ We have
 \begin{equation*}
 |c|\leq n^k
 \end{equation*}
+because to handle $\langle  w,c\rangle $ in $n^k$,
+$|c|$ should be bounded by $n^k$
 \item Use an NTM to
   \begin{enumerate}
   \item nondeterministically select $c$
@@ -107,15 +109,17 @@ in polynomial time
 \langle  \{4,11,11,16,21,27\},25\rangle 
 \end{equation*}
 \item We prove that this problem is NP
+\item Idea: the subset is the certificate.
 \item Consider any input
   \begin{equation*}
   \langle  \langle  s,t\rangle ,c\rangle 
 \end{equation*}
-we 
+We 
   \begin{enumerate}
   \item check if $\sum c_i=t$
   \item check if all $c_i \in S$
   \end{enumerate}
+If both pass, accept; otherwise, reject
 \item Here
   \begin{equation*}
   \text{length of } c < \text{  length of } s
@@ -154,9 +158,9 @@ we
 
 \item For certain NP problems:
 
-\item [] If $\exists$ a polynomial algorithm of one NP $\Rightarrow$ P = NP
+\item [] If $\exists$ a polynomial algorithm for one NP $\Rightarrow$ P = NP
 
-\item These probelsm are called NP-complete problems
+\item These problems are called NP-complete problems
 \item They are useful to study the issue of P versus NP
 \item To prove P $\neq$ NP: only need to focus on
 NP-complete problems
