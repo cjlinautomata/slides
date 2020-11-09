@@ -71,48 +71,47 @@ for tree={
 check $(a+a) \times a$
 
 \framebreak
+\resizebox{5cm}{7cm}{%
+\begin{tikzpicture}[node distance = {10mm}] 
+\tikzstyle{main}=[fill=white,draw=white,minimum size=0.5cm]
+\node[main] (E1) {$E$}; 
+\node[main] (T2) [below right = 0.5cm and 0.2 cm of E1] {$T$};
+\node[main] (T3) [below left=0.5cm and 0.7cm of T2] {$T$}; 
+\node[main] (F3) [below right=0.5cm and 1.0cm of T2] {$F$};
+\node[main] (F4) [below of=T3] {$F$};
+\node[main] (E5) [below of=F4] {$E$};
+\node[main] (E6) [below left=0.2cm and 0.5cm  of E5] {$E$};
+\node[main] (T6) [below right=0.2cm and 0.5cm  of E5] {$T$};
+\node[main] (T7) [below =0.3cm of E6] {$T$};
+\node[main] (F7) [below =0.3cm of T6] {$F$};
+\node[main] (F8) [below =0.3cm of T7] {$F$};
+\node[main] (a1) [below =0.3cm of F8] {$a$};
+\node[main] (leftpar) [left of=a1] {$($};
+\node[main] (sum) [right =0.55cm of a1] {$+$};
+\node[main] (a2) [right =0.55cm of sum] {$a$};
+\node[main] (rightpar) [right of= a2] {$)$};
+\node[main] (times) [right of=rightpar] {$\times$};
+\node[main] (a3) [right of=times]{$a$};
 
-\scalebox{0.55}{
-  \begin{forest}
-for tree={
-    parent anchor=south,
-    child anchor=north,
-    if n children=0{
-      font=\itshape,
-      tier=terminal,
-    }{},
-  }    
-  [E
-   [T
-    [T
-     [F
-     [[(]]
-      [E
-       [E
-        [T
-         [F
-          [a]
-         ]
-        ]
-       ]
-       [+]
-       [T
-        [F
-         [a]
-        ]
-       ]
-      ]
-      [[)]]
-     ]
-    ]
-   [$\times$]
-   [F
-    [a]
-   ]
-  ]
- ]
-\end{forest}
-}
+\draw (E1) to [out=315,in=120,looseness=1.0] (T2); 
+\draw (T2) to [out=325,in=135,looseness=0.5] (F3); 
+\draw (F3) to [out=285,in=90,looseness=1.0] (a3);
+\draw (T2) to [out=290,in=90,looseness=1.0] (times);
+\draw (T2) to [out=235,in=60,looseness=0.5] (T3);
+\draw (T3) to [out=315,in=90,looseness=1.0] (rightpar);
+\draw (T3) to [out=225,in=90,looseness=1.0] (leftpar);
+\draw (T3) to (F4);
+\draw (F4) to (E5);
+\draw (E5) to [out=190,in=90,looseness=1.0] (E6);
+\draw (E5) to [out=350,in=90,looseness=1.0] (T6);
+\draw (E6) to  (T7);
+\draw (T6) to (F7);
+\draw (T7) to (F8);
+\draw (F8) to (a1);
+\draw (E5) to (sum);
+\draw (F7) to (a2);
+\end{tikzpicture}%
+} 
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Design Grammars}
   \begin{itemize}
 \item $\{0^n 1^n \mid n\geq 0\}
