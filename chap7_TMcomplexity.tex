@@ -34,7 +34,7 @@ $O(t(n))$ on a single-tape TM
 \item Let $k$ be the number of tapes
 \item How did we simulate a multi-tape TM?
 
-\begin{center}
+  \begin{center}
 \begin{tikzpicture}[ampersand replacement=\&]
 \matrix 
 {
@@ -62,16 +62,17 @@ $O(t(n))$ on a single-tape TM
 \begin{tikzpicture}[ampersand replacement=\&]
 \matrix[nodes={minimum height=8mm}] 
 {
-  \node[draw](0) {CPU}; \& [0.2cm] \& \node(1){} ; \&\& \&\&\& \&\&\& \&\&\& \\
-\& \node[draw]{\#};  \& \node[draw](a){0}; \& \node[draw]{$\dot{1}$}; \& \node[draw]{1}; \& \node[draw]{$\cdots$};
-\& \node[draw]{\#};  \& \node[draw]{$\dot{\text{a}}$}; \& \node[draw]{a}; \& \node[draw]{$\cdots$}; 
-\& \node[draw]{\#};  \& \node[draw](c){0}; \& \node[draw]{$\dot{0}$}; \& \node[draw]{$\cdots$}; \\
+  \node[draw](0) {CPU}; \& [0.2cm] \& \& \node(1){} ; \& \&\&\& \&\&\& \&\&\& \\
+\& \node[draw]{\#};  \& \node[draw]{0}; \& \node[draw](a){$\dot{1}$}; \& \node[draw]{1}; \& \node[draw]{$\cdots$};
+\& \node[draw]{\#};  \& \node[draw]{a}; \& \node[draw]{a}; \& \node[draw]{$\dot{\text{c}}$}; \& \node[draw]{$\cdots$}; 
+\& \node[draw]{\#};  \& \node[draw](c){$\dot{0}$}; \& \node[draw]{0}; \& \node[draw]{$\cdots$}; \\
 };
 
 \draw [-,red,thick] (0) -- (1.center) ;
 \draw [->,red,thick] (1.center) -- (a) ;
 \end{tikzpicture}
 \end{center}
+
 
 \item To simulate each step of multi-tape TM, we scan to know where heads point to
   and do the update
