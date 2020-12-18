@@ -35,12 +35,12 @@ G: CFG,\mbox{ generates } w\}
 \item Any $w, |w|=n$, derivation in 
 exactly $2n-1$ steps
 
-\item If $q$ is the \# rules, check all $q^{2n-1}$ branches
+\item If $q$ is the \# rules, check all $q^{2n-1}$ possibilities
 
 \item Proof
   \begin{enumerate}
   \item Convert $G$ to Chomsky
-  \item Check all $q^{2n-1}$ branches
+  \item Check all $q^{2n-1}$ possibilities
   \end{enumerate}
 
 \item Results apply to PDA as well: for PDA we have a finite
@@ -107,7 +107,10 @@ or not
 \item For nondeterministic PDA we can do NTM 
 \item But nondeterministic PDA may have $\infty$-long branches
 
-\item [] TM runs forever
+\item Specifically,  some
+branches of the PDA's computation may go on forever, reading and writing the
+stack without ever halting.
+\item Then TM runs forever
 \item So converting PDA to TM does not really work
 \item A proof that works:
 

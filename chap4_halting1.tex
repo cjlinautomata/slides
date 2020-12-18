@@ -103,6 +103,15 @@ it becomes an onto function
     f(a) = a^3, \text{ where } A = (-\infty, \infty) \text{ and }
     B = (-\infty, \infty)
   \end{equation*}
+  \begin{center}
+\begin{tikzpicture}
+  \draw[->] (-1.5, 0) -- (1.5, 0) node[right] {$x$};
+  \draw[->] (0, -2.2) -- (0, 2.2) node[above] {$y$};
+  \draw[-][scale=0.5, domain=-1.7:1.7, smooth, variable=\x, blue] plot ({\x}, {\x*\x*\x});
+\end{tikzpicture}
+\end{center}
+\item Thus a correspondence is a way of pairing elements of a set with
+elements of another
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 4.13}
   \begin{itemize}
 \item $N=\{1,2,\ldots\}$
