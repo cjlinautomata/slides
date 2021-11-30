@@ -78,7 +78,7 @@ Tape 1: input, never altered
   Tape 2: copy input from tape 1 and run one branch up to certain layer
   
 \item
-  Tape 3: maintain the tree
+  Tape 3: store a path to a node
 
 \item
   The key is the 3rd tape
@@ -86,26 +86,29 @@ Tape 1: input, never altered
 \item
   Suppose $\max$ \# branches 3
 
-\item
-  [] At the 1st step: if contents of 3rd tape are 1 2 
-\item
-  [] $\Rightarrow $ can go to
-1 or 2 from $q_0$
-
-\item The tree keeps growing. For example, 
+\item If contents of 3rd tape are
+  \begin{center}
+    231
+  \end{center}
+  it means
+  \begin{center}
+      root $\rightarrow$ 2nd child $\rightarrow$ 3rd child $\rightarrow$ 1st child
+  \end{center}
+\item Thus tape 3 contents in the procedure can be like
 \begin{alltt}
-1 2
-12 13 2
-12 13 21 22 23
-121 123 13 21 22 23
+1
+2
+3
+11
+...
+333
+111
+...
 \end{alltt}
-\item What if 12 is a failed branch?
-\begin{alltt}
-\alert{12} 13 21 22 23
-\alert{12} 131 132 21 22 23
-\end{alltt}
-\item
-  12 fails, continue 131, no need to remove 12
+\item What if say 111 is not a valid configuration? For example,
+  after 11, there is no link to go to the 1st child
+\item That is fine. We can still check such a path as long as it
+  is finite
 \item Therefore, an NTM can be simulated by a three-tape TM
 \item
   We have shown that a multi-tape TM can be simulated
