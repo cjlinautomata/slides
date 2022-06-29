@@ -12,13 +12,17 @@
 
 \begin{frame}[allowframebreaks] \frametitle{Equivalence with context-free grammars}
   \begin{itemize}  
-\item Language context free
+\item  Language context free
 $\Leftrightarrow$ recognized by pushdown automata
 
 \item For the left-hand side, recall that by definition a language is context-free if
   it is constructed by some CFG
+\item Thus, the proof is equivalent to 
+\item []
+  Language by CFG
+$\Leftrightarrow$ recognized by pushdown automata
 \item For the proof, one direction is easier, while the other is harder
-\item As usual, we do the easier one first
+\item As usual, we do the easier one ($\Rightarrow$) first
   
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{CFL $\rightarrow$ PDA}
     \begin{itemize}
@@ -41,9 +45,30 @@ $\Leftrightarrow$ recognized by pushdown automata
     \end{split}
   \end{equation*}
 
-\item Idea: for rule substitution, push right-hand side to stack
-
-\item [] For example, $aTb$ is pushed to stack in a reversed way
+\item Idea: for rule substitution, we replace the left-hand side variable with
+  the right-hand side string
+\item That is, in PDA, we
+  \begin{center}
+    pop up the left-hand side variable
+  \end{center}
+  and
+  \begin{center}
+push right-hand side to stack
+\end{center}
+in \alert{a reversed way}
+\item For example, we have
+  \begin{equation*}
+  S \rightarrow aTb    
+  \end{equation*}
+\item [] Then
+  \begin{center}
+    $S$ is popped
+  \end{center}
+and
+\begin{center}
+  $b, T, a$
+\end{center}
+are sequentially pushed
 
   \item
   A PDA can be as follows
@@ -83,7 +108,18 @@ $\Leftrightarrow$ recognized by pushdown automata
 % substitute A by ??
 
 % check if finally it matches \$
-
+\item We use $\$$ to ensure that before accepting
+  any string, stack is empty
+\item Then the start variable $S$ is pushed
+\item The state $q_{\text{loop}}$ is the main place to handle rules and process input characters
+\item Besides rules from CFG, we need
+  \begin{equation*}
+    \begin{split}
+      & a, a \rightarrow \epsilon\\
+      & b, b \rightarrow \epsilon.
+    \end{split}
+  \end{equation*}
+Otherwise, input characters are never processed
 \item Consider an example sequence $aaaab$
 % Draw a tree process $aaaa$
 % Before the first $a$, we will see $\infty$
@@ -119,6 +155,7 @@ q_{\text{loop}}, \{S,\$\}
   by this CFG can be accepted by the PDA
   \begin{enumerate}
   \item A string is accepted only if all characters are processed
+    (this is part of the PDA definition!)
   \item We have $\$$ to ensure that the stack is empty in the end
   \end{enumerate}
 \end{itemize}
