@@ -13,11 +13,11 @@
   \begin{itemize}
 \item Regular operations can be used to study whether languages are regular or not
 
-\item  That is, we aim to check for a given language,
+\item  That is, these operations can help us to check if for a given language,
   whether there are finite automata to recognize it or not
-\item Three definitions
+\item We mainly consider three operations.
 
-\item [] $A,B$ are given languages
+\item Assume $A,B$ are given languages
 \begin{itemize}
 \item union
   \begin{equation*}
@@ -78,7 +78,11 @@ Example: $N=\{1,2,\ldots\}$ is closed under multiplication
 && M_1 =(Q_1, \Sigma, \delta_1, q_1, F_1)\\
 && M_2 =(Q_2, \Sigma, \delta_2, q_2, F_2)\\
   \end{eqnarray*}
-\item Construct a new machine
+\item Question: you want to think about why we can consider the
+  same $\Sigma$
+\item Idea: we construct a parallel machine to run two
+  machines simultaneously 
+\item Definition of our new machine
   \begin{eqnarray*}
 && M =(Q, \Sigma, \delta, q, F)\\
 && Q=\{(r_1,r_2)\mid r_1 \in Q_1, r_2 \in Q_2\}\\
@@ -133,7 +137,7 @@ Example: $N=\{1,2,\ldots\}$ is closed under multiplication
       \end{tikzpicture}
     \end{center}
   
-\item Is this proof rigourously enough ?
+\item Is this proof rigorously enough?
 \item [] A formal proof should be done by induction. But we don't
   provide it here
 \item Th 1.26: closed under concatenation

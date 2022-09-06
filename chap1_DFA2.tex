@@ -38,9 +38,20 @@
     a\ldots a, b \ldots b
   \end{equation*}
 
-where ``$\ldots$'' can be any string of $a$ and $b$
+  where ``$\ldots$'' can be any string of $a$ and $b$
+\item First we check that any string accepted by the machine
+  must be
+    \begin{equation*}
+    a\ldots a, b \ldots b
+  \end{equation*}
+\item Second we check that any
+      \begin{equation*}
+    a\ldots a, b \ldots b
+  \end{equation*}
+can be recognized by the machine
+\item This machine handles strings with the same character in
+  the beginning and in the end
 \end{itemize}\end{frame}
-
 
 
 \begin{frame}[allowframebreaks] \frametitle{Example 1.13}
@@ -75,7 +86,7 @@ where ``$\ldots$'' can be any string of $a$ and $b$
   \begin{equation*}
     10\langle  reset\rangle22\langle  reset\rangle012
   \end{equation*}
-\item Running this string
+\item An example of running a string
   \begin{equation*}
     \begin{split}
       &      q_0 \xrightarrow{1} q_1 \xrightarrow{0} q_1
@@ -85,7 +96,9 @@ where ``$\ldots$'' can be any string of $a$ and $b$
       \xrightarrow{0} q_0 \xrightarrow{1} q_1 \xrightarrow{2} q_0
     \end{split}
   \end{equation*}
-Accepted.
+Accepted
+\item Each node stores the sum of the current segment
+  $\mod 3$
 \end{itemize}\end{frame} 
 
 \begin{frame}[allowframebreaks] \frametitle{Formal Definition of Computation}
@@ -100,12 +113,19 @@ Accepted.
   \end{enumerate}
 \item \alert{Definition}:
   a language is regular if recognized by some automata
+\item This is a very important definition
+\item Examples described earlier are regular languages
+\item We say \alert{some} automata, so it's possible to have
+  several automata for the same language
+\item As long as there is one, then the language is regular
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Designing Automata}
   \begin{itemize}
 \item Given a language, how do we construct a machine to recognize it?
 \item Basically we need to get a state diagram (where the number
   of states is finite)
-\item An automaton recognizing $\{0,1\}$ strings with odd
+\item Earlier we had the opposite: a machine is given and we check the
+  corresponding language
+\item Example: an automaton recognizing $\{0,1\}$ strings with an odd
 \# of 1's 
 
 \item []Fig 1.20
@@ -121,7 +141,7 @@ Accepted.
         (q_o) edge[bend left, below]  node {$1$} (q_e);
       \end{tikzpicture}
     \end{center}
-\item Examples
+\item Sample strings
 
 \item [] 01
   \begin{equation*}
@@ -146,7 +166,7 @@ q_o \xrightarrow{1} q_e \rightarrow \cdots \rightarrow q_e
   \end{itemize}
 \item Example 1.21
   
-\item [] strings contain 001
+\item [] Language: strings containing 001
 
 \item [] Fig 1.22
 
