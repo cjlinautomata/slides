@@ -33,7 +33,8 @@
 \end{center}
 \item For this language, $\Sigma=\{0\}$.
   This is called unary alphabets
-
+\item The only non-deterministic place is at the start
+  state
 \item What is the language?
   \begin{equation*}
 \{0^k\mid  k \text{ multiples of 2 or 3}\}
@@ -97,10 +98,10 @@ P(Q)$
 
 \item [] $P(Q)$: all possible subsets of $Q$
 \item $\Sigma_\epsilon
-=\Sigma \cup \{\epsilon\}$
+=\Sigma \cup \alert{\{\epsilon\}}$
 \item $P(Q)$: power set of $Q$
 
-\item [] ``power'': all $2^{|Q|}$ combinations 
+\item [] ``power'': all $2^{|Q|}$ combinations; $|Q|$: size of $Q$ 
 
 \begin{equation*}
   Q = \{1,2,3\}
@@ -117,6 +118,7 @@ P(Q)$
 \{1,2,3\}\}
 \end{split}
 \end{equation*}
+\item Thus $P(Q)$ is a set of sets
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Example 1.38}
   \begin{center}
 \begin{tikzpicture}
@@ -150,7 +152,9 @@ $q_3$ & $\emptyset$ & $\{q_4\}$ & $\emptyset$\\
 $q_4$ & \{$q_4$\} & $\{q_4\}$ & $\emptyset$
   \end{tabular}
 \end{center}
-\item Note that DFA does not allow $\emptyset$ 
+\item Every element in the table is a set
+\item Note that DFA does not allow $\emptyset$. In NFA, ``no link'' means the output of $\delta$ is $\emptyset$
+\item So seriously speaking, a DFA is not an NFA. Need modifications to satisfy the NFA definition
 \end{itemize}\end{frame}
 
 \begin{frame}[allowframebreaks] \frametitle{$N$ accepts $w$}

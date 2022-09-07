@@ -12,10 +12,20 @@
 
 \begin{frame}[allowframebreaks] \frametitle{Closure under regular operations}
   \begin{itemize}
-  \item Recall we define three operations:
+  \item Recall we defined three operations:
     \begin{equation*}
     \cup, \circ, *
   \end{equation*}
+\item For
+  \begin{equation*}
+    A_1 \cup A_2,
+  \end{equation*}
+  we proved that it's regular by constructing a new DFA
+\item But we had difficulties to prove that
+  \begin{equation*}
+    A_1 \circ A_2
+  \end{equation*}
+  is regular
 \item We will see that by using NFA, the proof is easier
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Union}
   \begin{itemize}  
@@ -54,6 +64,8 @@ $\Sigma$
   \end{tabular}
 \end{center}
 
+\item We construct the following machine
+  
 \begin{center}
   \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
 \node[state, initial] (0) {$q_0$};    
@@ -104,7 +116,7 @@ $\Sigma$
   \delta_1(q,a) &  q \in Q_1\\
   \delta_2(q,a) &  q \in Q_2\\
 \{q_1,q_2\} & q= q_0 \mbox{ and }  a = \epsilon \\
-\emptyset & q = q_0 \mbox{ and } a \neq \epsilon
+\emptyset & q = q_0 \mbox{ and } \alert{a \neq \epsilon}
 \end{cases}
 \end{equation*}
 \item The last case of $\delta$ is easily neglected
@@ -138,6 +150,10 @@ Given two NFAs
 \begin{itemize}
 \item Idea: from any accept state of $N_1$, add an $\epsilon$ link to
   $q_2$ (start state of $N_2$)
+\item Earlier in using DFA, the difficulty was that we didn't know
+  where to cut the string to two parts
+\item Now we non-deterministically switch from the first to the
+  second machine
 \item The new machine:
 \end{itemize}
 
@@ -165,6 +181,8 @@ Given two NFAs
 
 
   \begin{itemize}
+\item Accept states of $N_1$ are no longer accept states in the
+  new machine
 
 \item Formal definition. Given two automata
 
@@ -216,6 +234,8 @@ $\delta$ function:
 A^*=\{x_1 \cdots x_k \mid
 k \geq 0, x_i \in A\}
 \end{equation*}
+\item The situation is related to $A_1 \circ A_2$, but we now
+  work on the same machine $A$
 \item How about the following diagram
   \begin{center}
 \begin{tikzpicture}[scale=0.5, every node/.style={scale=0.5}]
@@ -248,6 +268,8 @@ k \geq 0, x_i \in A\}
 \end{center}
 \item This may make the machine to accept strings not in
   $A$
+\item Some strings reaching the start state in the end were
+  rejected. But now may be accepted
 \item A correct setting
   
   \begin{center}

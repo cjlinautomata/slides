@@ -88,7 +88,7 @@ edge[below] node{$a$} (13)
 \begin{frame}[allowframebreaks]
   \frametitle{Explanation of the Procedure}
 \begin{itemize}
-\item Each state is a subset of $\{1,2,3\}$
+\item Each state is a subset of $\{1,2,3\}$. So each state is an element of $P(Q)$
 \item Let's check details of
 
   \begin{center}
@@ -110,6 +110,16 @@ Thus
 \begin{equation*}
   \emptyset \cup \{ 2, 3\} = \{2, 3\}
 \end{equation*}
+\item Details of
+
+  \begin{center}
+    \begin{tikzpicture}
+      \node[state] (3) {$\{3\}$};
+      \node[state, right of=3] (13) {$\{1, 3\}$};
+\draw (3) edge[above] node{$a$} (13);      
+    \end{tikzpicture}
+  \end{center}
+We must take care of $\epsilon$
 \item Start state:
   \begin{center}
     $\{1, 3\}$ but not $\{1\}$
@@ -200,11 +210,11 @@ edge[above] node{$a$} (13)
 \end{center}
 We see
 \begin{equation*}
-  \{1\} \xrightarrow{b} \{2\} \xrightarrow{a} \{2, 3\}
+  \{1,3\} \xrightarrow{b} \{2\} \xrightarrow{a} \{2, 3\}
   \xrightarrow{a} \{1, 2, 3\}
 \end{equation*}
-\item Proof
-  \item[] Given NFA
+\item Formal description of the procedure
+  \item Given NFA
     \begin{equation*}
 (Q,\Sigma, \delta, q_0, F)
 \end{equation*}
@@ -212,15 +222,15 @@ We would like to convert it to a DFA
 \begin{equation*}
 (Q', \Sigma, \delta', q'_0, F')
 \end{equation*}
-Details of this DFA:
+\item Details of this DFA:
 \begin{itemize}
 \item $Q'=P(Q)$
 \item $q_0' \in P(Q)$ includes
-  \begin{center}
- $q_0$ + states
-reached by $\epsilon$
-\end{center}
-We call such a set $E(q_0)$
+  \begin{equation*}
+ \{q_0\} \cup \{\text{states
+reached by $\epsilon$ from $q_0$}\}
+\end{equation*}
+We call such a set $E(\{q_0\})$
 \item $F'=
 \{R\mid R \in Q', R \cap F\neq \emptyset\}$
 \item $\delta'$:
@@ -228,10 +238,13 @@ We call such a set $E(q_0)$
     \delta'(R,a)=
 \cup_{r\in R} E(\delta(r,a))
 \end{equation*}
-Note that we cannot just do
+Now $r$ is a state of NFA and we use $\delta$ to see where to go
+by taking the input $a$
+\item Note that we cannot just do
 \begin{equation*}
 \cup_{r\in R}\delta(r,a)
 \end{equation*}
+$\epsilon$ must be handled
 \end{itemize}
 \end{itemize}
 \end{frame}

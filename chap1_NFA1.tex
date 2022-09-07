@@ -49,9 +49,10 @@ $ or $q_2$
 
 \item $\epsilon$ between $q_2$ and $q_3$: $q_2$ can move to
 $q_3$ without any input
-\item How to run a string? It can be run by split
+\item How to run a string? We can separately consider different
+  situations
 
-\item A kind of parallel machines
+\item It's like we have a kind of parallel machines
 \item ex: 010110
 
 \item Fig 1.29
@@ -128,7 +129,7 @@ $q_3$ without any input
 
 \item Strings with 1 in 3rd position from the end
 
-\item [] 00100, 0100 are accepted, but 0010 is not
+\item Strings 00100, 0100 are accepted, but 0010 is not
 
 
 \item Fig 1.31
@@ -149,13 +150,17 @@ $q_3$ without any input
   \item The only nondeterministic place is at $q_1$
   \item At $q_1$ we nondeterministically guess if we are already
     at the third position from the end
+  \item Another difference is that at $q_4$, there are no out-links
+  \item [] This is crucial. It ensures that at $q_4$ we have
+    1 in the 3rd position from the end and can accept the string
+  \item Can we recognize this language by a DFA?
     
-\item DFA and NFA
+\item An interesting issue is about the relationship between DFA and NFA
 
 \item They are equivalent. We will formally explain this later
 
 \item For this example we can directly design a DFA
-  for this language
+  for the language
 \item Fig 1.32
 \end{itemize}
 \begin{tikzpicture}
@@ -197,7 +202,7 @@ $q_3$ without any input
 \item 
 Idea of this diagram: using 8 states
 to record the past 3 digits so far
-
+\item Accept states: any $q_{1xx}$ can be an accept state
 \item The idea is simple. But 
 why can we use 000 as the start state? 
 \item Looks like we need other nodes:
