@@ -77,9 +77,9 @@ are sequentially pushed
 \node[state,initial] (q_1) {$q_s$};
 \node[state] (q_2) [below of=q_1,yshift=1.2cm] {};
 \node[state] (q_3) [below of=q_2,yshift=1.2cm] {$q_{\text{loop}}$};
-\node[state] (q_4) [above right of=q_3, yshift=-0.5cm, xshift=0.5cm] {};
-\node[state] (q_6) [right of=q_4, yshift=1.8cm] {};
-\node[state] (q_5) [below right of=q_3, yshift=0.5cm, xshift=2.5cm] {};
+\node[state] (q_4) [above right of=q_3, yshift=-0.5cm, xshift=0.5cm] {$q_1$};
+\node[state] (q_6) [right of=q_4, yshift=1.8cm] {$q_2$};
+\node[state] (q_5) [below right of=q_3, yshift=0.5cm, xshift=2.5cm] {$q_3$};
 \node[state] (q_7) [below of=q_3,yshift=1.2cm,accepting] {$q_a$};
   \path 
   (q_1) edge[left]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_2)
