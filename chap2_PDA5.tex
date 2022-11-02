@@ -1,4 +1,5 @@
 \input{header}
+\usepackage{CJKutf8}
 
 \AtBeginSubsection[]
 {
@@ -77,6 +78,82 @@
   (q_1) edge[above]  node {$\epsilon, \$ \rightarrow \epsilon$} (q_a)
   (q_2) edge[below]  node {$\epsilon, \$ \rightarrow \epsilon$} (q_a);
   \end{tikzpicture}
+
+Is this correct? Let's check an example:\\{\footnotesize(Thank student 
+\begin{CJK}{UTF8}{bsmi}吳彥翔\end{CJK} for providing this example.)}\\
+\begin{center}
+\begin{tikzpicture}
+    \node[state] (q_0) {$q_{s'}$};
+    \node[state] [below of=q_0] (q_1) {$q_{1}$};
+    \node[state,accepting] [right of=q_1] (q_2) {$q_{2}$};
+    \node[state,accepting] [above of=q_2] (q_3) {$q_{3}$};
+    \path[->]
+    (q_0) edge [left] node {$\epsilon,\epsilon\to a$} (q_1)
+    (q_1) edge [below] node {$\epsilon,\epsilon\to b$} (q_2)
+    (q_2) edge [right] node {$a,a\to\epsilon$} (q_3)
+    ;
+\end{tikzpicture}
+\end{center}
+\item This machine would not accept $a$
+\pagebreak
+
+Applying the procedure:
+\begin{center}
+\begin{tikzpicture}
+    \node[state] (q_0) {$q_{s'}$};
+    \node[state] [left of=q_0] (q_s) {$q_{s}$};
+    \node[state] [below of=q_0] (q_1) {$q_{1}$};
+    \node[state] [right of=q_1] (q_2) {$q_{2}$};
+    \node[state] [above of=q_2] (q_3) {$q_{3}$};
+    \node[state,accepting] [right of=q_3] (q_a) {$q_a$};
+    \path[->]
+    (q_s) edge [above] node {$\epsilon,\epsilon\to\$$} (q_0)
+    (q_0) edge [left] node {$\epsilon,\epsilon\to a$} (q_1)
+    (q_1) edge [below] node {$\epsilon,\epsilon\to b$} (q_2)
+    (q_2) edge [left] node {$a,a\to\epsilon$} (q_3)
+    (q_3) edge [above] node {$\epsilon,\$\to\epsilon$} (q_a)
+    (q_2) edge [sloped,above] node {$\epsilon,\$\to\epsilon$} (q_a)
+    (q_3) edge [loop left,above,text width=2cm] node {$\epsilon,a\to\epsilon$ $\epsilon,b\to\epsilon$} (q_3)
+    (q_2) edge [loop right,right,text width=2cm] node {$\epsilon,a\to\epsilon$ $\epsilon,b\to\epsilon$} (q_2)
+    ;
+\end{tikzpicture}
+\end{center}
+\item The machine now accepts $a \implies$ incorrect!
+\pagebreak
+
+
+We should only pop the stack at the end of input. Therefore, we should have:
+\item A new start $q_s \rightarrow q_{s'}$ with $\epsilon, \epsilon
+\rightarrow \$ $
+\item A \alert{new state $q_\text{pop}$} that have $\epsilon, a\rightarrow \epsilon $ back to $q_\text{pop}$, $\forall a$. 
+\item For $q\in F$, add a transition $\epsilon,\epsilon\to\epsilon$ from $q$ to $q_\text{pop}$
+\item Add a new accept state $q_a$ and a transition $\epsilon,\$\to\epsilon$ from $q_\text{pop}$ to $q_a$
+% \item Because $q_\text{pop}$ and $q_a$ does not consume input, the branch rejects if it is not the end of input.
+\pagebreak
+
+\end{itemize}
+New:
+\begin{center}
+\begin{tikzpicture}
+    \node[state] (q_0) {$q_{s'}$};
+    \node[state,initial above,left=1.5cm of q_0] (q_s) {$q_{s}$};    
+    \node[state,draw=none,fill=white] (q_d) [right=0cm of q_0] {$\cdots$};    
+    \node[state] (q_1) [right=-0.3cm of q_d, yshift=2cm] {$q_1$};
+    \node[state] (q_2) [right=-0.3cm of q_d, yshift=-2cm] {$q_2$};
+    \node[state, right=2cm of q_d] (q_pop) {$q_\text{pop}$};
+    \node[state,accepting, right of=q_pop] (q_a) {$q_{a}$};
+
+  \path 
+  (q_s) edge[above]  node {$\epsilon, \epsilon \rightarrow \$ $} (q_0)
+  (q_pop) edge[loop below,text width=2cm]  node {$\epsilon, a \rightarrow \epsilon$\quad $\epsilon, b \rightarrow \epsilon$} (q_pop)  
+  (q_1) edge[above,sloped]  node {$\epsilon,\epsilon \rightarrow \epsilon$} (q_pop)
+  (q_2) edge[above,sloped]  node {$\epsilon,\epsilon \rightarrow \epsilon$} (q_pop)
+  (q_pop) edge [above] node {$\epsilon,\$\to\epsilon$} (q_a)
+  ;
+\end{tikzpicture}
+\end{center}
+
+\begin{itemize} 
 \item  To have each transition push or pop, but not both,
 change
 \begin{center}
