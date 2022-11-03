@@ -83,12 +83,12 @@ Is this correct? Let's check an example:\\{\footnotesize(Thank student
 \begin{CJK}{UTF8}{bsmi}吳彥翔\end{CJK} for providing this example.)}\\
 \begin{center}
 \begin{tikzpicture}
-    \node[state] (q_0) {$q_{s'}$};
-    \node[state] [below of=q_0] (q_1) {$q_{1}$};
+    \node[state,initial] (q_0) {$q_{s'}$};
+    \node[state] [right of=q_0] (q_1) {$q_{1}$};
     \node[state,accepting] [right of=q_1] (q_2) {$q_{2}$};
     \node[state,accepting] [above of=q_2] (q_3) {$q_{3}$};
     \path[->]
-    (q_0) edge [left] node {$\epsilon,\epsilon\to a$} (q_1)
+    (q_0) edge [below] node {$\epsilon,\epsilon\to a$} (q_1)
     (q_1) edge [below] node {$\epsilon,\epsilon\to b$} (q_2)
     (q_2) edge [right] node {$a,a\to\epsilon$} (q_3)
     ;
@@ -100,20 +100,20 @@ Is this correct? Let's check an example:\\{\footnotesize(Thank student
 Applying the procedure:
 \begin{center}
 \begin{tikzpicture}
-    \node[state] (q_0) {$q_{s'}$};
-    \node[state] [left of=q_0] (q_s) {$q_{s}$};
-    \node[state] [below of=q_0] (q_1) {$q_{1}$};
+    \node[state,initial right] (q_s) {$q_{s}$};
+    \node[state] [below of=q_s](q_0) {$q_{s'}$};
+    \node[state] [right of=q_0] (q_1) {$q_{1}$};
     \node[state] [right of=q_1] (q_2) {$q_{2}$};
     \node[state] [above of=q_2] (q_3) {$q_{3}$};
     \node[state,accepting] [right of=q_3] (q_a) {$q_a$};
     \path[->]
-    (q_s) edge [above] node {$\epsilon,\epsilon\to\$$} (q_0)
-    (q_0) edge [left] node {$\epsilon,\epsilon\to a$} (q_1)
+    (q_s) edge [right] node {$\epsilon,\epsilon\to\$$} (q_0)
+    (q_0) edge [below] node {$\epsilon,\epsilon\to a$} (q_1)
     (q_1) edge [below] node {$\epsilon,\epsilon\to b$} (q_2)
     (q_2) edge [left] node {$a,a\to\epsilon$} (q_3)
     (q_3) edge [above] node {$\epsilon,\$\to\epsilon$} (q_a)
     (q_2) edge [sloped,above] node {$\epsilon,\$\to\epsilon$} (q_a)
-    (q_3) edge [loop left,above,text width=2cm] node {$\epsilon,a\to\epsilon$ $\epsilon,b\to\epsilon$} (q_3)
+    (q_3) edge [loop left,left,text width=2cm,looseness=6] node {$\epsilon,a\to\epsilon$ $\epsilon,b\to\epsilon$} (q_3)
     (q_2) edge [loop right,right,text width=2cm] node {$\epsilon,a\to\epsilon$ $\epsilon,b\to\epsilon$} (q_2)
     ;
 \end{tikzpicture}
