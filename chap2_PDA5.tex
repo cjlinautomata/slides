@@ -86,7 +86,7 @@ Is this correct? Let's check an example:\\{\footnotesize(Thank student
     \node[state,initial] (q_0) {$q_{s'}$};
     \node[state] [right of=q_0] (q_1) {$q_{1}$};
     \node[state,accepting] [right of=q_1] (q_2) {$q_{2}$};
-    \node[state,accepting] [above of=q_2] (q_3) {$q_{3}$};
+    \node[state,accepting] [above=1cm of q_2] (q_3) {$q_{3}$};
     \path[->]
     (q_0) edge [below] node {$\epsilon,\epsilon\to a$} (q_1)
     (q_1) edge [below] node {$\epsilon,\epsilon\to b$} (q_2)
@@ -95,9 +95,10 @@ Is this correct? Let's check an example:\\{\footnotesize(Thank student
 \end{tikzpicture}
 \end{center}
 \item This machine would not accept $a$
+\item At $q_2$, stack is $\{b,a\}$. Then we cannot go to $q_3$ by processing $a$.
 \pagebreak
 
-Applying the procedure:
+Applying the procedure described earlier:
 \begin{center}
 \begin{tikzpicture}
     \node[state,initial right] (q_s) {$q_{s}$};
@@ -132,7 +133,7 @@ We should only pop the stack at the end of input. Therefore, we should have:
 \pagebreak
 
 \end{itemize}
-New:
+A correct modification of the PDA:
 \begin{center}
 \begin{tikzpicture}
     \node[state] (q_0) {$q_{s'}$};
