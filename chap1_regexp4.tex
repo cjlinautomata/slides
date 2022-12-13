@@ -12,10 +12,13 @@
 
 \begin{frame}[allowframebreaks] \frametitle{Definition of GNFA}
   \begin{itemize}
+  \item Here we give the formal definition of generalized NFA
 \item Between any two states: a regular expression
 \item $(Q, \Sigma, \delta, q_{start}, q_{accept})$
+\item Single accept state. No longer a set $F$
+\item The $\delta$ function:
   \begin{equation*}
-    \delta:(Q-\{q_{accept}\})\times
+    (Q-\{q_{accept}\})\times
 (Q-\{q_{start}\})\rightarrow R
   \end{equation*}
 $R$: all regular expressions over $\Sigma$
@@ -48,9 +51,8 @@ any $q \in F \rightarrow q_{accept}$ with $\epsilon$
 \item [] $\emptyset \in R$ so if no connection, we simply consider
   $\emptyset$ as the expression between two states
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{GNFA $\rightarrow$ regular expression}
-    \begin{itemize}
-\item Fig 1.63
-
+\begin{itemize}
+\item $q_{\text{rip}}$ is the state being removed
   \begin{center}
 \begin{tikzpicture}
   \node[state] (qi) {$q_i$};
@@ -63,7 +65,7 @@ any $q \in F \rightarrow q_{accept}$ with $\epsilon$
   \draw (qr) edge[loop below, right] node{$R_2$} (qr);            
   \end{tikzpicture}
 \end{center}
-
+\item The new regular expression between $q_i$ and $q_j$ is
 
   \begin{center}
 \begin{tikzpicture}
@@ -73,8 +75,7 @@ any $q \in F \rightarrow q_{accept}$ with $\epsilon$
   \draw (qi) edge[above] node{$(R_1)(R_2)^*(R_3)\cup (R_4)$} (qj);          
   \end{tikzpicture}
 \end{center}
-\item $q_{\text{rip}}$ is the state being removed
-\item In the procedure 
+\item In our example
   
 3-state DFA $\rightarrow $ 5-state GNFA
 $\rightarrow$ 4-state $\cdots \rightarrow$ 2-state GNFA $\rightarrow$
@@ -85,7 +86,7 @@ regular expression
   \item $k$: \# of G
   \item If $k=2$
     \begin{center}
-      return $R$
+      return $R$ between $q_s$ and $q_a$
     \end{center}
 
   \item If $k > 2$, choose any $q_{\text{rip}} \in Q \backslash \{q_s,
@@ -117,7 +118,8 @@ R_4=\delta(q_i,q_j)
 (Q', \Sigma, \delta', q_s, q_a)
   \end{equation*}
   \end{enumerate}
-
+\item You can see we have a recursive setting
+\item [] The process stops when $k=2$
 \item Why in the textbook we modify DFA to GNFA?
 \item [] Is it ok to use NFA?
 
