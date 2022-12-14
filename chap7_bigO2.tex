@@ -168,7 +168,14 @@ on a single-tape TM $\Rightarrow$ regular
   \{0^k1^k \mid k \geq 0\}
 \end{equation*}
 is not regular
-
+\item What if we copy the remained string to be after the current string?
+  It seems that we then have
+  \begin{equation*}
+    n + \frac{n}{2} + \frac{n}{4} + \cdots = O(n)??
+  \end{equation*}
+\item The problem is that \alert{the copy operation is expensive}.
+  Copying $n$ elements needs $O(n^2)$
+  
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Using two-tape TM for $ \{0^k1^k \mid k \geq 0\}$}
   \begin{itemize}
 \item We can have an $O(n)$ procedure
