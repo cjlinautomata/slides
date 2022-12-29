@@ -64,12 +64,12 @@ there is a corresponding element in $B$
   \begin{itemize}
 \item Recall the halting problem is
   \begin{equation*}
-A_{TM}
+A_{\text{TM}}
 =\{\langle M,w \rangle \mid M: \mbox{TM, accepts } w\}
 \end{equation*}
 We prove it is undecidable
 by contradiction
-\item Assume there is an $H$ that is a decider for $A_{TM}$
+\item Assume there is an $H$ that is a decider for $A_{\text{TM}}$
 \item [] Then $H$ satisfies
   \begin{equation*}
     H(\langle  M,w\rangle )=
@@ -175,14 +175,14 @@ Turing-recognizable and co-Turing-recognizable
 is accepted by the machine in \alert{a finite number of steps}
 \item That is, no infinite loop
 \item Example:
-\item [] $A_{TM}$ Turing-recognizable but not decidable
+\item [] $A_{\text{TM}}$ Turing-recognizable but not decidable
   \begin{equation*}
-    w \in \overline{A_{TM}}
+    w \in \overline{A_{\text{TM}}}
   \end{equation*}
   $\Rightarrow$ reject or loop
 
   
-\item [] Thus $\overline{A_{TM}}$ may not be Turing-recognizable
+\item [] Thus $\overline{A_{\text{TM}}}$ may not be Turing-recognizable
 
 \item What if we swap $q_{accept},q_{reject}$?
 

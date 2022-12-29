@@ -1,0 +1,119 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{Proving Languages
+    not Decidable}
+\begin{itemize}
+\item Earlier we proved that $A_{\text{TM}}$ (i.e., the acceptance problem of
+    TM) is undecidable
+  \item Many other problems are not decidable either
+  \item But how to prove that?
+  \item We will introduce a technique
+    called \alert{reducibility}
+  \end{itemize}\end{frame}
+
+\begin{frame}[allowframebreaks] \frametitle{Reducibility}
+  \begin{itemize}
+  \item Reduction: converting the first problem to the
+    second so the second can be used to solve the first
+  \item Example: finding your way around a city can be solved
+    by having a map
+  \item [] The problem is reduced to obtaining a map
+  \item We say $A$ reduces to $B$ if we can use a solution to
+    $B$ to solve $A$
+  \item In the earlier example,
+    \begin{center}
+      \begin{tabular}{l}
+        $A$: getting around a city\\
+        $B$: obtaining a map
+      \end{tabular}
+    \end{center}      
+    \item A mathematical example:
+      \begin{center}
+        \begin{tabular}{l}
+          $A$: measuring the area of a rectangle\\
+          $B$: measuring the length/width
+        \end{tabular}
+      \end{center}
+    \item When $A$ is reducible to $B$, solving $A$ is
+      not harder than $B$
+    \item The reason is that a solution to $B$ gives
+      a solution to $A$
+    \item Therefore,
+      \begin{center}
+        $B$ decidable $\Rightarrow$ $A$ decidable
+      \end{center}
+      and
+      \begin{center}
+        $A$ undecidable $\Rightarrow$ $B$ undecidable
+      \end{center}
+\end{itemize}\end{frame} 
+
+\begin{frame}[allowframebreaks]
+\frametitle{$E_{\text{TM}}$ Undecidable}
+\begin{itemize}
+\item Consider  
+  \begin{equation*}
+    E_{\text{TM}} = \{
+\langle  M\rangle \mid M: \mbox{ a TM and } L(M) = \emptyset\}    
+  \end{equation*}
+\item We prove that it is undecidable
+\item Idea: we do the proof by contradiction
+\item Assume $E_{\text{TM}}$ is decidable. Then there is a decider
+  $R$
+\item From $R$ we construct a decider $S$ for $A_{\text{TM}}$. This causes
+   a contradiction because $A_{\text{TM}}$ is undecidable
+ \item For $A_{\text{TM}}$, the input is $\langle M, w \rangle$. Under such an input, we design $S$ to be as follows
+   \begin{enumerate}
+   \item Design a TM $M_1$ such that
+     \begin{equation}
+       \label{eq:M1}
+       L(M_1) \neq \emptyset \Leftrightarrow M \text{ accepts } w
+     \end{equation}
+   \item Run $R$ on input $\langle M_1\rangle$
+   \item If $R$ accepts, {\em reject}; if $R$ rejects, {\em accept}
+   \end{enumerate}
+ \item We discuss the design of $M_1$ later
+ \item We see that if $R$ accepts, then $L(M_1) = \emptyset$
+   implies that $M$ rejects $w$
+ \item Thus for input $\langle M, w \rangle$, in a finite
+   number of steps we know if $M$ accepts $w$ or not
+ \item Then $A_{\text{TM}}$ is decidable, a contradiction
+ \item How to design $M_1$?
+ \item $M_1$ takes input $x$ and have
+   \begin{enumerate}
+   \item If $x \neq w$, {\em reject}
+   \item If $x = w$, run $M$ on input $w$ and {\em accept} if $M$ does
+   \end{enumerate}
+ \item Clearly,
+   \begin{equation*}
+     L(M_1) = \emptyset \text{ or } \{w\}
+   \end{equation*}
+   We see that
+   \begin{equation*}
+     \begin{split}
+     &  M \text{ accepts } w \Rightarrow L(M_1) = \{w\} \neq \emptyset\\
+     &  L(M_1) \neq \emptyset \Rightarrow M \text{ accepts } w
+     \end{split}
+   \end{equation*}
+ Thus the condition \eqref{eq:M1} is satisfied
+ \item $M_1$ takes $w$ as part of its description
+ \item This is fine as we can design a machine related to a
+   specific string
+\end{itemize}
+\end{frame}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

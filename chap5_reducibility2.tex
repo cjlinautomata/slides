@@ -1,0 +1,116 @@
+\input{header}
+
+\AtBeginSubsection[]
+{
+	\begin{frame}<beamer>
+		\frametitle{Outline}
+		\tableofcontents[current,currentsubsection]
+	\end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[allowframebreaks] \frametitle{$REGULAR_{\text{TM}}$ Undecidable}
+\begin{itemize}
+\item For a given TM, we hope to check if there exists
+  an equivalent finite automaton
+\item The problem can be formulated as follows
+  \begin{equation*}
+    \begin{split}
+      REGULAR_{\text{TM}} 
+      = \{
+      \langle  M\rangle \mid { } & M \mbox{ is a TM and} \\
+      & L(M)
+      \text{ is a regular language}    \}
+    \end{split}
+  \end{equation*}
+\item As before, assume this language is decidable
+  and has a decider $R$
+\item We construct a decider $S$ for $A_{\text{TM}}$
+  as follows
+  \begin{enumerate}
+  \item Design a TM $M_2$ such that it recognizes
+    \begin{equation}
+      \begin{cases}
+        \text{a regular language}  & \text{if $M$ accepts $w$}  \\
+        \text{a non-regular language} & \text{if $M$ rejects $w$}
+      \end{cases}
+    \label{eq:M2}
+    \end{equation}
+\item Run $R$ on input $\langle M_2 \rangle$
+  \item If $R$ accepts, {\em accept}; if $R$ rejects,
+    {\em reject}
+  \end{enumerate}
+\item Then we have
+  \begin{equation*}
+    \begin{cases}
+     \text{$S$ accepts} & \text{if $M$ accepts $w$} \\
+     \text{$S$ rejects} & \text{if $M$ rejects $w$}
+    \end{cases}
+  \end{equation*}
+  \item Thus $S$ is a decider for $A_{\text{TM}}$, a
+  contradiction
+\item Now we give a specific design of $M_2$ so that
+\eqref{eq:M2} holds
+\item We let $M_2$ recognize
+  \begin{equation*}
+    \begin{cases}
+      \Sigma^* & \text{if $M$ accepts $w$} \\
+      0^n1^n, \forall n \geq 0 & \text{if $M$ rejects $w$}
+    \end{cases}
+  \end{equation*}
+    \item Note that $\Sigma^*$ is a regular
+    language, but $0^n1^n, \forall n\geq 0$ is not
+  \item The implementation is as follows
+  \item [] On input $x$:
+    \begin{enumerate}
+    \item If $x$ has the form $0^n1^n$, {\em accept}
+    \item If $x$ does not have the form $0^n1^n$, run
+      $M$ on input $w$ and {\em accept} if $M$ accepts $w$
+    \end{enumerate}
+  \item We see that if $M$ accepts $w$, then any
+    $x \in \Sigma^*$ is accepted
+  \item On the other hand, if $M$ does not accept $w$,
+    only $0^n1^n, \forall n \geq 0$ are accepted
+\end{itemize}\end{frame} 
+
+\begin{frame}[allowframebreaks] \frametitle{$EQ_{\text{TM}}$ Undecidable}
+\begin{itemize}
+\item So far, our strategy for proving languages undecidable
+  involves a reduction from $A_{\text{TM}}$
+\item Sometimes reducing from some other undecidable language
+  is more convenient
+\item Here we show an example by considering
+  \begin{equation*}
+    \begin{split}
+      EQ_{\text{TM}} = \{
+      \langle  M_1, M_2 \rangle \mid { }  & M_1 \text{ and } M_2 \text{ are TMs
+        and } \\
+      & L(M_1) = L(M_2)\}
+    \end{split}
+  \end{equation*}
+\item Assume $EQ_{\text{TM}}$ is decidable and has a decider
+  $R$
+\item We construct a decider $S$ for $E_{\text{TM}}$ as follows
+\item For input $\langle M \rangle$, where $M$ is a TM:
+  \begin{enumerate}
+  \item Run $R$ on input $\langle M, M_1 \rangle$,
+    where $M_1$ is a TM such that
+    \begin{equation*}
+    L(M_1) = \emptyset
+  \end{equation*}
+\item If $R$ accepts, {\em accept}; if $R$ rejects, {\em reject}
+  \end{enumerate}
+\item For $M_1$, we simply let it reject any input string.
+  Recall we learned how to design an NFA for $\emptyset$
+\item But $E_{\text{TM}}$ is undecidable by an earlier proof.
+  Thus $EQ_{\text{TM}}$ is undecidable
+\end{itemize}
+\end{frame}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
