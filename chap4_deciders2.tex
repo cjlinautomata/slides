@@ -14,11 +14,11 @@
   \begin{itemize}
 \item Acceptance problem of CFG
   \begin{equation*}
-    A_{CFG}
+    A_{\text{CFG}}
 =\{\langle  G,w\rangle \mid
 G: CFG,\mbox{ generates } w\}
   \end{equation*}
-\item We prove that $A_{CFG}$ is decidable
+\item We prove that $A_{\text{CFG}}$ is decidable
 \item But an issue is the $\infty$ possible derivations of a CFG
 
 \item For example,
@@ -47,9 +47,9 @@ exactly $2n-1$ steps
   procedure to generate a CFG.
 \end{itemize}\end{frame}
 
-\begin{frame}[allowframebreaks] \frametitle{$E_{CFG}$}
+\begin{frame}[allowframebreaks] \frametitle{$E_{\text{CFG}}$}
 \begin{equation*}
-  E_{CFG}
+  E_{\text{CFG}}
 =\{\langle  G\rangle \mid
 G: CFG, L(G)=\emptyset\}
 \end{equation*}
@@ -84,9 +84,9 @@ G: CFG, L(G)=\emptyset\}
 \item Number of iterations is finite: bounded by the number of
   variables
 \item Each iteration is a finite procedure: we check all rules
-\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$EQ_{CFG}$}
+\end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{$EQ_{\text{CFG}}$}
 \begin{equation*}
-  EQ_{CFG}
+  EQ_{\text{CFG}}
 =\{\langle  G,H\rangle \mid G,H: CFG, L(G)=
 L(H)\}
 \end{equation*}
@@ -101,7 +101,7 @@ $\cap$ and complementation
 
 \begin{frame}[allowframebreaks] \frametitle{CFL decidable}
   \begin{itemize}
-\item This question is different from $A_{CFG}$ decidable
+\item This question is different from $A_{\text{CFG}}$ decidable
 or not
 \item How about converting PDA to a TM?
 \item For nondeterministic PDA we can do NTM 
@@ -116,7 +116,7 @@ stack without ever halting.
 
 \item [] Find grammar $G$ for this CFL
 \item [] Run TM for $\langle  G,w\rangle $ by using 
-$A_{CFG}$
+$A_{\text{CFG}}$
 \end{itemize}\end{frame}
 
 \begin{frame}[allowframebreaks] \frametitle{Classes of languages}
