@@ -28,7 +28,7 @@
 \end{equation*}
 is undecidable
 \item We do the proof by the computation history method
-\item Idea: the question of $M$ accepts $w$ can be known by
+\item Idea: the question of $M$ accepts $w$ can be solved by
   checking if $L(B) = \emptyset$, where $B$ is an LBA
 \item Then because we assume $E_{\text{LBA}}$ is decidable, we have a decider
   for $A_{\text{TM}}$
@@ -40,12 +40,16 @@ is undecidable
       $M$ rejects $w \Rightarrow L(B) = \emptyset$
     \end{tabular}
   \end{center}
+\item We see that the machine is designed according to the given
+  $w$. This strategy has been used in earlier examples
+  
 \item Details of $B$: on any input $x$, we check if $x$ is an
   accepting computation history for $M$ on $w$
 \item Specifically, we check if $x$ is
-  \begin{equation*}
+  \begin{equation}
     \#\underbrace{\qquad}_{C_1}\#\underbrace{\qquad}_{C_2}\#\cdots\#\underbrace{\qquad}_{C_l}\#
-  \end{equation*}
+    \label{eq:C1toCl}
+  \end{equation}
   and $C_1, \ldots, C_l$ satisfy that
   \begin{center}
   \begin{tabular}{l}
@@ -79,10 +83,10 @@ is undecidable
 \draw [->,red,thick] (1.center) -- (a) ;
 \end{tikzpicture}
 \end{center}
-\item Note that $C_1$ is $q_0 w$, so checking the first condition is
+\item To begin, we check if the input $x$ is in the form of
+  \eqref{eq:C1toCl}
+\item Next, $C_1$ is $q_0 w$, so checking the first condition is
   easy
-\item We see that the machine is designed according to the given
-  $w$. The same way has been used in earlier examples
 \item For the third condition, we scan if $C_l$ contains $q_{\text{accept}}$
 \item Now $C_i$ and $C_{i+1}$ are the same except around the
   head position
@@ -111,7 +115,7 @@ Further, if $M$ accepts $w$,
 \begin{frame}[allowframebreaks]
 \frametitle{$ALL_{\text{CFG}}$ Undecidable}
 \begin{itemize}
-\item Earlier we roved that
+\item Earlier we proved that
   \begin{equation*}
   E_{\text{CFG}}
 =\{\langle  G\rangle \mid
@@ -174,10 +178,10 @@ where $C_1, \ldots, C_l$ satisfy that
   \end{equation*}
   is
   \begin{equation*}
-    \neg A \text{ and } \neg B \text{ and } \neg C
+    \neg A \text{ or } \neg B \text{ or } \neg C
   \end{equation*}
 
-\item If $M$ does not accept $w$, no accepting computation
+\item On the other hand, if $M$ does not accept $w$, no accepting computation
   history exists
 \item [] Then $G$ generates all strings
 \item But how to construct such a CFG?
