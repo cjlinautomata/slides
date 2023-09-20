@@ -84,11 +84,11 @@ $q_3$ without any input
           child {node  {$q_2$}
             child {node  {$q_3$}}
           }
-          child {node  {$q_3$}}
+          child {node  {$q_3$} [red]}
         }
         child {node  {$q_2$}}
-        child {node  {$q_3$}
-          child {node  {$q_4$}
+        child {node  {$q_3$} [red]
+          child [black] {node  {$q_4$}
             child {node  {$q_4$}
             }          
           }
@@ -107,7 +107,11 @@ $q_3$ without any input
         }
       }
     }
-    child {node  {$q_3$}}
+    child {node  {$q_3$} [red] 
+      edge from parent{
+        node[right, pos=0.1, label={[right,text=red]:{from $q_{2}$ via $\varepsilon$}} ]{}
+      }
+    }
   };
   \path (1) -- (2) node [midway] {0};
   \path (2) -- (3) node [midway] {1};
