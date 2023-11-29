@@ -101,21 +101,36 @@ $\cap$ and complementation
 
 \begin{frame}[allowframebreaks] \frametitle{CFL decidable}
   \begin{itemize}
-\item This question is different from $A_{\text{CFG}}$ decidable
-or not
-\item How about converting PDA to a TM?
-\item For nondeterministic PDA we can do NTM 
-\item But nondeterministic PDA may have $\infty$-long branches
+  \item
+    Let $A$ be a CFL. The goal is to show that
+    $A$ is decidable
+  \item How about converting PDA to a TM and use the TM to run any
+    $w \in A$?
+  \item But a difficulty is that our simulation of a PDA
+    on $w$ may not be a finite procedure
 
 \item Specifically,  some
 branches of the PDA's computation may go on forever, reading and writing the
 stack without ever halting.
-\item Then TM runs forever
+\item For example, consider the following PDA
+    \begin{center}
+\begin{tikzpicture}
+    \node[state, initial, accepting] (q0) {$q_0$};
+    \draw (q0) edge[loop right] node{$\epsilon, \epsilon \rightarrow 1$} (q0);
+\end{tikzpicture}
+\end{center}
+\item By our way mentioned before for constructing a tree,
+  at the first layer we have
+  \begin{equation*}
+    q_0 \emptyset \quad q_0 \{1\} \quad q_0 \{1,1\} \quad \cdots
+  \end{equation*}
+\item Then we may have troubles to go to the next layer
+  for processing the first character
 \item So converting PDA to TM does not really work
-\item A proof that works:
-
-\item [] Find grammar $G$ for this CFL
-\item [] Run TM for $\langle  G,w\rangle $ by using 
+\item We need a different way
+\item Because we know $A$ is a CFL, there is a corresponding
+  grammar $G$
+\item Then we run TM for $\langle  G,w\rangle $ by using 
 $A_{\text{CFG}}$
 \end{itemize}\end{frame}
 
