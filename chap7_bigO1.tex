@@ -39,11 +39,11 @@ otherwise, accept
 \item [] Need to count \# steps
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Analysis}
   \begin{itemize}
-\item worst-case analysis
+\item Worst-case analysis
 
-\item [] longest time for all inputs
+\item [] Longest time (i.e., largest \# of steps) for all inputs
 
-\item average-case analysis
+\item Average-case analysis
 \item Usually it is easier to do worst-case analysis
 \item We use a function
   \begin{equation*}
@@ -69,7 +69,7 @@ n \rightarrow \infty, 6n^3 + 5 \approx 6n^3
 \end{equation*}
 \item $O(f(n))=O(n^3)$
 
-\item [] How about 6 ?
+\item [] How about 6?
 
   \begin{center}
     \begin{tabular}{l}
@@ -127,27 +127,36 @@ n^3 > cn^2
     \begin{equation*}
     f(n)=3n \log_2 n + 5n \log_2 \log_2 n
   \end{equation*}
-We prove
+\item We prove
 \begin{equation*}
 f(n) = O(n\log n)
 \end{equation*}
-by 
-\begin{equation*}
-  \begin{split}
-& \log_2 \log_2 n \leq \log_2 n \text{ from } \log_2 n \leq n \\
-& f(n) \leq 8n \log_2 n = 8n\log_2 b\log_b n \\
-\end{split}
+  \item Note that we write
+  \begin{equation*}
+  \log n \text{ instead of } \log_2 n
 \end{equation*}
-
-\item Note that
+as we will show that the result holds for
+any base $b$ for the log function
+\item Proof: From
+  \begin{equation*}
+    n \leq 2^n, \forall n \geq 1,
+  \end{equation*}
+we have
+\begin{equation*}
+   \log_2 n \leq n
+\end{equation*}
+From this,
+\begin{equation*}
+ \log_2 \log_2 n \leq \log_2 n 
+\end{equation*}
+Therefore
+\begin{equation*}
+ f(n) \leq 8n \log_2 n = 8n\log_2 b\log_b n, \forall n \geq 1 
+\end{equation*}
+by using
   \begin{equation*}
 \frac{ \log_2 n }{ \log_2 b}= \log_b n
 \end{equation*}
-\item So we write
-  \begin{equation*}
-  f(n)=O(n\log n)
-\end{equation*}
-as there is no need to write $\log_2 n$
 \end{itemize}\end{frame} \begin{frame}[allowframebreaks] \frametitle{Other properties}
   \begin{itemize}
   \item We have
