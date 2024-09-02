@@ -1,4 +1,4 @@
-\documentclass[14pt,xcolor=pstdvips]{beamer}
+\documentclass[14pt]{beamer}
  
 %\documentstyle[fancybox, slidesonly]{seminar}
 %\documentstyle[fancybox, article, graphics]{seminar}
