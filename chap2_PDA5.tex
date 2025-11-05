@@ -158,13 +158,13 @@ A correct modification of the PDA:
 \item  To have each transition push or pop, but not both,
 change
 \begin{center}
-$q_1 \rightarrow q_2$ with $a, a \rightarrow b$ 
+$q_1 \rightarrow q_2$ with $a, b \rightarrow c$ 
 \end{center}
 to
 \begin{center}
   \begin{tabular}{l}
-$q_1 \rightarrow q_3, a, a \rightarrow \epsilon$\\
-$q_3 \rightarrow q_2, \epsilon, \epsilon \rightarrow b$  
+$q_1 \rightarrow q_3, a, b \rightarrow \epsilon$\\
+$q_3 \rightarrow q_2, \epsilon, \epsilon \rightarrow c$  
   \end{tabular}
 \end{center}
 and change 
